@@ -1,0 +1,37 @@
+.ban-imgs{
+  width: 864px;
+}
+.left-arrow,
+.right-arrow {
+  color: transparent;
+  cursor: pointer;
+}
+
+.ban-img {
+  width: 864px;
+  cursor: pointer;
+}
+
+.left-arrow {
+  height: 63px;
+  width: 37px;
+  background: url('../../assets/images/banner.png') repeat;
+  background-position-x: 0px;
+  background-position-y: 297px;
+}
+
+.left-arrow:hover {
+  background-position-y: 227px;
+}
+
+.right-arrow {
+  height: 63px;
+  width: 37px;
+  background: url('../../assets/images/banner.png') repeat;
+  background-position-x: 0px;
+  background-position-y: 147px;
+}
+
+.right-arrow:hover {
+  background-position-y: 77px;
+}

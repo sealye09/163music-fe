@@ -1,0 +1,20 @@
+.playlist-cover {
+  /* border: 1px solid #303030; */
+}
+
+.play-bottom {
+  background: rgba(36, 36, 36, 0.7);
+}
+
+.playlist-dec {
+  font-size: 13px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.playlist-dec:hover {
+  color: #c10d0c;
+  text-decoration: underline;
+}

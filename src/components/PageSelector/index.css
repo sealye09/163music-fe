@@ -1,0 +1,23 @@
+.pages-select button {
+  border: 1px solid #d3d3d3;
+}
+
+.pages-select button:hover {
+  border: 1px solid rgb(13, 13, 13);
+  background-color: #f5f5f5;
+}
+
+div > .button-disabled,
+div > .button-disabled:hover {
+  background-color: #f2f2f2;
+  color: gray;
+  cursor: not-allowed;
+  border: 1px solid #d3d3d3;
+}
+
+div > .btn-active,
+div > .btn-active:hover {
+  background: #c20c0c;
+  color: white;
+  border: 1px solid #d3d3d3;
+}

@@ -1,0 +1,32 @@
+.tr-info:hover,
+.tr-info:nth-child(odd):hover {
+  background-color: rgb(200, 200, 200);
+}
+
+.tr-info:nth-child(odd) {
+  background-color: #f7f7f7;
+}
+
+.table-head {
+  background-color: #f3f3f3;
+}
+
+.song-link,
+.artist-link,
+.album-link {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}
+
+.song-link:hover,
+.artist-link:hover,
+.album-link:hover {
+  color: #c10d0c;
+  text-decoration: underline;
+}
+
+.list-table {
+  border: 1px #d5d5d5 solid;
+}

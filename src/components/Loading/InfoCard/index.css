@@ -1,0 +1,17 @@
+.ply-description {
+  font-size: 13px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
+}
+
+.tags {
+  font-size: 13px;
+}
+
+.artist-link:hover,
+.alubum-link:hover {
+  color: #c10d0c;
+  text-decoration: underline;
+}
