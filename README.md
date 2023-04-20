@@ -1,9 +1,11 @@
 ## 网易云音乐的前端项目
 
 ### 技术栈
+
 react react-router ts axios tailwindcss
 
 ### 功能
+
 - 首页（轮播图，推荐歌单，新专推荐）
 - 歌曲详情
 - 专辑详情
@@ -12,7 +14,7 @@ react react-router ts axios tailwindcss
 - 搜索页面（歌手，专辑，歌曲）
 - 播放器
 
-
 ### TODO
+
 - 登录功能（大概率不会做）
-- 
+-
