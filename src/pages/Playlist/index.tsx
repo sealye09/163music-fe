@@ -1,19 +1,19 @@
-import { FC, useEffect, useState } from 'react';
-import Grid, { PlaylistInfo } from '../../components/Grid';
-import GridHeader from '../../components/GridHeader';
-import PageSelector from '../../components/PageSelector';
+import { FC, useEffect, useState } from "react";
+import Grid, { PlaylistInfo } from "../../components/Grid";
+import GridHeader from "../../components/GridHeader";
+import PageSelector from "../../components/PageSelector";
 
-import { getPlaylist } from '../../service';
+import { getPlaylist } from "../../service";
 
-import './index.css';
+import "./index.css";
 
 interface Props {}
 
 const Playlist: FC<Props> = ({}) => {
   const [playlistInfo, setPlaylistInfo] = useState<Array<PlaylistInfo>>();
   const [page, setPage] = useState<number>(1);
-  const [cat, setCat] = useState('all');
-  const [order, setorder] = useState<string>('hot');
+  const [cat, setCat] = useState("all");
+  const [order, setorder] = useState<string>("hot");
   const pageSize: number = 35;
 
   useEffect(() => {
@@ -26,7 +26,7 @@ const Playlist: FC<Props> = ({}) => {
             id: item.id,
             picUrl: item.coverImgUrl,
           };
-        })
+        }),
       );
       console.log(playlistInfo);
     });
@@ -34,25 +34,25 @@ const Playlist: FC<Props> = ({}) => {
 
   return (
     <div
-      className='flex justify-center'
-      style={{ backgroundColor: '#F5F5F5' }}
+      className="flex justify-center"
+      style={{ backgroundColor: "#F5F5F5" }}
     >
       <div
-        className='bg-white pt-10 pb-28 min-w-fit'
+        className="bg-white pt-10 pb-28 min-w-fit"
         style={{
-          width: '864px',
+          width: "864px",
         }}
       >
         <GridHeader
           headline={{
-            title: '全部',
-            target: '',
+            title: "全部",
+            target: "",
           }}
           hasMoreTag={false}
         />
         {!!playlistInfo ? (
           <Grid
-            type={'playlist'}
+            type={"playlist"}
             playlists={playlistInfo}
           />
         ) : (

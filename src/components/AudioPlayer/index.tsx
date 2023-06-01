@@ -116,12 +116,11 @@ const AudioPlayer: FC<Props> = ({}) => {
   };
 
   const playTrack = (e: any) => {
-    console.log("dou");
-
     const node = e.target.parentNode;
     const idx = node.querySelector(".idx").textContent;
     setTrackIndex(idx - 1);
   };
+
 
   // 控制播放/暂停
   useEffect(() => {
