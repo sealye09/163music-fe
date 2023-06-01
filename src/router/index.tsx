@@ -1,84 +1,84 @@
-import { FC, lazy, Suspense } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { FC, lazy, Suspense } from "react";
+import { Routes, Route } from "react-router-dom";
 
-const Discover = lazy(() => import('../pages/Discover'));
-const Layout = lazy(() => import('../pages/Layout'));
-const Recommend = lazy(() => import('../pages/Recommend'));
-const NotFound = lazy(() => import('../pages/NotFound'));
-const Loading = lazy(() => import('../components/Loading'));
-const PlaylistDetail = lazy(() => import('../pages/PlaylistDetail'));
-const SongDetail = lazy(() => import('../pages/SongDetail'));
-const ArtistDetail = lazy(() => import('../pages/ArtistDetail'));
-const Playlist = lazy(() => import('../pages/Playlist'));
-const Artist = lazy(() => import('../pages/Artist'));
-const Album = lazy(() => import('../pages/Album'));
-const AlbumDetail = lazy(() => import('../pages/AlbumDetail'));
-const MyMusic = lazy(() => import('../pages/MyMusic'));
-const Search = lazy(() => import('../pages/Search'));
+const Discover = lazy(() => import("../pages/Discover"));
+const Layout = lazy(() => import("../pages/Layout"));
+const Recommend = lazy(() => import("../pages/Recommend"));
+const NotFound = lazy(() => import("../pages/NotFound"));
+const Loading = lazy(() => import("../components/Loading"));
+const PlaylistDetail = lazy(() => import("../pages/PlaylistDetail"));
+const SongDetail = lazy(() => import("../pages/SongDetail"));
+const ArtistDetail = lazy(() => import("../pages/ArtistDetail"));
+const Playlist = lazy(() => import("../pages/Playlist"));
+const Artist = lazy(() => import("../pages/Artist"));
+const Album = lazy(() => import("../pages/Album"));
+const AlbumDetail = lazy(() => import("../pages/AlbumDetail"));
+const MyMusic = lazy(() => import("../pages/MyMusic"));
+const Search = lazy(() => import("../pages/Search"));
 interface Props {}
 
 const Router: FC<Props> = ({}) => {
   return (
     <Suspense
       fallback={
-        <div className=' h-96 flex flex-row justify-center items-center'>
+        <div className=" h-96 flex flex-row justify-center items-center">
           <Loading />
         </div>
       }
     >
       <Routes>
         <Route
-          path='/'
+          path="/"
           element={<Layout />}
         >
           <Route element={<Discover />}>
             <Route
-              path=''
+              path=""
               element={<Recommend />}
             ></Route>
             <Route
-              path='/discover/playlist'
+              path="/discover/playlist"
               element={<Playlist />}
             ></Route>
             <Route
-              path='/discover/artist'
+              path="/discover/artist"
               element={<Artist />}
             ></Route>
             <Route
-              path='/discover/album'
+              path="/discover/album"
               element={<Album />}
             ></Route>
           </Route>
 
           <Route
-            path='/mymusic'
+            path="/mymusic"
             element={<MyMusic />}
           ></Route>
 
           <Route
-            path='/search'
+            path="/search"
             element={<Search />}
           ></Route>
 
           <Route
-            path='/playlist/:playlistId'
+            path="/playlist/:playlistId"
             element={<PlaylistDetail />}
           ></Route>
           <Route
-            path='/song/:songId'
+            path="/song/:songId"
             element={<SongDetail />}
           ></Route>
           <Route
-            path='/album/:albumId'
+            path="/album/:albumId"
             element={<AlbumDetail />}
           ></Route>
           <Route
-            path='/artist/:artistId'
+            path="/artist/:artistId"
             element={<ArtistDetail />}
           ></Route>
 
           <Route
-            path='*'
+            path="*"
             element={<NotFound />}
           />
         </Route>
