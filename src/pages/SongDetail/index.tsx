@@ -6,8 +6,6 @@ import { Track } from "../Layout";
 import { RawSongInfo } from "../ArtistDetail";
 import { songApi } from "../../service";
 
-import "./index.css";
-
 interface Props {}
 
 const SongDetail: FC<Props> = ({}) => {
@@ -81,19 +79,16 @@ const SongDetail: FC<Props> = ({}) => {
   }, [songId]);
 
   return (
-    <div className="song-detail flex felx-row justify-center">
-      <div className="info flex flex-col content-center bg-white pt-8">
+    <div className="flex felx-row justify-center bg-[#f5f5f5]">
+      <div className="flex flex-col content-center bg-white pt-8 mx-auto w-[874px]">
         <div>
-          {!!songDetail ? (
+          {!!songDetail && (
             <InfoCard
               song={songDetail.song}
               artist={songDetail.artist}
               album={songDetail.album}
             />
-          ) : (
-            <></>
           )}
-          <></>
         </div>
         <div className="h-auto border-t-4 flex flex-col justify-center items-center py-10">
           {lyric.length !== 0 ? lyric.map((item) => <p className="py-2">{item.lrc}</p>) : <></>}

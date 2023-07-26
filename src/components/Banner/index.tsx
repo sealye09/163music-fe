@@ -46,7 +46,7 @@ const Banner: FC<Props> = ({}) => {
       <div className="banner-wrap">
         {!!banners ? (
           <div
-            className="ban f-pr flex justify-center items-center w-full h-80"
+            className="ban f-pr flex justify-center items-center w-full h-80 transition-all"
             style={{
               background: `url('${banners[activeItem].imageUrl}?imageView&blur=40x20') center center/6000px`,
             }}
@@ -58,7 +58,7 @@ const Banner: FC<Props> = ({}) => {
                 else setActiveItem(activeItem - 1);
               }}
             ></div>
-            <div className="ban-imgs h-full">
+            <div className="ban-imgs h-full transition-all">
               <Link to={banners[activeItem].targetUrl}>
                 <img
                   className="ban-img img-active h-full z-10"
