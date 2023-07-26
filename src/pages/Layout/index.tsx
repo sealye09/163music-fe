@@ -1,8 +1,8 @@
-import { createContext, useState } from 'react';
-import { Outlet } from 'react-router-dom';
-import AudioPlayer from '../../components/AudioPlayer';
-import Footer from '../../components/Footer';
-import Header from '../../components/Heder';
+import { createContext, useState } from "react";
+import { Outlet } from "react-router-dom";
+import AudioPlayer from "../../components/AudioPlayer";
+import Footer from "../../components/Footer";
+import Header from "../../components/Heder";
 
 export type Track = {
   song: {

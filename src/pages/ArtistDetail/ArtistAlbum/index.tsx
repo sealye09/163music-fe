@@ -1,6 +1,6 @@
-import { FC } from 'react';
-import Grid, { PlaylistInfo } from '../../../components/Grid';
-import PageSelector from '../../../components/PageSelector';
+import { FC } from "react";
+import Grid, { PlaylistInfo } from "../../../components/Grid";
+import PageSelector from "../../../components/PageSelector";
 
 interface Props {
   albums: Array<PlaylistInfo>;
@@ -14,10 +14,10 @@ const ArtistAlbum: FC<Props> = ({ albums, page, pageSize, setPage, albumSize }) 
   return (
     <div>
       <Grid
-        type={'album'}
+        type={"album"}
         playlists={albums}
       />
-      <div className='pt-10'>
+      <div className="pt-10">
         {albumSize === 0 ? (
           <></>
         ) : (

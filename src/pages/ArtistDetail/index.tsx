@@ -1,15 +1,17 @@
-import { FC, useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router';
-import { Link } from 'react-router-dom';
-import { getArtist, getArtistAlbums, getArtistDescription } from '../../service';
-import { Track, TracksContext } from '../Layout';
-import ArtistAlbum from './ArtistAlbum';
-import ArtistDescription, { Iintroduction } from './ArtistDescription';
-import ArtistHot50 from './ArtistHot50';
-import './index.css';
-import { PlaylistInfo } from '../../components/Grid';
-import { AxiosResponse } from 'axios';
+import { FC, useContext, useEffect, useState } from "react";
+import { useParams } from "react-router";
+import { Link } from "react-router-dom";
+import { AxiosResponse } from "axios";
 
+import { Track, TracksContext } from "../Layout";
+import ArtistDescription, { Iintroduction } from "./ArtistDescription";
+import ArtistHot50 from "./ArtistHot50";
+import ArtistAlbum from "./ArtistAlbum";
+import { PlaylistInfo } from "../../components/Grid";
+
+import { artistApi } from "../../service";
+
+import "./index.css";
 export interface BasisInfo {
   id: number;
   name: string;
@@ -70,11 +72,11 @@ const ArtistDetail: FC<Props> = ({}) => {
 
   // hot50
   useEffect(() => {
-    getArtist(artistId!).then((res: AxiosResponse) => {
+    artistApi.getArtist(artistId!).then((res: AxiosResponse) => {
       // @ts-ignore
       setAlbumSize(res.artist.albumSize);
-      const info = ('artist' in res ? res.artist : {}) as RawArtistInfo;
-      const songs = ('hotSongs' in res ? res.hotSongs : [{}]) as RawSongInfo[];
+      const info = ("artist" in res ? res.artist : {}) as RawArtistInfo;
+      const songs = ("hotSongs" in res ? res.hotSongs : [{}]) as RawSongInfo[];
       setArtistInfo({
         name: info.name,
         id: info.id,
@@ -107,10 +109,10 @@ const ArtistDetail: FC<Props> = ({}) => {
 
   // albums
   useEffect(() => {
-    getArtistAlbums(artistId!, pageSize, (page - 1) * pageSize).then((res) => {
+    artistApi.getArtistAlbums(artistId!, pageSize, (page - 1) * pageSize).then((res) => {
       // @ts-ignore
       const data = res.hotAlbums;
-      console.log('albums', data);
+      console.log("albums", data);
 
       setAlbums(() =>
         data.map((album: any) => {
@@ -126,7 +128,7 @@ const ArtistDetail: FC<Props> = ({}) => {
 
   // description
   useEffect(() => {
-    getArtistDescription(artistId!).then((res) => {
+    artistApi.getArtistDescription(artistId!).then((res) => {
       setIntroduction(() => {
         return {
           // @ts-ignore
@@ -144,14 +146,14 @@ const ArtistDetail: FC<Props> = ({}) => {
   }, [artistId]);
 
   return (
-    <div className='artist-detail'>
-      <div className='content-artist flex flex-col pt-8 bg-white px-8'>
+    <div className="artist-detail">
+      <div className="content-artist flex flex-col pt-8 bg-white px-8">
         {!!artistInfo ? (
           <>
-            <div className='artist-name text-3xl py-3 px-1'>{artistInfo.name}</div>
-            <div className='artist-img rounded-t-lg w-full h-96'>
+            <div className="artist-name text-3xl py-3 px-1">{artistInfo.name}</div>
+            <div className="artist-img rounded-t-lg w-full h-96">
               <img
-                className='object-cover w-full h-full rounded-t-lg'
+                className="object-cover w-full h-full rounded-t-lg"
                 src={artistInfo.picUrl}
               ></img>
             </div>
@@ -160,11 +162,11 @@ const ArtistDetail: FC<Props> = ({}) => {
           <></>
         )}
 
-        <div className='navbars flex items-center w-full h-12 rounded-b-lg '>
+        <div className="navbars flex items-center w-full h-12 rounded-b-lg ">
           <Link
-            to=''
+            to=""
             className={`min-w-fit h-12 pt-3 px-6 rounded-b-lg hover:bg-white hover:border-t-2 hover:border-red-600 ${
-              navItem === 0 ? 'border-t-2 border-red-600' : ''
+              navItem === 0 ? "border-t-2 border-red-600" : ""
             }`}
             onClick={() => {
               setNavItem(0);
@@ -173,9 +175,9 @@ const ArtistDetail: FC<Props> = ({}) => {
             热门作品
           </Link>
           <Link
-            to=''
+            to=""
             className={`min-w-fit h-12 pt-3 px-6 rounded-b-lg hover:bg-white hover:border-t-2 hover:border-red-600 ${
-              navItem === 1 ? 'border-t-2 border-red-600' : ''
+              navItem === 1 ? "border-t-2 border-red-600" : ""
             }`}
             onClick={() => {
               setNavItem(1);
@@ -184,9 +186,9 @@ const ArtistDetail: FC<Props> = ({}) => {
             所有专辑
           </Link>
           <Link
-            to=''
+            to=""
             className={`min-w-fit h-12 pt-3 px-6 rounded-b-lg hover:bg-white hover:border-t-2 hover:border-red-600 ${
-              navItem === 2 ? 'border-t-2 border-red-600' : ''
+              navItem === 2 ? "border-t-2 border-red-600" : ""
             }`}
             onClick={() => {
               setNavItem(2);
@@ -195,7 +197,7 @@ const ArtistDetail: FC<Props> = ({}) => {
             艺人介绍
           </Link>
         </div>
-        <div className='pb-12'>
+        <div className="pb-12">
           {navItem === 0 && hot50.length !== 0 ? (
             <ArtistHot50
               playAllSong={playAllSong}

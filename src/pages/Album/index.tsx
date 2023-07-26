@@ -1,39 +1,41 @@
-import React, { FC, useEffect, useState } from 'react';
-import './index.css';
-import GridHeader, { Tag } from '../../components/GridHeader';
-import Grid from '../../components/Grid';
-import { AlbumInfo } from '../AlbumDetail';
-import { getNewAlbums, getAllNewAlbum } from '../../service';
-import { useLocation } from 'react-router';
-import PageSelector from '../../components/PageSelector';
+import { FC, useEffect, useState } from "react";
+import { useLocation } from "react-router";
+
+import { AlbumInfo } from "../AlbumDetail";
+import GridHeader, { Tag } from "../../components/GridHeader";
+import PageSelector from "../../components/PageSelector";
+import Grid from "../../components/Grid";
+import { albumApi } from "../../service";
+
+import "./index.css";
 
 interface Props {}
 
 const TAGS: Array<Tag> = [
   {
     id: 0,
-    title: '全部',
-    target: '?cat=ALL',
+    title: "全部",
+    target: "?cat=ALL",
   },
   {
     id: 1,
-    title: '中国',
-    target: '?cat=ZH',
+    title: "中国",
+    target: "?cat=ZH",
   },
   {
     id: 2,
-    title: '欧美',
-    target: '?cat=EA',
+    title: "欧美",
+    target: "?cat=EA",
   },
   {
     id: 3,
-    title: '韩国',
-    target: '?cat=KR',
+    title: "韩国",
+    target: "?cat=KR",
   },
   {
     id: 4,
-    title: '日本',
-    target: '?cat=JP',
+    title: "日本",
+    target: "?cat=JP",
   },
 ];
 
@@ -43,7 +45,7 @@ const Album: FC<Props> = ({}) => {
   const [allAlbums, setAllAlbums] = useState<Array<AlbumInfo>>();
   const [page, setPage] = useState(1);
   const [area, setArea] = useState<string>(() => {
-    if (url.search === '') {
+    if (url.search === "") {
       return TAGS[0].title;
     } else {
       return url.search.slice(5);
@@ -54,8 +56,8 @@ const Album: FC<Props> = ({}) => {
 
   // 热门新碟
   useEffect(() => {
-    getNewAlbums().then((res) => {
-      if ('albums' in res) {
+    albumApi.getNewAlbums().then((res) => {
+      if ("albums" in res) {
         setNewAlbums(
           // @ts-ignore
           res.albums.map((item) => {
@@ -75,8 +77,8 @@ const Album: FC<Props> = ({}) => {
   }, [url]);
 
   useEffect(() => {
-    getAllNewAlbum(area, pageSize, (page - 1) * pageSize).then((res) => {
-      if ('albums' in res) {
+    albumApi.getAllNewAlbum(area, pageSize, (page - 1) * pageSize).then((res) => {
+      if ("albums" in res) {
         console.log(area);
 
         setAllAlbums(
@@ -95,37 +97,37 @@ const Album: FC<Props> = ({}) => {
 
   return (
     <div
-      className='w-full flex justify-center'
-      style={{ background: '#f5f5f5' }}
+      className="w-full flex justify-center"
+      style={{ background: "#f5f5f5" }}
     >
       <div
-        className='bg-white'
+        className="bg-white"
         style={{
-          width: '864px',
+          width: "864px",
         }}
       >
-        <div className='h-auto w-full pt-10'>
+        <div className="h-auto w-full pt-10">
           <GridHeader
             headline={{
-              title: '热门新碟',
-              target: '',
+              title: "热门新碟",
+              target: "",
             }}
             hasMoreTag={false}
           />
           {!!newAlbums ? (
             <Grid
               playlists={newAlbums!.slice(0, 10)}
-              type='album'
+              type="album"
             />
           ) : (
             <></>
           )}
         </div>
-        <div className='h-auto w-full py-10'>
+        <div className="h-auto w-full py-10">
           <GridHeader
             headline={{
-              title: '全部新碟',
-              target: '',
+              title: "全部新碟",
+              target: "",
             }}
             tags={TAGS}
             hasMoreTag={false}
@@ -133,13 +135,13 @@ const Album: FC<Props> = ({}) => {
           {!!allAlbums ? (
             <Grid
               playlists={allAlbums}
-              type='album'
+              type="album"
             />
           ) : (
             <></>
           )}
         </div>
-        <div className='pb-10'>
+        <div className="pb-10">
           <PageSelector
             currPage={page}
             totalPage={20}

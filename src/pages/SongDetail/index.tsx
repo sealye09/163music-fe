@@ -1,10 +1,12 @@
-import { FC, useEffect, useState } from 'react';
-import { useParams } from 'react-router';
-import InfoCard from '../../components/Loading/InfoCard';
-import { getSongDetail, getSongLyric } from '../../service';
-import { Track } from '../Layout';
-import './index.css';
-import { RawSongInfo } from '../ArtistDetail';
+import { FC, useEffect, useState } from "react";
+import { useParams } from "react-router";
+
+import InfoCard from "../../components/Loading/InfoCard";
+import { Track } from "../Layout";
+import { RawSongInfo } from "../ArtistDetail";
+import { songApi } from "../../service";
+
+import "./index.css";
 
 interface Props {}
 
@@ -29,7 +31,7 @@ const SongDetail: FC<Props> = ({}) => {
 
       if (!!times) {
         // @ts-ignore
-        times = times[0].split('[').join('').split(']');
+        times = times[0].split("[").join("").split("]");
         // @ts-ignore
         for (let t of times) {
           if (t.length !== 0) {
@@ -47,9 +49,9 @@ const SongDetail: FC<Props> = ({}) => {
 
   // 获取歌曲信息
   useEffect(() => {
-    getSongDetail(songId!).then((res) => {
+    songApi.getSongDetail(songId!).then((res) => {
       // @ts-ignore
-      const data = ('songs' in res ? res.songs[0] : {}) as RawSongInfo;
+      const data = ("songs" in res ? res.songs[0] : {}) as RawSongInfo;
       const details: Track = {
         song: {
           id: data.id,
@@ -72,15 +74,15 @@ const SongDetail: FC<Props> = ({}) => {
 
   // 获取歌词
   useEffect(() => {
-    getSongLyric(Number(songId!)).then((res) => {
+    songApi.getSongLyric(Number(songId!)).then((res) => {
       // @ts-ignore
       setLyric(initLyric(res.lrc.lyric));
     });
   }, [songId]);
 
   return (
-    <div className='song-detail flex felx-row justify-center'>
-      <div className='info flex flex-col content-center bg-white pt-8'>
+    <div className="song-detail flex felx-row justify-center">
+      <div className="info flex flex-col content-center bg-white pt-8">
         <div>
           {!!songDetail ? (
             <InfoCard
@@ -93,8 +95,8 @@ const SongDetail: FC<Props> = ({}) => {
           )}
           <></>
         </div>
-        <div className='h-auto border-t-4 flex flex-col justify-center items-center py-10'>
-          {lyric.length !== 0 ? lyric.map((item) => <p className='py-2'>{item.lrc}</p>) : <></>}
+        <div className="h-auto border-t-4 flex flex-col justify-center items-center py-10">
+          {lyric.length !== 0 ? lyric.map((item) => <p className="py-2">{item.lrc}</p>) : <></>}
         </div>
       </div>
     </div>

@@ -1,11 +1,12 @@
-import { lazy, useEffect, useState } from 'react';
-import GridHeader, { Tag } from '../../components/GridHeader';
-import Grid from '../../components/Grid';
-import { getNewAlbums, getRecommendPlaylist } from '../../service';
+import { lazy, useEffect, useState } from "react";
 
-import './index.css';
+import GridHeader, { Tag } from "../../components/GridHeader";
+import Grid from "../../components/Grid";
+import { playlistApi, albumApi } from "../../service";
 
-const Banner = lazy(() => import('../../components/Banner'));
+import "./index.css";
+
+const Banner = lazy(() => import("../../components/Banner"));
 
 type PlaylistInfo = {
   id: number;
@@ -24,43 +25,43 @@ const Recommend = (props: Props) => {
   const playlistTags: Array<Tag> = [
     {
       id: 0,
-      title: '华语',
-      target: '/discover/playlist/?cat=%E5%8D%8E%E8%AF%AD',
+      title: "华语",
+      target: "/discover/playlist/?cat=%E5%8D%8E%E8%AF%AD",
     },
     {
       id: 1,
-      title: '流行',
-      target: '/discover/playlist/?cat=%E6%B5%81%E8%A1%8C',
+      title: "流行",
+      target: "/discover/playlist/?cat=%E6%B5%81%E8%A1%8C",
     },
     {
       id: 2,
-      title: '摇滚',
-      target: '/discover/playlist/?cat=%E6%91%87%E6%BB%9A',
+      title: "摇滚",
+      target: "/discover/playlist/?cat=%E6%91%87%E6%BB%9A",
     },
     {
       id: 3,
-      title: '民谣',
-      target: '/discover/playlist/?cat=%E6%B0%91%E8%B0%A3',
+      title: "民谣",
+      target: "/discover/playlist/?cat=%E6%B0%91%E8%B0%A3",
     },
     {
       id: 4,
-      title: '电子',
-      target: '/discover/playlist/?cat=%E7%94%B5%E5%AD%90',
+      title: "电子",
+      target: "/discover/playlist/?cat=%E7%94%B5%E5%AD%90",
     },
     {
       id: 5,
-      title: '古典',
-      target: '/discover/playlist/?cat=%E5%8F%A4%E5%85%B8',
+      title: "古典",
+      target: "/discover/playlist/?cat=%E5%8F%A4%E5%85%B8",
     },
     {
       id: 6,
-      title: '金属',
-      target: '/discover/playlist/?cat=%E9%87%91%E5%B1%9E',
+      title: "金属",
+      target: "/discover/playlist/?cat=%E9%87%91%E5%B1%9E",
     },
     {
       id: 7,
-      title: '说唱',
-      target: '/discover/playlist/?cat=%E8%AF%B4%E5%94%B1',
+      title: "说唱",
+      target: "/discover/playlist/?cat=%E8%AF%B4%E5%94%B1",
     },
   ];
 
@@ -69,7 +70,7 @@ const Recommend = (props: Props) => {
 
   useEffect(() => {
     // 获取推荐
-    getRecommendPlaylist(10).then((res) => {
+    playlistApi.getRecommendPlaylist(10).then((res) => {
       setPlaylistRec(
         // @ts-ignore
         res.result.map((item) => {
@@ -82,8 +83,8 @@ const Recommend = (props: Props) => {
       );
     });
     // 获取新碟
-    getNewAlbums().then((res) => {
-      if ('albums' in res) {
+    albumApi.getNewAlbums().then((res) => {
+      if ("albums" in res) {
         setNewAlbums(
           // @ts-ignore
           res.albums.map((item) => {
@@ -99,15 +100,15 @@ const Recommend = (props: Props) => {
   }, []);
 
   return (
-    <div className='recommend'>
+    <div className="recommend">
       <Banner />
-      <div className='recommend-2 h-auto w-full'>
-        <div className='rec-list flex flex-col justify-cente items-center h-auto min-w-fit'>
-          <div className='recommend-item h-auto w-full py-6'>
+      <div className="recommend-2 h-auto w-full">
+        <div className="rec-list flex flex-col justify-cente items-center h-auto min-w-fit">
+          <div className="recommend-item h-auto w-full py-6">
             <GridHeader
               headline={{
-                title: '热门推荐',
-                target: '/discover/playlist/',
+                title: "热门推荐",
+                target: "/discover/playlist/",
               }}
               tags={playlistTags}
               hasMoreTag={true}
@@ -115,24 +116,24 @@ const Recommend = (props: Props) => {
             {!!playlistRec ? (
               <Grid
                 playlists={playlistRec}
-                type='playlist'
+                type="playlist"
               />
             ) : (
               <></>
             )}
           </div>
-          <div className='recommend-item h-auto w-full py-6'>
+          <div className="recommend-item h-auto w-full py-6">
             <GridHeader
               headline={{
-                title: '新碟上架',
-                target: '/discover/album/',
+                title: "新碟上架",
+                target: "/discover/album/",
               }}
               hasMoreTag={true}
             />
             {!!newAlbums ? (
               <Grid
                 playlists={newAlbums.slice(0, 10)}
-                type='album'
+                type="album"
               />
             ) : (
               <></>

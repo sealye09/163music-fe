@@ -3,7 +3,7 @@ import Grid, { PlaylistInfo } from "../../components/Grid";
 import GridHeader from "../../components/GridHeader";
 import PageSelector from "../../components/PageSelector";
 
-import { getPlaylist } from "../../service";
+import { playlistApi } from "../../service";
 
 import "./index.css";
 
@@ -17,7 +17,7 @@ const Playlist: FC<Props> = ({}) => {
   const pageSize: number = 35;
 
   useEffect(() => {
-    getPlaylist(order, cat, pageSize, pageSize * (page - 1)).then((res) => {
+    playlistApi.getPlaylist(order, cat, pageSize, pageSize * (page - 1)).then((res) => {
       setPlaylistInfo(
         // @ts-ignore
         res.playlists.map((item) => {
@@ -26,7 +26,7 @@ const Playlist: FC<Props> = ({}) => {
             id: item.id,
             picUrl: item.coverImgUrl,
           };
-        }),
+        })
       );
       console.log(playlistInfo);
     });

@@ -1,8 +1,10 @@
-import { FC, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { getBanner } from '../../service';
-import Loading from '../Loading';
-import './index.css';
+import { FC, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+
+import Loading from "../Loading";
+import { recommendApi } from "../../service";
+
+import "./index.css";
 
 interface BannerInfo {
   imageUrl: string;
@@ -19,7 +21,7 @@ const Banner: FC<Props> = ({}) => {
   const [banners, setBanners] = useState<Array<BannerInfo>>();
 
   useEffect(() => {
-    getBanner().then((res) => {
+    recommendApi.getBanner().then((res) => {
       setBanners(
         // @ts-ignore
         res.banners.map((b: any) => {
@@ -40,32 +42,32 @@ const Banner: FC<Props> = ({}) => {
   }, []);
 
   return (
-    <div className='banners'>
-      <div className='banner-wrap'>
+    <div className="banners">
+      <div className="banner-wrap">
         {!!banners ? (
           <div
-            className='ban f-pr flex justify-center items-center w-full h-80'
+            className="ban f-pr flex justify-center items-center w-full h-80"
             style={{
               background: `url('${banners[activeItem].imageUrl}?imageView&blur=40x20') center center/6000px`,
             }}
           >
             <div
-              className='left-arrow mr-4'
+              className="left-arrow mr-4"
               onClick={() => {
                 if (activeItem === 0) setActiveItem(banners.length - 1);
                 else setActiveItem(activeItem - 1);
               }}
             ></div>
-            <div className='ban-imgs h-full'>
+            <div className="ban-imgs h-full">
               <Link to={banners[activeItem].targetUrl}>
                 <img
-                  className='ban-img img-active h-full z-10'
+                  className="ban-img img-active h-full z-10"
                   src={`${banners[activeItem].imageUrl}`}
                 />
               </Link>
             </div>
             <div
-              className='right-arrow ml-4'
+              className="right-arrow ml-4"
               onClick={() => {
                 if (activeItem === banners.length - 1) setActiveItem(0);
                 else setActiveItem(activeItem + 1);
@@ -73,7 +75,7 @@ const Banner: FC<Props> = ({}) => {
             ></div>
           </div>
         ) : (
-          <div className='flex flex-row justify-center items-center h-80'>
+          <div className="flex flex-row justify-center items-center h-80">
             <Loading />
           </div>
         )}

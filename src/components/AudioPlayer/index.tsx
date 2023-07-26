@@ -6,7 +6,7 @@ import CenterBar from "./CenterBar";
 import VolumeControl from "./VolumeControl";
 import Playlist from "./Playlist";
 
-import { getSongUrl } from "../../service";
+import { songApi } from "../../service";
 
 import styles from "./index.module.css";
 
@@ -110,7 +110,7 @@ const AudioPlayer: FC<Props> = ({}) => {
   useEffect(() => {
     audioRef.current.pause();
 
-    getSongUrl(song.id).then((res) => {
+    songApi.getSongUrl(song.id).then((res) => {
       audioRef.current = new Audio(res.data[0].url);
 
       setTrackProgress(audioRef.current.currentTime);

@@ -1,21 +1,9 @@
-import { getAlbum, getAllNewAlbum } from "./album"
-import { getArtist, getArtistAlbums, getArtistDescription, getArtistDetail, getArtistHot } from "./artist"
+import * as albumApi from "./album";
+import * as artistApi from "./artist";
+import * as playlistApi from "./playlist";
+import * as recommendApi from "./recommend";
+import * as searchApi from "./search";
+import * as songApi from "./song";
+import * as userApi from "./user";
 
-import { getAllTrack, getCatlist, getHotCatlist, getPlaylist, getPlaylistDetail, getRecommendPlaylist, getTopPlaylist } from "./playlist"
-import { getBanner, getNewAlbums } from "./recommend"
-import { getSearchResult } from "./search"
-import { getSongDetail, getSongLyric, getSongUrl } from "./song"
-import { } from "./user"
-
-
-export {
-	getAlbum, getAllNewAlbum,
-	getArtist, getArtistAlbums, getArtistDescription, getArtistDetail, getArtistHot,
-	getAllTrack, getCatlist, getHotCatlist, getPlaylist, getPlaylistDetail, getRecommendPlaylist, getTopPlaylist,
-	getBanner, getNewAlbums,
-	getSearchResult,
-	getSongDetail, getSongLyric, getSongUrl
-}
-
-
-
+export { albumApi, artistApi, recommendApi, playlistApi, searchApi, songApi, userApi };
