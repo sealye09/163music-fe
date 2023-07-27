@@ -18,7 +18,7 @@ interface Props {}
 
 const Banner: FC<Props> = ({}) => {
   const [activeItem, setActiveItem] = useState<number>(0);
-  const [banners, setBanners] = useState<Array<BannerInfo>>();
+  const [banners, setBanners] = useState<BannerInfo[]>([]);
 
   useEffect(() => {
     recommendApi.getBanner().then((res) => {

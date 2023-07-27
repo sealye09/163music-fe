@@ -14,7 +14,7 @@ interface Props {}
 const PlaylistDetail: FC<Props> = ({}) => {
   const { playlistId } = useParams();
   const [playlistDetail, setPlaylistDetail] = useState<PlaylistInfoDetail>();
-  const [allSongs, setAllSongs] = useState<Array<Track>>();
+  const [allSongs, setAllSongs] = useState<Track[]>([]);
 
   const tracks = useTrackStore((state) => state.tracks);
   const setTracks = useTrackStore((state) => state.setTracks);
@@ -66,7 +66,7 @@ const PlaylistDetail: FC<Props> = ({}) => {
   }, []);
 
   const addAllSong = () => {
-    let allNewTracks: Array<Track> = [];
+    let allNewTracks: Track[] = [];
     allSongs?.map((song) => {
       allNewTracks.push({ ...song });
     });
@@ -74,7 +74,7 @@ const PlaylistDetail: FC<Props> = ({}) => {
   };
 
   const playAllSong = () => {
-    let allNewTracks: Array<Track> = [];
+    let allNewTracks: Track[] = [];
     allSongs?.map((song) => {
       allNewTracks.push({ ...song });
     });

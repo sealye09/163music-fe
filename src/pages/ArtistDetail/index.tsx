@@ -23,9 +23,9 @@ const ArtistDetail: FC<Props> = ({}) => {
   const setTracks = useTrackStore((state) => state.setTracks);
   const setTrackIndex = useTrackStore((state) => state.setTrackIndex);
 
-  const [hot50, setHot50] = useState<Array<Track>>([]);
+  const [hot50, setHot50] = useState<Track[]>([]);
   const [artistInfo, setArtistInfo] = useState<ArtistInfo>();
-  const [albums, setAlbums] = useState<Array<PlaylistInfo>>([]);
+  const [albums, setAlbums] = useState<PlaylistInfo[]>([]);
   const [page, setPage] = useState<number>(1);
   const [introduction, setIntroduction] = useState<Introduction>();
   const [albumSize, setAlbumSize] = useState(0);
@@ -33,7 +33,7 @@ const ArtistDetail: FC<Props> = ({}) => {
   const pageSize = 30;
 
   const addAllSong = () => {
-    let allNewTracks: Array<Track> = [];
+    let allNewTracks: Track[] = [];
     hot50?.map((song) => {
       allNewTracks.push({ ...song });
     });
@@ -41,7 +41,7 @@ const ArtistDetail: FC<Props> = ({}) => {
   };
 
   const playAllSong = () => {
-    let allNewTracks: Array<Track> = [];
+    let allNewTracks: Track[] = [];
     hot50?.map((song) => {
       allNewTracks.push({ ...song });
     });

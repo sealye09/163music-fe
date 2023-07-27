@@ -11,7 +11,7 @@ import "./index.css";
 interface Props {}
 
 const Playlist: FC<Props> = ({}) => {
-  const [playlistInfo, setPlaylistInfo] = useState<Array<PlaylistInfo>>();
+  const [playlistInfo, setPlaylistInfo] = useState<PlaylistInfo[]>([]);
   const [page, setPage] = useState<number>(1);
   const [cat, setCat] = useState("all");
   const [order, setorder] = useState<string>("hot");

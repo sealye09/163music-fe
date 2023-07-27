@@ -6,7 +6,7 @@ import NavBarItem from "@/components/NvaBarItem";
 
 import "./index.css";
 
-const NavBarItems: Array<NavBarItemConfig> = [
+const NavBarItems: NavBarItemConfig[] = [
   {
     itemId: 0,
     linkTo: "/discover",
@@ -24,7 +24,7 @@ const NavBarItems: Array<NavBarItemConfig> = [
   },
 ];
 
-const DiscoverNavBarItems: Array<NavBarItemConfig> = [
+const DiscoverNavBarItems: NavBarItemConfig[] = [
   {
     itemId: 0,
     linkTo: "/discover",
@@ -48,7 +48,7 @@ const DiscoverNavBarItems: Array<NavBarItemConfig> = [
 ];
 
 interface Props {
-  items: Array<NavBarItemConfig>;
+  items: NavBarItemConfig[];
   activeItem?: string;
 }
 

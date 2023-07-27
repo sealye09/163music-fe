@@ -5,22 +5,22 @@ import { Track } from "@/types";
 import { songApi } from "@/service";
 import InfoCard from "@/components/InfoCard";
 
+interface LyricWithTime {
+  time: string;
+  lrc: string;
+}
+
 interface Props {}
 
 const SongDetail: FC<Props> = ({}) => {
   const { songId } = useParams();
   const [songDetail, setSongDetail] = useState<Track>();
-  const [lyric, setLyric] = useState<
-    Array<{
-      time: string;
-      lrc: string;
-    }>
-  >([]);
+  const [lyric, setLyric] = useState<LyricWithTime[]>([]);
 
   const initLyric = (rawLyric: string) => {
     const lrcReg = /\n/;
     const timeReg = /\[.*\]/;
-    let res: Array<{ time: string; lrc: string }> = [];
+    let res: LyricWithTime[] = [];
 
     for (let l of rawLyric.split(lrcReg)) {
       let lrc = l.split(timeReg);

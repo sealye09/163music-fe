@@ -7,7 +7,7 @@ import "./index.css";
 
 interface Props {
   type: string;
-  playlists: Array<PlaylistInfo>;
+  playlists: PlaylistInfo[];
   handleClick?: Function;
 }
 

@@ -6,7 +6,7 @@ import { Track } from "@/types";
 interface Props {
   playAllSong: Function;
   addAllSong: Function;
-  hot50: Array<Track>;
+  hot50: Track[];
 }
 
 const ArtistHot50: FC<Props> = ({ addAllSong, playAllSong, hot50 }) => {

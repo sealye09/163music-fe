@@ -18,10 +18,10 @@ const AlbumDetail: FC<Props> = ({}) => {
   const setTrackIndex = useTrackStore((state) => state.setTrackIndex);
 
   const [albumInfo, serAlbumInfo] = useState<AlbumInfo>();
-  const [songDetail, setSongDetail] = useState<Array<Track>>();
+  const [songDetail, setSongDetail] = useState<Track[]>([]);
 
   const addAllSong = () => {
-    let allNewTracks: Array<Track> = [];
+    let allNewTracks: Track[] = [];
     songDetail?.map((song) => {
       allNewTracks.push({ ...song });
     });
@@ -29,7 +29,7 @@ const AlbumDetail: FC<Props> = ({}) => {
   };
 
   const playAllSong = () => {
-    let allNewTracks: Array<Track> = [];
+    let allNewTracks: Track[] = [];
     songDetail?.map((song) => {
       allNewTracks.push({ ...song });
     });

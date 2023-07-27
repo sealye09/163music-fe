@@ -7,7 +7,7 @@ import useTrackStore from "@/stores/useTrackStore";
 import "./index.css";
 
 interface InfoCardProps extends Track {
-  tags?: Array<string>;
+  tags?: string[];
   description?: string;
 }
 

@@ -89,13 +89,13 @@ export type RawAlbumInfo = {
   name: string;
   picUrl: string;
   description: string;
-  artists: Array<{ id: number; name: string }>;
+  artists: { id: number; name: string }[];
 };
 
 export type Introduction = {
   desc: string;
-  introduction: Array<{
+  introduction: {
     title: string;
     content: string;
-  }>;
+  }[];
 };

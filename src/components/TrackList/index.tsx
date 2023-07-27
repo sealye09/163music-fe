@@ -6,8 +6,8 @@ import useTrackStore from "@/stores/useTrackStore";
 
 import "./index.css";
 interface Props {
-  listItems: Array<string>;
-  listInfo: Array<Track>;
+  listItems: string[];
+  listInfo: Track[];
 }
 
 const TrackList: FC<Props> = ({ listItems, listInfo }) => {

@@ -5,7 +5,7 @@ import PageSelector from "@/components/PageSelector";
 import { PlaylistInfo } from "@/types";
 
 interface Props {
-  albums: Array<PlaylistInfo>;
+  albums: PlaylistInfo[];
   page: number;
   pageSize: number;
   setPage: Function;

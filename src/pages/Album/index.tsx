@@ -11,7 +11,7 @@ import "./index.css";
 
 interface Props {}
 
-const TAGS: Array<Tag> = [
+const TAGS: Tag[] = [
   {
     id: 0,
     title: "全部",

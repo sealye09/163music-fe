@@ -8,7 +8,7 @@ import "./index.css";
 
 interface Props {
   headline: HeadLine;
-  tags?: Array<Tag>;
+  tags?: Tag[];
   hasMoreTag: boolean;
 }
 

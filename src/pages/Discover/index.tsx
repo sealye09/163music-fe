@@ -16,7 +16,7 @@ type AlbumInfo = PlaylistInfoWithType;
 // 推荐页包含组件（轮播图、热门推荐、新碟上架、榜单）
 
 const Discover: FC = () => {
-  const playlistTags: Array<Tag> = [
+  const playlistTags: Tag[] = [
     {
       id: 0,
       title: "华语",
@@ -59,8 +59,8 @@ const Discover: FC = () => {
     },
   ];
 
-  const [playlistRec, setPlaylistRec] = useState<Array<PlaylistInfoWithType>>();
-  const [newAlbums, setNewAlbums] = useState<Array<AlbumInfo>>();
+  const [playlistRec, setPlaylistRec] = useState<PlaylistInfoWithType[]>([]);
+  const [newAlbums, setNewAlbums] = useState<AlbumInfo[]>([]);
 
   useEffect(() => {
     // 获取推荐
@@ -85,7 +85,7 @@ const Discover: FC = () => {
             return {
               id: item.id,
               name: item.name,
-              picUrl: item.picUrl,
+              coverImgUrl: item.picUrl,
             };
           })
         );
