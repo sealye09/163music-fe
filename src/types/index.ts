@@ -1,17 +1,20 @@
 import { HTMLAttributes } from "react";
 
+type IdAndName = {
+  id: number;
+  name: string;
+};
+
+type Album = IdAndName & {
+  coverImgUrl: string;
+};
+
+export type BasisInfo = IdAndName;
+
 export type Track = {
-  song: {
-    id: number;
-    name: string;
-  };
-  artist: {
-    id: number;
-    name: string;
-  };
-  album: {
-    id: number;
-    name: string;
+  song: IdAndName;
+  artist: IdAndName;
+  album: IdAndName & {
     picUrl: string;
   };
 };
@@ -27,11 +30,7 @@ export type Tag = {
   target: string;
 };
 
-export type PlaylistInfo = {
-  id: number;
-  name: string;
-  coverImgUrl: string;
-};
+export type PlaylistInfo = Album;
 
 export type PlaylistInfoDetail = PlaylistInfo & {
   tags: string[];
@@ -49,44 +48,26 @@ export type NavBarItemConfig = HTMLAttributes<HTMLElement> & {
   activeClass?: string;
 };
 
-export type BasisInfo = {
-  id: number;
-  name: string;
-};
-
-export type ArtistInfo = {
-  id: number;
-  name: string;
+export type ArtistInfo = IdAndName & {
   picUrl: string;
 };
 
-export type RawArtistInfo = {
-  id: number;
-  name: string;
+export type RawArtistInfo = IdAndName & {
   img1v1Url: string;
 };
 
-export type RawSongInfo = {
-  id: number;
-  name: string;
+export type RawSongInfo = IdAndName & {
   ar: [{ id: number; name: string }];
   al: { id: number; name: string; picUrl: string };
 };
 
-export type AlbumInfo = {
-  id: number;
-  name: string;
+export type AlbumInfo = IdAndName & {
   coverImgUrl: string;
   description: string;
-  artist: {
-    id: number;
-    name: string;
-  };
+  artist: IdAndName;
 };
 
-export type RawAlbumInfo = {
-  id: number;
-  name: string;
+export type RawAlbumInfo = IdAndName & {
   picUrl: string;
   description: string;
   artists: { id: number; name: string }[];

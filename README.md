@@ -2,7 +2,7 @@
 
 ### 技术栈
 
-react react-router ts axios tailwindcss
+react react-router ts axios tailwindcss zustand
 
 ### API
 
@@ -17,3 +17,8 @@ react react-router ts axios tailwindcss
 - 歌手详情（hot 50, 介绍，专辑）
 - 搜索页面（歌手，专辑，歌曲）
 - 播放器（play/pause, prev/next, volume ctrl）
+
+### TODO
+
+- 滚动歌词
+- 登录

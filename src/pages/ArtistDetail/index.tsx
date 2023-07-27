@@ -1,7 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
-import { AxiosResponse } from "axios";
 
 import { ArtistInfo, Introduction, PlaylistInfo, RawArtistInfo, RawSongInfo, Track } from "@/types";
 import useTrackStore from "@/stores/useTrackStore";
@@ -34,7 +33,7 @@ const ArtistDetail: FC<Props> = ({}) => {
 
   const addAllSong = () => {
     let allNewTracks: Track[] = [];
-    hot50?.map((song) => {
+    hot50.map((song) => {
       allNewTracks.push({ ...song });
     });
     setTracks([...tracks, ...allNewTracks]);
@@ -42,7 +41,7 @@ const ArtistDetail: FC<Props> = ({}) => {
 
   const playAllSong = () => {
     let allNewTracks: Track[] = [];
-    hot50?.map((song) => {
+    hot50.map((song) => {
       allNewTracks.push({ ...song });
     });
     setTracks(allNewTracks);
@@ -51,11 +50,15 @@ const ArtistDetail: FC<Props> = ({}) => {
 
   // hot50
   useEffect(() => {
-    artistApi.getArtist(artistId!).then((res: AxiosResponse) => {
+    artistApi.getArtist(artistId!).then((res) => {
+      console.log("🚀 ~ file: index.tsx:54 ~ artistApi.getArtist ~ res:", res);
+
       // @ts-ignore
       setAlbumSize(res.artist.albumSize);
-      const info = ("artist" in res ? res.artist : {}) as RawArtistInfo;
-      const songs = ("hotSongs" in res ? res.hotSongs : [{}]) as RawSongInfo[];
+      // @ts-ignore
+      const info = res.artist;
+      // @ts-ignore
+      const songs = res.hotSongs;
       setArtistInfo({
         name: info.name,
         id: info.id,
@@ -98,7 +101,7 @@ const ArtistDetail: FC<Props> = ({}) => {
           return {
             id: album.id,
             name: album.name,
-            picUrl: album.picUrl,
+            coverImgUrl: album.picUrl,
           };
         })
       );

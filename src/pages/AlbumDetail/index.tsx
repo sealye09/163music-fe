@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 
-import { AlbumInfo, RawAlbumInfo, Track } from "@/types";
+import { AlbumInfo, Track } from "@/types";
 import useTrackStore from "@/stores/useTrackStore";
 import { albumApi } from "@/service";
 import TrackList from "@/components/TrackList";
@@ -22,7 +22,7 @@ const AlbumDetail: FC<Props> = ({}) => {
 
   const addAllSong = () => {
     let allNewTracks: Track[] = [];
-    songDetail?.map((song) => {
+    songDetail.map((song) => {
       allNewTracks.push({ ...song });
     });
     setTracks([...tracks, ...allNewTracks]);
@@ -30,7 +30,7 @@ const AlbumDetail: FC<Props> = ({}) => {
 
   const playAllSong = () => {
     let allNewTracks: Track[] = [];
-    songDetail?.map((song) => {
+    songDetail.map((song) => {
       allNewTracks.push({ ...song });
     });
     setTracks(allNewTracks);
@@ -39,9 +39,8 @@ const AlbumDetail: FC<Props> = ({}) => {
 
   useEffect(() => {
     albumApi.getAlbum(albumId!).then((res) => {
-      const songs = ("songs" in res ? res.songs : [{}]) as [{}];
-      const album = ("album" in res ? res.album : [{}]) as RawAlbumInfo;
-
+      // @ts-ignore
+      const { songs, album } = res;
       const albumSongs = songs.map((song: any) => {
         return {
           song: {
@@ -93,9 +92,9 @@ const AlbumDetail: FC<Props> = ({}) => {
                     className="artist-link"
                     artist-id={albumInfo.artist.id}
                     title={albumInfo.artist.name}
-                    to={`/artist/${albumInfo?.artist.id}`}
+                    to={`/artist/${albumInfo.artist.id}`}
                   >
-                    {albumInfo?.artist.name}
+                    {albumInfo.artist.name}
                   </Link>
                 </div>
                 <div className="album-info text-sm pb-4 w-full flex">
@@ -106,7 +105,7 @@ const AlbumDetail: FC<Props> = ({}) => {
                     title={albumInfo.name}
                     to={`/album/${albumInfo.id}`}
                   >
-                    {albumInfo?.name}
+                    {albumInfo.name}
                   </Link>
                 </div>
 

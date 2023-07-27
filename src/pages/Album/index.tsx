@@ -88,7 +88,7 @@ const Album: FC<Props> = ({}) => {
             return {
               id: item.id,
               name: item.name,
-              picUrl: item.picUrl,
+              coverImgUrl: item.picUrl,
             };
           })
         );

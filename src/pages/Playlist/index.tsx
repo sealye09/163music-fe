@@ -25,7 +25,7 @@ const Playlist: FC<Props> = ({}) => {
           return {
             name: item.name,
             id: item.id,
-            picUrl: item.coverImgUrl,
+            coverImgUrl: item.coverImgUrl,
           };
         })
       );

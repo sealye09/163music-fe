@@ -1,5 +1,6 @@
-import { Track } from "@/types";
 import { create } from "zustand";
+
+import { Track } from "@/types";
 
 const defaultTrack = [
   {
@@ -35,14 +36,26 @@ interface TrackStore {
 const useTrackStore = create<TrackStore>((set) => ({
   tracks: defaultTrack,
   trackIndex: 0,
+
+  // 添加歌曲（单个）
   addTrack: (track: Track) => set((state) => ({ tracks: [...state.tracks, track] })),
+
+  // 添加歌曲（多个）
   addTracks: (tracks: Track[]) => set((state) => ({ tracks: [...state.tracks, ...tracks] })),
+
+  // 重置歌曲
   resetTracks: () => set({ tracks: defaultTrack, trackIndex: 0 }),
+
+  // 设置列表
   setTracks: (tracks: Track[]) =>
-    set((state) => ({
+    set(() => ({
       tracks: [...tracks],
     })),
+
+  // 设置当前歌曲索引
   setTrackIndex: (index: number) => set({ trackIndex: index }),
+
+  // 下一首
   nextTrack: () =>
     set((state) => {
       if (state.trackIndex === state.tracks.length - 1) {
@@ -50,6 +63,8 @@ const useTrackStore = create<TrackStore>((set) => ({
       }
       return { trackIndex: state.trackIndex + 1 };
     }),
+
+  // 上一首
   prevTrack: () =>
     set((state) => {
       {
