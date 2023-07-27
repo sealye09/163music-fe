@@ -1,22 +1,24 @@
 import { FC, useEffect, useState } from "react";
 
-import { Track } from "../../types";
-import TrackList from "../../components/TrackList";
-import Grid from "../../components/Grid";
-import PageSelector from "../../components/PageSelector";
-
-import { searchApi } from "../../service";
+import { PlaylistInfo, Track } from "@/types";
+import { searchApi } from "@/service";
+import TrackList from "@/components/TrackList";
+import Grid from "@/components/Grid";
+import PageSelector from "@/components/PageSelector";
 
 import "./index.css";
+
+interface AlbumInfo extends PlaylistInfo {}
+interface ArtistInfo extends PlaylistInfo {}
 
 const Search: FC = () => {
   const [keywords, setKeywords] = useState<string>("");
   const [type, setType] = useState<number>(1);
   const [page, setPage] = useState(1);
-  const [songResult, setsongResult] = useState<Array<Track>>([]);
-  const [albumResult, setAlbumResult] = useState<Array<any>>([]);
-  const [artistResult, setArtistResult] = useState<Array<any>>([]);
-  const [playlistResult, setPlaylistResult] = useState<Array<any>>([]);
+  const [songResult, setsongResult] = useState<Track[]>([]);
+  const [albumResult, setAlbumResult] = useState<AlbumInfo[]>([]);
+  const [artistResult, setArtistResult] = useState<ArtistInfo[]>([]);
+  const [playlistResult, setPlaylistResult] = useState<PlaylistInfo[]>([]);
 
   const pageSize: number = 30;
 
@@ -58,7 +60,7 @@ const Search: FC = () => {
             return {
               id: album.id,
               name: album.name,
-              picUrl: album.picUrl,
+              coverImgUrl: album.picUrl,
             };
           })
         );
@@ -71,7 +73,7 @@ const Search: FC = () => {
             return {
               id: artist.id,
               name: artist.name,
-              picUrl: artist.img1v1Url,
+              coverImgUrl: artist.img1v1Url,
             };
           })
         );
@@ -84,7 +86,7 @@ const Search: FC = () => {
             return {
               id: playlist.id,
               name: playlist.name,
-              picUrl: playlist.coverImgUrl,
+              coverImgUrl: playlist.coverImgUrl,
             };
           })
         );
@@ -118,7 +120,7 @@ const Search: FC = () => {
                 searchAction();
               }
             }}
-          ></input>
+          />
           <button
             className="border w-14 h-9 rounded-r-2xl text-sm"
             onClick={searchAction}

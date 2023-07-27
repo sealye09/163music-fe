@@ -1,12 +1,9 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
-import "./index.css";
 
-export type PlaylistInfo = {
-  id: number;
-  name: string;
-  picUrl: string;
-};
+import { PlaylistInfo } from "@/types";
+
+import "./index.css";
 
 interface Props {
   type: string;
@@ -36,7 +33,7 @@ const Grid: FC<Props> = ({ playlists, type, handleClick }) => {
               >
                 <img
                   className="playlist-cover rounded-lg"
-                  src={`${item.picUrl}`}
+                  src={`${item.coverImgUrl}`}
                 />
               </Link>
               <div className="play-bottom relative -top-6 pl-1 rounded-b-md  rounded-t-sm text-white"></div>

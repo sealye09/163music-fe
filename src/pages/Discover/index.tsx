@@ -1,19 +1,17 @@
 import { FC, lazy, useEffect, useState } from "react";
 
-import GridHeader, { Tag } from "../../components/GridHeader";
-import Grid from "../../components/Grid";
-import { playlistApi, albumApi } from "../../service";
+import { playlistApi, albumApi } from "@/service";
+import { Tag, PlaylistInfo } from "@/types";
+import GridHeader from "@/components/GridHeader";
+import Grid from "@/components/Grid";
 
-const Banner = lazy(() => import("../../components/Banner"));
+const Banner = lazy(() => import("@/components/Banner"));
 
-type PlaylistInfo = {
-  id: number;
+interface PlaylistInfoWithType extends PlaylistInfo {
   type: number;
-  name: string;
-  picUrl: string;
-};
+}
 
-type AlbumInfo = PlaylistInfo;
+type AlbumInfo = PlaylistInfoWithType;
 
 // 推荐页包含组件（轮播图、热门推荐、新碟上架、榜单）
 
@@ -61,7 +59,7 @@ const Discover: FC = () => {
     },
   ];
 
-  const [playlistRec, setPlaylistRec] = useState<Array<PlaylistInfo>>();
+  const [playlistRec, setPlaylistRec] = useState<Array<PlaylistInfoWithType>>();
   const [newAlbums, setNewAlbums] = useState<Array<AlbumInfo>>();
 
   useEffect(() => {
@@ -73,7 +71,7 @@ const Discover: FC = () => {
           return {
             id: item.id,
             name: item.name,
-            picUrl: item.picUrl,
+            coverImgUrl: item.picUrl,
           };
         })
       );

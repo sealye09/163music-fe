@@ -1,9 +1,10 @@
 import { FC, useEffect, useState } from "react";
-import Grid, { PlaylistInfo } from "../../components/Grid";
-import GridHeader from "../../components/GridHeader";
-import PageSelector from "../../components/PageSelector";
 
-import { playlistApi } from "../../service";
+import { PlaylistInfo } from "@/types";
+import { playlistApi } from "@/service";
+import Grid from "@/components/Grid";
+import GridHeader from "@/components/GridHeader";
+import PageSelector from "@/components/PageSelector";
 
 import "./index.css";
 
@@ -50,13 +51,11 @@ const Playlist: FC<Props> = ({}) => {
           }}
           hasMoreTag={false}
         />
-        {!!playlistInfo ? (
+        {!!playlistInfo && (
           <Grid
             type={"playlist"}
             playlists={playlistInfo}
           />
-        ) : (
-          <></>
         )}
         <PageSelector
           currPage={page}

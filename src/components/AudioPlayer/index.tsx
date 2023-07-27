@@ -1,20 +1,24 @@
-import { FC, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { FC, useEffect, useMemo, useRef, useState } from "react";
 
-import { TracksContext } from "../../pages/Layout";
+import { songApi } from "@/service";
+import useTrackStore from "@/stores/useTrackStore";
+
 import LeftControl from "./LeftControl";
 import RightControl from "./RightControl";
 import CenterBar from "./CenterBar";
 import VolumeControl from "./VolumeControl";
 import Playlist from "./Playlist";
 
-import { songApi } from "../../service";
-
 import styles from "./index.module.css";
 
 interface Props {}
 
 const AudioPlayer: FC<Props> = ({}) => {
-  const { tracks, trackIndex, setTrackIndex } = useContext<any>(TracksContext);
+  const tracks = useTrackStore((state) => state.tracks);
+  const trackIndex = useTrackStore((state) => state.trackIndex);
+  const prevTrack = useTrackStore((state) => state.prevTrack);
+  const nextTrack = useTrackStore((state) => state.nextTrack);
+
   const { song, artist, album } = tracks[trackIndex];
 
   // State
@@ -26,11 +30,12 @@ const AudioPlayer: FC<Props> = ({}) => {
 
   // Refs
   const audioRef = useRef(new Audio());
-  const intervalRef = useRef(0);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | number>(0);
   const isReady = useRef(false);
 
   const { duration } = audioRef.current;
   const isMuted = audioRef.current.volume <= 0;
+
   // 控制声音
   audioRef.current.volume = useMemo(() => volume / 100, [volume]);
 
@@ -61,20 +66,12 @@ const AudioPlayer: FC<Props> = ({}) => {
 
   const toPrevTrack = () => {
     console.log("previous song");
-    if (trackIndex - 1 < 0) {
-      setTrackIndex(tracks.length - 1);
-    } else {
-      setTrackIndex(trackIndex - 1);
-    }
+    prevTrack();
   };
 
   const toNextTrack = () => {
     console.log("next song");
-    if (trackIndex < tracks.length - 1) {
-      setTrackIndex(trackIndex + 1);
-    } else {
-      setTrackIndex(0);
-    }
+    nextTrack();
   };
 
   const toggleAudio = () => {
@@ -141,7 +138,7 @@ const AudioPlayer: FC<Props> = ({}) => {
         isReady.current = true;
       }
     });
-  }, [trackIndex, tracks[trackIndex].song.id]);
+  }, [trackIndex]);
 
   // 卸载数据
   useEffect(() => {
@@ -187,10 +184,7 @@ const AudioPlayer: FC<Props> = ({}) => {
       />
 
       {/* 播放列表 */}
-      <Playlist
-        isShowPlaylist={isShowPlaylist}
-        audioRef={audioRef}
-      />
+      <Playlist isShowPlaylist={isShowPlaylist} />
     </div>
   );
 };

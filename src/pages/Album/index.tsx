@@ -1,11 +1,11 @@
 import { FC, useEffect, useState } from "react";
 import { useLocation } from "react-router";
 
-import { AlbumInfo } from "../AlbumDetail";
-import GridHeader, { Tag } from "../../components/GridHeader";
-import PageSelector from "../../components/PageSelector";
-import Grid from "../../components/Grid";
-import { albumApi } from "../../service";
+import { AlbumInfo, Tag } from "@/types";
+import { albumApi } from "@/service";
+import GridHeader from "@/components/GridHeader";
+import PageSelector from "@/components/PageSelector";
+import Grid from "@/components/Grid";
 
 import "./index.css";
 
@@ -41,8 +41,9 @@ const TAGS: Array<Tag> = [
 
 const Album: FC<Props> = ({}) => {
   const url = useLocation();
-  const [newAlbums, setNewAlbums] = useState<Array<AlbumInfo>>();
-  const [allAlbums, setAllAlbums] = useState<Array<AlbumInfo>>();
+
+  const [newAlbums, setNewAlbums] = useState<AlbumInfo[]>([]);
+  const [allAlbums, setAllAlbums] = useState<AlbumInfo[]>([]);
   const [page, setPage] = useState(1);
   const [area, setArea] = useState<string>(() => {
     if (url.search === "") {
@@ -64,7 +65,7 @@ const Album: FC<Props> = ({}) => {
             return {
               id: item.id,
               name: item.name,
-              picUrl: item.picUrl,
+              coverImgUrl: item.picUrl,
             };
           })
         );
@@ -114,13 +115,11 @@ const Album: FC<Props> = ({}) => {
             }}
             hasMoreTag={false}
           />
-          {!!newAlbums ? (
+          {!!newAlbums && (
             <Grid
               playlists={newAlbums!.slice(0, 10)}
               type="album"
             />
-          ) : (
-            <></>
           )}
         </div>
         <div className="h-auto w-full py-10">
@@ -132,13 +131,11 @@ const Album: FC<Props> = ({}) => {
             tags={TAGS}
             hasMoreTag={false}
           />
-          {!!allAlbums ? (
+          {!!allAlbums && (
             <Grid
               playlists={allAlbums}
               type="album"
             />
-          ) : (
-            <></>
           )}
         </div>
         <div className="pb-10">

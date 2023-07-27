@@ -1,8 +1,8 @@
 import { FC, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-import Loading from "../Loading";
-import { recommendApi } from "../../service";
+import Loading from "@/components/Loading";
+import { recommendApi } from "@/service";
 
 import "./index.css";
 

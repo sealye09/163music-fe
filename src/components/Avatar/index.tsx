@@ -1,8 +1,6 @@
-import React, { FC } from 'react';
-import './index.css';
-type Props = {};
+import { FC } from "react";
 
-const Avatar: FC<Props> = (props: Props) => {
+const Avatar: FC = ({}) => {
   return <div>Avatar</div>;
 };
 

@@ -1,17 +1,18 @@
-import { FC, useContext } from "react";
-import { TracksContext } from "../../pages/Layout";
+import { FC } from "react";
 import { Link } from "react-router-dom";
 import { BsLink45Deg } from "react-icons/bs";
 
 import styles from "./index.module.css";
+import useTrackStore from "@/stores/useTrackStore";
 
 interface PlaylistProps {
   isShowPlaylist: boolean;
-  audioRef: any;
 }
 
-const Playlist: FC<PlaylistProps> = ({ isShowPlaylist, audioRef }) => {
-  const { tracks, setTracks, trackIndex, setTrackIndex } = useContext<any>(TracksContext);
+const Playlist: FC<PlaylistProps> = ({ isShowPlaylist }) => {
+  const tracks = useTrackStore((state) => state.tracks);
+  const resetTracks = useTrackStore((state) => state.resetTracks);
+  const setTrackIndex = useTrackStore((state) => state.setTrackIndex);
 
   const playTrack = (e: any) => {
     const node = e.target.parentNode;
@@ -42,26 +43,8 @@ const Playlist: FC<PlaylistProps> = ({ isShowPlaylist, audioRef }) => {
             <th align="left">
               <a
                 onClick={() => {
-                  setTracks([
-                    {
-                      song: {
-                        id: 19537524,
-                        name: "I'll Be Your Mirror",
-                      },
-                      artist: {
-                        id: 101996,
-                        name: "The Velvet Underground",
-                      },
-                      album: {
-                        id: 1798937,
-                        name: "The Velvet Underground & Nico",
-                        picUrl:
-                          "https://p1.music.126.net/5CuLry1JQsbXoBvBgL9BmQ==/2535473814614187.jpg?param=130y130",
-                      },
-                    },
-                  ]);
+                  resetTracks();
                   setTrackIndex(0);
-                  audioRef.current.pause();
                 }}
                 style={{
                   cursor: "pointer",
@@ -73,7 +56,7 @@ const Playlist: FC<PlaylistProps> = ({ isShowPlaylist, audioRef }) => {
           </tr>
         </thead>
         <tbody>
-          {tracks ? (
+          {!!tracks &&
             tracks.map((item: any, idx: number) => (
               <tr
                 key={item.song.id}
@@ -91,7 +74,7 @@ const Playlist: FC<PlaylistProps> = ({ isShowPlaylist, audioRef }) => {
                   className="max-w-fit mr-12 text w-[420px]"
                 >
                   <Link
-                    className='w-fit'
+                    className="w-fit"
                     title={item.song.name}
                     to={`/song/${item.song.id}`}
                   >
@@ -103,7 +86,7 @@ const Playlist: FC<PlaylistProps> = ({ isShowPlaylist, audioRef }) => {
                   className="max-w-fit mr-12 w-[280px]"
                 >
                   <Link
-                    className='w-fit'
+                    className="w-fit"
                     title={item.artist.name}
                     to={`/artist/${item.artist.id}`}
                   >
@@ -115,7 +98,7 @@ const Playlist: FC<PlaylistProps> = ({ isShowPlaylist, audioRef }) => {
                   className="max-w-fit mr-4 w-[80px]"
                 >
                   <Link
-                    className='w-fit'
+                    className="w-fit"
                     title={item.album.name}
                     to={`/album/${item.album.id}`}
                   >
@@ -123,10 +106,7 @@ const Playlist: FC<PlaylistProps> = ({ isShowPlaylist, audioRef }) => {
                   </Link>
                 </td>
               </tr>
-            ))
-          ) : (
-            <></>
-          )}
+            ))}
         </tbody>
       </table>
     </div>

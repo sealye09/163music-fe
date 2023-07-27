@@ -2,15 +2,6 @@ import { FC, HTMLAttributes } from "react";
 import { useNavigate } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 
-export type NavBarItemConfig = HTMLAttributes<HTMLElement> & {
-  itemId: number;
-  itemText: string;
-  linkTo: string;
-  newTab?: boolean;
-  active?: boolean;
-  activeClass?: string;
-};
-
 type NavBarItemProps = NavBarItemConfig;
 
 const NavBarItem: FC<NavBarItemProps> = ({

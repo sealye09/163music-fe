@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { BsList, BsVolumeDown, BsVolumeMute } from "react-icons/bs";
 
 interface RightControlProps {
@@ -16,7 +16,8 @@ const RightControl: FC<RightControlProps> = ({
     <div className="flex gap-1 min-w-fit">
       <button
         title="音量控制"
-        onClick={handleShowVolumeCtr}>
+        onClick={handleShowVolumeCtr}
+      >
         {isMuted ? <BsVolumeMute size={28} /> : <BsVolumeDown size={28} />}
       </button>
 

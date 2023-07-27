@@ -1,18 +1,10 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
+import { BsArrowRightShort, BsMusicNoteBeamed } from "react-icons/bs";
+
+import { HeadLine, Tag } from "@/types";
+
 import "./index.css";
-import { BsArrowRight, BsArrowRightShort, BsMusicNoteBeamed } from "react-icons/bs";
-
-export type HeadLine = {
-  title: string;
-  target: string;
-};
-
-export type Tag = {
-  id: number;
-  title: string;
-  target: string;
-};
 
 interface Props {
   headline: HeadLine;
@@ -39,7 +31,7 @@ const GridHeader: FC<Props> = ({ headline, tags, hasMoreTag }) => {
       </div>
 
       <div className="tag-cat px-3 text-xs flex items-center text-gray-500 min-w-fit">
-        {tags ? (
+        {!!tags &&
           tags.map((tag) => (
             <div key={tag.target}>
               <Link
@@ -48,14 +40,11 @@ const GridHeader: FC<Props> = ({ headline, tags, hasMoreTag }) => {
               >
                 {tag.title}
               </Link>
-              {tag.id === tags.length - 1 ? <></> : <span className="line">|</span>}
+              {tag.id === tags.length - 1 ? null : <span className="line">|</span>}
             </div>
-          ))
-        ) : (
-          <></>
-        )}
+          ))}
       </div>
-      {hasMoreTag ? (
+      {hasMoreTag && (
         <span className="cat-more text-xs text-gray-500 flex items-center justify-end w-full">
           <Link
             className="cat-item px-0.5"
@@ -65,11 +54,12 @@ const GridHeader: FC<Props> = ({ headline, tags, hasMoreTag }) => {
           </Link>
 
           <div className="icon-more">
-            <BsArrowRightShort size={16} className='text-red-600' />
+            <BsArrowRightShort
+              size={16}
+              className="text-red-600"
+            />
           </div>
         </span>
-      ) : (
-        <></>
       )}
     </div>
   );

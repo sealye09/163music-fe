@@ -1,6 +1,8 @@
 import { FC, useMemo } from "react";
 import { Link, useLocation } from "react-router-dom";
-import NavBarItem, { NavBarItemConfig } from "../NvaBarItem";
+
+import { NavBarItemConfig } from "@/types";
+import NavBarItem from "@/components/NvaBarItem";
 
 import "./index.css";
 
@@ -49,6 +51,7 @@ interface Props {
   items: Array<NavBarItemConfig>;
   activeItem?: string;
 }
+
 const SubHeaader: FC<Props> = ({ items, activeItem }) => {
   return (
     <>

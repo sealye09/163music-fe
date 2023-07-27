@@ -1,6 +1,8 @@
 import { FC } from "react";
-import Grid, { PlaylistInfo } from "../../../components/Grid";
-import PageSelector from "../../../components/PageSelector";
+
+import Grid from "@/components/Grid";
+import PageSelector from "@/components/PageSelector";
+import { PlaylistInfo } from "@/types";
 
 interface Props {
   albums: Array<PlaylistInfo>;
@@ -18,9 +20,7 @@ const ArtistAlbum: FC<Props> = ({ albums, page, pageSize, setPage, albumSize }) 
         playlists={albums}
       />
       <div className="pt-10">
-        {albumSize === 0 ? (
-          <></>
-        ) : (
+        {albumSize !== 0 && (
           <PageSelector
             currPage={page}
             totalPage={Math.floor(albumSize / pageSize) + 1}

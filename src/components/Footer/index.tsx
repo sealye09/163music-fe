@@ -1,13 +1,12 @@
-import React, { FC } from 'react';
-import { Link } from 'react-router-dom';
-import './index.css';
+import { FC } from "react";
 
-interface Props {}
-
-const Footer: FC<Props> = ({}) => {
+const Footer: FC = ({}) => {
   return (
-    <div className='footer text-xs leading-7 pt-16 pb-24'>
-      <div className='flex-col justify-center'></div>
+    <div
+      className="text-xs leading-7 pt-16 pb-24 
+    bg-[#f2f2f2] text-[#666666] border border-[#d9d9d9]"
+    >
+      <div className="flex-col justify-center"></div>
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import { FC } from "react";
-import TrackList from "../../../components/TrackList";
-import { Track } from "../../Layout";
+
+import TrackList from "@/components/TrackList";
+import { Track } from "@/types";
 
 interface Props {
   playAllSong: Function;

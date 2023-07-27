@@ -1,37 +1,21 @@
-import { FC, useContext, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 
-import { Track, TracksContext } from "../Layout";
-import TrackList from "../../components/TrackList";
-import { albumApi } from "../../service";
+import { AlbumInfo, RawAlbumInfo, Track } from "@/types";
+import useTrackStore from "@/stores/useTrackStore";
+import { albumApi } from "@/service";
+import TrackList from "@/components/TrackList";
 
 import "./index.css";
-
-export interface AlbumInfo {
-  id: number;
-  name: string;
-  picUrl: string;
-  description: string;
-  artist: {
-    id: number;
-    name: string;
-  };
-}
-
-export interface RawAlbumInfo {
-  id: number;
-  name: string;
-  picUrl: string;
-  description: string;
-  artists: Array<{ id: number; name: string }>;
-}
 
 interface Props {}
 
 const AlbumDetail: FC<Props> = ({}) => {
   const { albumId } = useParams();
-  const { tracks, setTracks, trackIndex, setTrackIndex } = useContext(TracksContext);
+  const tracks = useTrackStore((state) => state.tracks);
+  const setTracks = useTrackStore((state) => state.setTracks);
+  const setTrackIndex = useTrackStore((state) => state.setTrackIndex);
 
   const [albumInfo, serAlbumInfo] = useState<AlbumInfo>();
   const [songDetail, setSongDetail] = useState<Array<Track>>();
@@ -80,7 +64,7 @@ const AlbumDetail: FC<Props> = ({}) => {
       serAlbumInfo({
         id: album.id as number,
         name: album.name,
-        picUrl: album.picUrl,
+        coverImgUrl: album.picUrl,
         description: album.description,
         artist: {
           id: album.artists[0].id,
@@ -94,21 +78,21 @@ const AlbumDetail: FC<Props> = ({}) => {
     <div className="album-detail">
       <div className="content w-full bg-white">
         <div className="py-8 w-full">
-          {!!albumInfo ? (
+          {!!albumInfo && (
             <div className="info-card flex px-10 pb-4 justify-around">
               <div className="img">
                 <img
                   className="rounded-md w-56 h-56"
-                  src={`${albumInfo?.picUrl}`}
-                ></img>
+                  src={`${albumInfo.coverImgUrl}`}
+                />
               </div>
               <div className="playlist-info w-2/3 flex-col justify-end">
                 <div className="artist-info text-sm pb-4 w-full flex">
                   <p>歌手：</p>
                   <Link
                     className="artist-link"
-                    artist-id={albumInfo?.artist.id}
-                    title={albumInfo?.artist.name}
+                    artist-id={albumInfo.artist.id}
+                    title={albumInfo.artist.name}
                     to={`/artist/${albumInfo?.artist.id}`}
                   >
                     {albumInfo?.artist.name}
@@ -118,9 +102,9 @@ const AlbumDetail: FC<Props> = ({}) => {
                   <p>专辑：</p>
                   <Link
                     className="artist-link"
-                    artist-id={albumInfo?.id}
-                    title={albumInfo?.name}
-                    to={`/album/${albumInfo?.id}`}
+                    artist-id={albumInfo.id}
+                    title={albumInfo.name}
+                    to={`/album/${albumInfo.id}`}
                   >
                     {albumInfo?.name}
                   </Link>
@@ -129,15 +113,13 @@ const AlbumDetail: FC<Props> = ({}) => {
                 <div className="des pb-3 w-full">
                   <div
                     className="ply-description"
-                    title={albumInfo?.description}
+                    title={albumInfo.description}
                   >
-                    介绍：{albumInfo?.description}
+                    介绍：{albumInfo.description}
                   </div>
                 </div>
               </div>
             </div>
-          ) : (
-            <></>
           )}
         </div>
         <div className="tracks-list px-10 pb-10">

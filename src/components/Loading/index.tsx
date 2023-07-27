@@ -1,12 +1,9 @@
-import React from 'react';
-import './index.css';
+import { FC } from "react";
 
-type Props = {};
-
-const Loading = (props: Props) => {
+const Loading: FC = ({}) => {
   return (
-    <div className='load-cover flex flex-row justify-center items-center h-full w-full'>
-      <div className='loading text-xl'>Loading...</div>
+    <div className="load-cover flex flex-row justify-center items-center h-full w-full">
+      <div className="loading text-xl">Loading...</div>
     </div>
   );
 };

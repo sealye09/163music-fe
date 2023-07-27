@@ -1,4 +1,4 @@
-import request from "./request";
+import request from "../utils/request";
 
 /**
  * @brief 获取歌手热门50首歌

@@ -1,11 +1,11 @@
 import Router from "./router";
 import { FC } from "react";
 
-import "../index.css";
+import "./index.css";
 
 type Props = {};
 
-export const App: FC<Props> = ({}) => {
+const App: FC<Props> = ({}) => {
   return (
     <>
       <Router />

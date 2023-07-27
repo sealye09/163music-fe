@@ -1,36 +1,30 @@
-import { FC, useContext, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { AxiosResponse } from "axios";
 
-import { Track, TracksContext } from "../Layout";
-import { RawSongInfo } from "../ArtistDetail";
-import TrackList from "../../components/TrackList";
-import { playlistApi } from "../../service";
+import { PlaylistInfoDetail, RawSongInfo, Track } from "@/types";
+import { playlistApi } from "@/service";
+import TrackList from "@/components/TrackList";
+import useTrackStore from "@/stores/useTrackStore";
 
 import "./index.css";
-
-export type PlaylistInfo = {
-  id: number;
-  name: string;
-  tags: string[];
-  coverImgUrl: string;
-  description: string;
-  trackCount?: number;
-  playCount?: number;
-};
 
 interface Props {}
 
 const PlaylistDetail: FC<Props> = ({}) => {
   const { playlistId } = useParams();
-  const [playlistDetail, setPlaylistDetail] = useState<PlaylistInfo>();
+  const [playlistDetail, setPlaylistDetail] = useState<PlaylistInfoDetail>();
   const [allSongs, setAllSongs] = useState<Array<Track>>();
 
-  const { tracks, setTracks, setTrackIndex } = useContext(TracksContext);
+  const tracks = useTrackStore((state) => state.tracks);
+  const setTracks = useTrackStore((state) => state.setTracks);
+  const setTrackIndex = useTrackStore((state) => state.setTrackIndex);
 
   useEffect(() => {
     playlistApi.getPlaylistDetail(playlistId!).then((res: AxiosResponse) => {
-      const playlistData: PlaylistInfo = ("playlist" in res ? res.playlist : {}) as PlaylistInfo;
+      const playlistData: PlaylistInfoDetail = (
+        "playlist" in res ? res.playlist : {}
+      ) as PlaylistInfoDetail;
       setPlaylistDetail({
         id: playlistData.id,
         name: playlistData.name,
@@ -91,13 +85,13 @@ const PlaylistDetail: FC<Props> = ({}) => {
   return (
     <div className="playlist-detail flex felx-row justify-center">
       <div className="info flex flex-col content-center bg-white pt-8">
-        {!!playlistDetail ? (
+        {!!playlistDetail && (
           <div className="info-card flex px-10 pb-4 justify-around">
             <div className="img">
               <img
                 className="rounded-md w-56 h-56"
                 src={`${playlistDetail.coverImgUrl}`}
-              ></img>
+              />
             </div>
             <div className="playlist-info w-2/3 flex-col justify-end">
               <div className="title text-xl pb-4 w-full">
@@ -124,31 +118,24 @@ const PlaylistDetail: FC<Props> = ({}) => {
                 </button>
               </div>
               <div className="tags pb-3 flex w-full">
-                {playlistDetail!.tags ? <p>标签：</p> : <></>}
-                {playlistDetail!.tags ? (
-                  playlistDetail!.tags.map((tag) => (
+                {!!playlistDetail.tags && <p>标签：</p>}
+                {!!playlistDetail.tags &&
+                  playlistDetail.tags.map((tag: any) => (
                     <div
                       key={tag}
                       className="tag-btn rounded-lg bg-gray-300 min-w-fit w-14 mr-3 flex justify-center px-2"
                     >
                       {tag}
                     </div>
-                  ))
-                ) : (
-                  <></>
-                )}
+                  ))}
               </div>
-              {playlistDetail!.description ? (
+              {!!playlistDetail.description && (
                 <div className="des pb-3 w-full">
                   <p className="ply-description">介绍：{playlistDetail!.description}</p>
                 </div>
-              ) : (
-                <></>
               )}
             </div>
           </div>
-        ) : (
-          <></>
         )}
 
         <div className="tracks-list px-10 pb-10">

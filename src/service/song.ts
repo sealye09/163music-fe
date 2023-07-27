@@ -1,4 +1,4 @@
-import request from "./request";
+import request from "../utils/request";
 
 // 必选参数 : id : 音乐 id level: 播放音质等级, 分为 standard => 标准,higher => 较高, exhigh=>极高, lossless=>无损, hires=>Hi-Res
 export function getSongUrl(id: number | string, level: string = "standard") {

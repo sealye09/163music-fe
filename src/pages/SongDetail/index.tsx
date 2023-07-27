@@ -1,10 +1,9 @@
 import { FC, useEffect, useState } from "react";
 import { useParams } from "react-router";
 
-import InfoCard from "../../components/Loading/InfoCard";
-import { Track } from "../Layout";
-import { RawSongInfo } from "../ArtistDetail";
-import { songApi } from "../../service";
+import { Track } from "@/types";
+import { songApi } from "@/service";
+import InfoCard from "@/components/InfoCard";
 
 interface Props {}
 
@@ -91,7 +90,7 @@ const SongDetail: FC<Props> = ({}) => {
           )}
         </div>
         <div className="h-auto border-t-4 flex flex-col justify-center items-center py-10">
-          {lyric.length !== 0 ? lyric.map((item) => <p className="py-2">{item.lrc}</p>) : <></>}
+          {!!lyric && lyric.length !== 0 && lyric.map((item) => <p className="py-2">{item.lrc}</p>)}
         </div>
       </div>
     </div>

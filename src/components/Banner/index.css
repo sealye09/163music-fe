@@ -1,4 +1,4 @@
-.ban-imgs{
+.ban-imgs {
   width: 864px;
 }
 .left-arrow,
@@ -15,7 +15,7 @@
 .left-arrow {
   height: 63px;
   width: 37px;
-  background: url('../../assets/images/banner.png') repeat;
+  background: url("../../assets/images/banner.png") repeat;
   background-position-x: 0px;
   background-position-y: 297px;
 }
@@ -27,7 +27,7 @@
 .right-arrow {
   height: 63px;
   width: 37px;
-  background: url('../../assets/images/banner.png') repeat;
+  background: url("../../assets/images/banner.png") repeat;
   background-position-x: 0px;
   background-position-y: 147px;
 }

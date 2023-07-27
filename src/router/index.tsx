@@ -1,19 +1,19 @@
 import { lazy, Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
-const Discover = lazy(() => import("../pages/Discover"));
-const Layout = lazy(() => import("../pages/Layout"));
-const NotFound = lazy(() => import("../pages/NotFound"));
-const Loading = lazy(() => import("../components/Loading"));
-const PlaylistDetail = lazy(() => import("../pages/PlaylistDetail"));
-const SongDetail = lazy(() => import("../pages/SongDetail"));
-const ArtistDetail = lazy(() => import("../pages/ArtistDetail"));
-const Playlist = lazy(() => import("../pages/Playlist"));
-const Artist = lazy(() => import("../pages/Artist"));
-const Album = lazy(() => import("../pages/Album"));
-const AlbumDetail = lazy(() => import("../pages/AlbumDetail"));
-const MyMusic = lazy(() => import("../pages/MyMusic"));
-const Search = lazy(() => import("../pages/Search"));
+const Layout = lazy(() => import("@/Layout"));
+const Loading = lazy(() => import("@/components/Loading"));
+const Discover = lazy(() => import("@/pages/Discover"));
+const NotFound = lazy(() => import("@/pages/NotFound"));
+const PlaylistDetail = lazy(() => import("@/pages/PlaylistDetail"));
+const SongDetail = lazy(() => import("@/pages/SongDetail"));
+const ArtistDetail = lazy(() => import("@/pages/ArtistDetail"));
+const Playlist = lazy(() => import("@/pages/Playlist"));
+const Artist = lazy(() => import("@/pages/Artist"));
+const Album = lazy(() => import("@/pages/Album"));
+const AlbumDetail = lazy(() => import("@/pages/AlbumDetail"));
+const MyMusic = lazy(() => import("@/pages/MyMusic"));
+const Search = lazy(() => import("@/pages/Search"));
 
 const Router = () => {
   return (

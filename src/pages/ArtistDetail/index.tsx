@@ -1,53 +1,33 @@
-import { FC, useContext, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { AxiosResponse } from "axios";
 
-import { Track, TracksContext } from "../Layout";
-import ArtistDescription, { Iintroduction } from "./ArtistDescription";
+import { ArtistInfo, Introduction, PlaylistInfo, RawArtistInfo, RawSongInfo, Track } from "@/types";
+import useTrackStore from "@/stores/useTrackStore";
+import { artistApi } from "@/service";
+
+import ArtistDescription from "./ArtistDescription";
 import ArtistHot50 from "./ArtistHot50";
 import ArtistAlbum from "./ArtistAlbum";
-import { PlaylistInfo } from "../../components/Grid";
-
-import { artistApi } from "../../service";
 
 import "./index.css";
-export interface BasisInfo {
-  id: number;
-  name: string;
-}
-
-export interface ArtistInfo {
-  id: number;
-  name: string;
-  picUrl: string;
-}
-
-export interface RawArtistInfo {
-  id: number;
-  name: string;
-  img1v1Url: string;
-}
-
-export interface RawSongInfo {
-  id: number;
-  name: string;
-  ar: [{ id: number; name: string }];
-  al: { id: number; name: string; picUrl: string };
-}
 
 interface Props {}
 
 const ArtistDetail: FC<Props> = ({}) => {
   const { artistId } = useParams();
   const [navItem, setNavItem] = useState<number>(0);
-  const { tracks, setTracks, setTrackIndex } = useContext(TracksContext);
+
+  const tracks = useTrackStore((state) => state.tracks);
+  const setTracks = useTrackStore((state) => state.setTracks);
+  const setTrackIndex = useTrackStore((state) => state.setTrackIndex);
 
   const [hot50, setHot50] = useState<Array<Track>>([]);
   const [artistInfo, setArtistInfo] = useState<ArtistInfo>();
   const [albums, setAlbums] = useState<Array<PlaylistInfo>>([]);
   const [page, setPage] = useState<number>(1);
-  const [introduction, setIntroduction] = useState<Iintroduction>();
+  const [introduction, setIntroduction] = useState<Introduction>();
   const [albumSize, setAlbumSize] = useState(0);
 
   const pageSize = 30;
@@ -58,7 +38,6 @@ const ArtistDetail: FC<Props> = ({}) => {
       allNewTracks.push({ ...song });
     });
     setTracks([...tracks, ...allNewTracks]);
-    // setTracks(tracks.concat(allNewTracks));
   };
 
   const playAllSong = () => {
@@ -148,18 +127,16 @@ const ArtistDetail: FC<Props> = ({}) => {
   return (
     <div className="artist-detail">
       <div className="content-artist flex flex-col pt-8 bg-white px-8">
-        {!!artistInfo ? (
+        {!!artistInfo && (
           <>
             <div className="artist-name text-3xl py-3 px-1">{artistInfo.name}</div>
             <div className="artist-img rounded-t-lg w-full h-96">
               <img
                 className="object-cover w-full h-full rounded-t-lg"
                 src={artistInfo.picUrl}
-              ></img>
+              />
             </div>
           </>
-        ) : (
-          <></>
         )}
 
         <div className="navbars flex items-center w-full h-12 rounded-b-lg ">
@@ -219,9 +196,7 @@ const ArtistDetail: FC<Props> = ({}) => {
                 introduction: introduction.introduction,
               }}
             />
-          ) : (
-            <></>
-          )}
+          ) : null}
         </div>
       </div>
     </div>

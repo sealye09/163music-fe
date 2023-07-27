@@ -23,8 +23,8 @@ const CenterBar: FC<CenterBarProps> = ({
   onScrubEnd,
   onScrub,
 }) => {
-	const currentPercentage = duration ? `${(trackProgress / duration) * 100}%` : "0%";
-	
+  const currentPercentage = duration ? `${(trackProgress / duration) * 100}%` : "0%";
+
   const trackStyling = `-webkit-gradient(linear, 0% 0%, 100% 0%, color-stop(${currentPercentage}, #C60C0C), color-stop(${currentPercentage}, rgba(19,19,19,0.85)))`;
 
   // 转换成 mm:ss 格式
@@ -50,7 +50,7 @@ const CenterBar: FC<CenterBarProps> = ({
           <img
             className="w-10 h-10"
             src={album.picUrl}
-          ></img>
+          />
         </Link>
       </div>
       <div className="w-min-fit py-1 w-full">
@@ -89,7 +89,7 @@ const CenterBar: FC<CenterBarProps> = ({
             onChange={(e) => onScrub(e.target.value)}
             onMouseUp={onScrubEnd}
             onKeyUp={onScrubEnd}
-          ></input>
+          />
           <div className="text-gray-400 text-xs">
             {toMinutes(trackProgress)}/<em>{isNaN(duration) ? "00:00" : toMinutes(duration)}</em>
           </div>
