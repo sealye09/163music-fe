@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from "react";
 
-import { Track } from "../Layout";
+import { Track } from "../../types";
 import TrackList from "../../components/TrackList";
 import Grid from "../../components/Grid";
 import PageSelector from "../../components/PageSelector";

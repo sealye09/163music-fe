@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo, useState } from "react";
+import { FC, useMemo } from "react";
 import { Link, useLocation } from "react-router-dom";
 import NavBarItem, { NavBarItemConfig } from "../NvaBarItem";
 
@@ -52,12 +52,12 @@ interface Props {
 const SubHeaader: FC<Props> = ({ items, activeItem }) => {
   return (
     <>
-      <div className="flex flex-row justify-center min-h-fit bg-[#c20c0c] text-white text-xs leading-5 pt-1 pb-2 pr-64">
+      <div className="flex gap-10 justify-center min-h-fit bg-[#c20c0c] text-white text-xs pt-1 pb-2 pr-72">
         {items.map((item) => (
           <NavBarItem
             key={item.linkTo}
-            className="flex items-center px-3 mx-5 min-w-fit"
-            activeClass="bg-[#9b0909] text-white inline-block p-1 rounded-full"
+            className="flex py-1 px-2 items-center min-w-fit"
+            activeClass="bg-[#9b0909] text-white inline-block py-1 px-2 rounded-full"
             linkTo={item.linkTo}
             itemText={item.itemText}
             active={item.linkTo === activeItem}
@@ -80,7 +80,7 @@ const Header: FC = ({}) => {
         return NavBarItems[i].linkTo;
       }
     }
-    return "/";
+    return "/discover";
   }, [location.pathname]);
 
   const discoverActiveItem = useMemo(() => {

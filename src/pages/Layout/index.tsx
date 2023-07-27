@@ -1,24 +1,10 @@
 import { createContext, useState } from "react";
+import { Outlet } from "react-router";
 
+import { Track } from "../../types";
 import Header from "../../components/Heder";
 import Footer from "../../components/Footer";
 import AudioPlayer from "../../components/AudioPlayer";
-
-export type Track = {
-  song: {
-    id: number;
-    name: string;
-  };
-  artist: {
-    id: number;
-    name: string;
-  };
-  album: {
-    id: number;
-    name: string;
-    picUrl: string;
-  };
-};
 
 export const TracksContext = createContext<any>([]);
 
@@ -55,7 +41,7 @@ const Layout = () => {
         }}
       >
         {/* 二级路由出口 */}
-        {/* <Outlet /> */}
+        <Outlet />
         <AudioPlayer />
       </TracksContext.Provider>
       <Footer />

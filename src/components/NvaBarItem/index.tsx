@@ -1,5 +1,6 @@
 import { FC, HTMLAttributes } from "react";
 import { useNavigate } from "react-router-dom";
+import { twMerge } from "tailwind-merge";
 
 export type NavBarItemConfig = HTMLAttributes<HTMLElement> & {
   itemId: number;
@@ -24,9 +25,11 @@ const NavBarItem: FC<NavBarItemProps> = ({
 
   if (!active) activeClass = "";
 
+  const styles = twMerge(className, activeClass, "cursor-pointer");
+
   return (
     <div
-      className={className + " " + activeClass + " cursor-pointer"}
+      className={styles}
       onClick={() => {
         navigate(linkTo);
       }}
