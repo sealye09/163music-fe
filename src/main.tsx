@@ -1,9 +1,13 @@
-import ReactDOM from 'react-dom/client';
-import { HashRouter,BrowserRouter } from 'react-router-dom';
-import App from './App';
+import { StrictMode } from "react";
+import { BrowserRouter } from "react-router-dom";
+import ReactDOM from "react-dom/client";
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
+import App from "./App";
+
+ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+  <StrictMode>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </StrictMode>
 );

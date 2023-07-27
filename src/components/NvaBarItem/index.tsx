@@ -1,55 +1,38 @@
-import { FC } from 'react';
-import { Link } from 'react-router-dom';
+import { FC, HTMLAttributes } from "react";
+import { useNavigate } from "react-router-dom";
 
-export type NavBarItemConfig = {
+export type NavBarItemConfig = HTMLAttributes<HTMLElement> & {
   itemId: number;
   itemText: string;
   linkTo: string;
   newTab?: boolean;
-  handleClick?: Function;
-  classNameStyle: string;
   active?: boolean;
-  activeStyle?: object;
+  activeClass?: string;
 };
 
-type Props = NavBarItemConfig;
+type NavBarItemProps = NavBarItemConfig;
 
-const NavBarItem: FC<Props> = ({
+const NavBarItem: FC<NavBarItemProps> = ({
   itemId,
-  classNameStyle,
+  className = "",
+  activeClass = "",
   linkTo,
   itemText,
-  handleClick,
   active,
-  activeStyle,
-  newTab,
 }) => {
-  let target = '';
+  const navigate = useNavigate();
 
-  if (active) classNameStyle += 'navbar-item-active';
-  else activeStyle = {};
-
-  if (newTab) if (newTab) target = '_blank';
-
-  if (typeof handleClick == 'undefined')
-    handleClick = () => {
-      console.log('handleClick is undefined.');
-    };
+  if (!active) activeClass = "";
 
   return (
-    <Link
-      target={target}
-      style={{ ...activeStyle }}
-      to={linkTo}
-      className={classNameStyle}
+    <div
+      className={className + " " + activeClass + " cursor-pointer"}
       onClick={() => {
-        if (!!handleClick) {
-          handleClick();
-        }
+        navigate(linkTo);
       }}
     >
-      {itemText}
-    </Link>
+      <span>{itemText}</span>
+    </div>
   );
 };
 

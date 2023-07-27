@@ -1,15 +1,5 @@
-.header {
-  background-color: #242424;
-  color: #cccccc;
-  height: 70px;
-}
-
 .icon {
-  background-image: url('../../assets/images/topbar.png');
+  background-image: url("../../assets/images/topbar.png");
   background-repeat: no-repeat;
   background-position: 0 0;
-}
-
-.redline {
-  height: 5px;
 }

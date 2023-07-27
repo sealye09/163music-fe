@@ -3,7 +3,6 @@ import { Routes, Route, Navigate } from "react-router-dom";
 
 const Discover = lazy(() => import("../pages/Discover"));
 const Layout = lazy(() => import("../pages/Layout"));
-const Recommend = lazy(() => import("../pages/Recommend"));
 const NotFound = lazy(() => import("../pages/NotFound"));
 const Loading = lazy(() => import("../components/Loading"));
 const PlaylistDetail = lazy(() => import("../pages/PlaylistDetail"));
@@ -37,34 +36,26 @@ const Router = () => {
             }
           />
           <Route
-            path="discover"
+            path="/discover"
             element={<Discover />}
-          >
-            <Route
-              index
-              element={<Recommend />}
-            />
-            <Route
-              path="recommend"
-              element={<Navigate to="/discover" />}
-            />
-            <Route
-              path="playlist"
-              element={<Playlist />}
-            />
-            <Route
-              path="artist"
-              element={<Artist />}
-            />
-            <Route
-              path="album"
-              element={<Album />}
-            />
-          </Route>
+          />
+          <Route
+            path="/discover/playlist"
+            element={<Playlist />}
+          />
+          <Route
+            path="/discover/artist"
+            element={<Artist />}
+          />
+          <Route
+            path="/discover/album"
+            element={<Album />}
+          />
+
           <Route
             path="/mymusic"
             element={<MyMusic />}
-          ></Route>
+          />
           <Route
             path="/search"
             element={<Search />}

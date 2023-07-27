@@ -1,4 +1,5 @@
 import { FC, useContext, useEffect, useMemo, useRef, useState } from "react";
+
 import { TracksContext } from "../../pages/Layout";
 import LeftControl from "./LeftControl";
 import RightControl from "./RightControl";
@@ -78,8 +79,8 @@ const AudioPlayer: FC<Props> = ({}) => {
 
   const toggleAudio = () => {
     console.log("toggle audio");
-    setTrackProgress(audioRef.current.currentTime);
     setIsPlaying(!isPlaying);
+    setTrackProgress(audioRef.current.currentTime);
   };
 
   const changeVolume = (e: any) => {
@@ -99,8 +100,14 @@ const AudioPlayer: FC<Props> = ({}) => {
   // 控制播放/暂停
   useEffect(() => {
     if (isPlaying) {
-      audioRef.current.play();
-      startTimer();
+      audioRef.current
+        .play()
+        .then(() => {
+          startTimer();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     } else {
       audioRef.current.pause();
     }
@@ -114,13 +121,22 @@ const AudioPlayer: FC<Props> = ({}) => {
       audioRef.current = new Audio(res.data[0].url);
 
       setTrackProgress(audioRef.current.currentTime);
+      if (!isPlaying) {
+        return;
+      }
 
       if (isReady.current) {
-        audioRef.current.play();
-        audioRef.current.volume = volume / 100;
-        audioRef.current.muted = isMuted;
-        setIsPlaying(true);
-        startTimer();
+        audioRef.current
+          .play()
+          .then(() => {
+            audioRef.current.volume = volume / 100;
+            audioRef.current.muted = isMuted;
+            setIsPlaying(true);
+            startTimer();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       } else {
         isReady.current = true;
       }
