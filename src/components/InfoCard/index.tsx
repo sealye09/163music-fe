@@ -30,12 +30,12 @@ const InfoCard: FC<InfoCardProps> = ({ song, artist, album, tags, description })
       <div className="img">
         <img
           className="rounded-md w-56 h-56"
-          src={`${album?.picUrl}`}
+          src={`${album.picUrl}`}
         />
       </div>
       <div className="playlist-info w-2/3 flex-col justify-end">
         <div className="title text-xl pb-4 w-full">
-          <p>{song?.name}</p>
+          <p>{song.name}</p>
         </div>
         {!!artist && (
           <div className="artist-info text-sm pb-4 w-full flex">
