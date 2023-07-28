@@ -1,19 +1,21 @@
 import { lazy, Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
-const Layout = lazy(() => import("@/Layout"));
-const Loading = lazy(() => import("@/components/Loading"));
-const Discover = lazy(() => import("@/pages/Discover"));
-const NotFound = lazy(() => import("@/pages/NotFound"));
+import Layout from "@/Layout";
+import Discover from "@/pages/Discover";
+import Playlist from "@/pages/Playlist";
+import Artist from "@/pages/Artist";
+import Album from "@/pages/Album";
+import MyMusic from "@/pages/MyMusic";
+import Search from "@/pages/Search";
+
+import Loading from "@/components/Loading";
+import NotFound from "@/pages/NotFound";
+
 const PlaylistDetail = lazy(() => import("@/pages/PlaylistDetail"));
 const SongDetail = lazy(() => import("@/pages/SongDetail"));
 const ArtistDetail = lazy(() => import("@/pages/ArtistDetail"));
-const Playlist = lazy(() => import("@/pages/Playlist"));
-const Artist = lazy(() => import("@/pages/Artist"));
-const Album = lazy(() => import("@/pages/Album"));
 const AlbumDetail = lazy(() => import("@/pages/AlbumDetail"));
-const MyMusic = lazy(() => import("@/pages/MyMusic"));
-const Search = lazy(() => import("@/pages/Search"));
 
 const Router = () => {
   return (

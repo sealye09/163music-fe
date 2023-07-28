@@ -1,4 +1,4 @@
-import { FC, lazy, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 
 import { playlistApi, albumApi } from "@/service";
 import { Tag, PlaylistInfo } from "@/types";
