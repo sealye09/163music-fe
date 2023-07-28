@@ -1,5 +1,5 @@
 import { FC, useMemo } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useMatch, useResolvedPath } from "react-router-dom";
 
 import { NavBarItemConfig } from "@/types";
 import NavBarItem from "@/components/NvaBarItem";
@@ -74,8 +74,6 @@ const SubHeaader: FC<Props> = ({ items, activeItem }) => {
 
 const Header: FC = ({}) => {
   const location = useLocation();
-  // 头部导航选择的目标
-  console.log(location);
 
   const activeItem = useMemo(() => {
     for (let i = 0; i < NavBarItems.length; i++) {

@@ -3,9 +3,8 @@ import { FC, lazy, useEffect, useState } from "react";
 import { playlistApi, albumApi } from "@/service";
 import { Tag, PlaylistInfo } from "@/types";
 import GridHeader from "@/components/GridHeader";
+import Banner from "@/components/Banner";
 import Grid from "@/components/Grid";
-
-const Banner = lazy(() => import("@/components/Banner"));
 
 interface PlaylistInfoWithType extends PlaylistInfo {
   type: number;
