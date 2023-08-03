@@ -3,7 +3,7 @@ import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 
 import { AlbumInfo, Track } from "@/types";
-import useTrackStore from "@/stores/useTrackStore";
+import useAudioStore from "@/stores/useAudioStore";
 import { albumApi } from "@/service";
 import TrackList from "@/components/TrackList";
 
@@ -13,9 +13,9 @@ interface Props {}
 
 const AlbumDetail: FC<Props> = ({}) => {
   const { albumId } = useParams();
-  const tracks = useTrackStore((state) => state.tracks);
-  const setTracks = useTrackStore((state) => state.setTracks);
-  const setTrackIndex = useTrackStore((state) => state.setTrackIndex);
+  const tracks = useAudioStore((state) => state.tracks);
+  const setTracks = useAudioStore((state) => state.setTracks);
+  const setTrackIndex = useAudioStore((state) => state.setTrackIndex);
 
   const [albumInfo, serAlbumInfo] = useState<AlbumInfo>();
   const [songDetail, setSongDetail] = useState<Track[]>([]);

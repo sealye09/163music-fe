@@ -1,13 +1,16 @@
 import { FC, useContext, useRef } from "react";
 import { BsList, BsVolumeDown, BsVolumeMute } from "react-icons/bs";
 
+import useAudioStore from "@/stores/useAudioStore";
 import { AudioPlayerContext, AudioPlayerContextProps } from ".";
 import VolumeControl from "./VolumeControl";
 import Playlist from "./Playlist";
 
 const RightControl: FC = () => {
+  const volume = useAudioStore((state) => state.volume);
+
   // Context
-  const { isMuted, isShowVolumeCtr, setIsShowVolumeCtr, isShowPlaylist, setIsShowPlaylist } =
+  const { isShowVolumeCtr, setIsShowVolumeCtr, isShowPlaylist, setIsShowPlaylist } =
     useContext<AudioPlayerContextProps>(AudioPlayerContext);
 
   const volumeBtnRef = useRef<HTMLButtonElement>(null);
@@ -21,7 +24,7 @@ const RightControl: FC = () => {
           ref={volumeBtnRef}
           onClick={() => setIsShowVolumeCtr(!isShowVolumeCtr)}
         >
-          {isMuted ? <BsVolumeMute size={28} /> : <BsVolumeDown size={28} />}
+          {volume <= 0 ? <BsVolumeMute size={28} /> : <BsVolumeDown size={28} />}
         </button>
 
         <button

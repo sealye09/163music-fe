@@ -2,16 +2,17 @@ import { FC } from "react";
 import { Link } from "react-router-dom";
 import { BsLink45Deg } from "react-icons/bs";
 
+import { BasisInfo } from "@/types";
 import styles from "./index.module.css";
 
 interface CenterBarProps {
   duration: number;
   trackProgress: number;
+  song: BasisInfo;
+  album: BasisInfo & { picUrl: string };
+  artist: BasisInfo;
   onScrub: (value: string) => void;
   onScrubEnd: () => void;
-  song: any;
-  album: any;
-  artist: any;
 }
 
 const CenterBar: FC<CenterBarProps> = ({

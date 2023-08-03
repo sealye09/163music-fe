@@ -1,8 +1,9 @@
-import { FC } from "react";
+import { FC, useRef } from "react";
 import { Link } from "react-router-dom";
+import { BsFillPlayCircleFill } from "react-icons/bs";
 
 import { Track } from "@/types";
-import useTrackStore from "@/stores/useTrackStore";
+import useAudioStore from "@/stores/useAudioStore";
 
 import "./index.css";
 interface Props {
@@ -11,29 +12,28 @@ interface Props {
 }
 
 const TrackList: FC<Props> = ({ listItems, listInfo }) => {
-  const tracks = useTrackStore((state) => state.tracks);
-  const setTracks = useTrackStore((state) => state.setTracks);
-  const setTrackIndex = useTrackStore((state) => state.setTrackIndex);
+  const setTracks = useAudioStore((state) => state.setTracks);
+  const setTrackIndex = useAudioStore((state) => state.setTrackIndex);
+  const setIsPlaying = useAudioStore((state) => state.setIsPlaying);
 
-  const playTrack = (e: any) => {
-    const node = e.target.parentNode;
-    const idx = node.querySelector(".idx").textContent;
+  const tableRef = useRef<HTMLTableElement>(null);
+
+  const handlePlayTrack = (idx: number) => {
+    const track = listInfo[idx];
+    console.log("🚀 ~ file: index.tsx:23 ~ handlePlayTrack ~ track:", track);
+    setIsPlaying(true);
     setTracks(listInfo);
-    setTrackIndex(idx - 1);
-  };
-
-  const addTrack = (e: any) => {
-    const node = e.target.parentNode;
-    const idx = node.querySelector(".idx").textContent;
-    const data = listInfo[idx - 1];
-    setTracks([...tracks, data]);
+    setTrackIndex(idx);
   };
 
   return (
     <div>
-      <table className="w-full list-table">
+      <table
+        className="w-full list-table transition-all transition-300"
+        ref={tableRef}
+      >
         <thead>
-          <tr className="w-full table-head h-8">
+          <tr className="w-full table-head h-10">
             <th
               align="left"
               className="idx"
@@ -58,15 +58,15 @@ const TrackList: FC<Props> = ({ listItems, listInfo }) => {
             listInfo.map((item, idx) => (
               <tr
                 key={item.song.id}
-                className="tr-info w-full"
-                // onClick={addTrack}
-                onDoubleClick={playTrack}
+                className="tr-info w-full h-10 group"
               >
                 <td
                   align="center"
-                  className={`idx idx-${idx + 1} px-4`}
+                  className={`idx idx-${idx + 1} cursor-pointer px-4`}
+                  onClick={() => handlePlayTrack(idx)}
                 >
-                  {idx + 1}
+                  <BsFillPlayCircleFill className="h-full w-full text-red-600/80 hidden group-hover:block" />
+                  <span className="group-hover:hidden">{idx + 1}</span>
                 </td>
                 <td align="left">
                   <Link

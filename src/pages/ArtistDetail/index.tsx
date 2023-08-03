@@ -3,7 +3,7 @@ import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 
 import { ArtistInfo, Introduction, PlaylistInfo, RawArtistInfo, RawSongInfo, Track } from "@/types";
-import useTrackStore from "@/stores/useTrackStore";
+import useAudioStore from "@/stores/useAudioStore";
 import { artistApi } from "@/service";
 
 import ArtistDescription from "./ArtistDescription";
@@ -18,9 +18,9 @@ const ArtistDetail: FC<Props> = ({}) => {
   const { artistId } = useParams();
   const [navItem, setNavItem] = useState<number>(0);
 
-  const tracks = useTrackStore((state) => state.tracks);
-  const setTracks = useTrackStore((state) => state.setTracks);
-  const setTrackIndex = useTrackStore((state) => state.setTrackIndex);
+  const tracks = useAudioStore((state) => state.tracks);
+  const setTracks = useAudioStore((state) => state.setTracks);
+  const setTrackIndex = useAudioStore((state) => state.setTrackIndex);
 
   const [hot50, setHot50] = useState<Track[]>([]);
   const [artistInfo, setArtistInfo] = useState<ArtistInfo>();

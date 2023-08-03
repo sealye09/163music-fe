@@ -5,20 +5,19 @@ import { AxiosResponse } from "axios";
 import { PlaylistInfoDetail, RawSongInfo, Track } from "@/types";
 import { playlistApi } from "@/service";
 import TrackList from "@/components/TrackList";
-import useTrackStore from "@/stores/useTrackStore";
+import useAudioStore from "@/stores/useAudioStore";
 
 import "./index.css";
 
-interface Props {}
-
-const PlaylistDetail: FC<Props> = ({}) => {
+const PlaylistDetail: FC = () => {
   const { playlistId } = useParams();
   const [playlistDetail, setPlaylistDetail] = useState<PlaylistInfoDetail>();
   const [allSongs, setAllSongs] = useState<Track[]>([]);
 
-  const tracks = useTrackStore((state) => state.tracks);
-  const setTracks = useTrackStore((state) => state.setTracks);
-  const setTrackIndex = useTrackStore((state) => state.setTrackIndex);
+  const tracks = useAudioStore((state) => state.tracks);
+  const setTracks = useAudioStore((state) => state.setTracks);
+  const setTrackIndex = useAudioStore((state) => state.setTrackIndex);
+  const setIsPlaying = useAudioStore((state) => state.setIsPlaying);
 
   useEffect(() => {
     playlistApi.getPlaylistDetail(playlistId!).then((res: AxiosResponse) => {
@@ -61,7 +60,6 @@ const PlaylistDetail: FC<Props> = ({}) => {
           };
         });
       });
-      console.log(allSongs);
     });
   }, []);
 
@@ -80,6 +78,7 @@ const PlaylistDetail: FC<Props> = ({}) => {
     });
     setTracks(allNewTracks);
     setTrackIndex(0);
+    setIsPlaying(true);
   };
 
   return (

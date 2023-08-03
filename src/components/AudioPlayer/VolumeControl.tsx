@@ -1,12 +1,16 @@
 import { forwardRef, useContext, useEffect, useRef } from "react";
 import { twMerge } from "tailwind-merge";
 
+import useAudioStore from "@/stores/useAudioStore";
 import { AudioPlayerContextProps, AudioPlayerContext } from ".";
 import styles from "./index.module.css";
 
 const VolumeControl = forwardRef<HTMLButtonElement>(({}, volumeBtnRef) => {
+  const volume = useAudioStore((state) => state.volume);
+  const setVolume = useAudioStore((state) => state.setVolume);
+
   // Context
-  const { isMuted, volume, setVolume, isShowVolumeCtr, setIsShowVolumeCtr } =
+  const { isShowVolumeCtr, setIsShowVolumeCtr } =
     useContext<AudioPlayerContextProps>(AudioPlayerContext);
 
   const modalRef = useRef<HTMLDivElement>(null);
@@ -55,7 +59,7 @@ const VolumeControl = forwardRef<HTMLButtonElement>(({}, volumeBtnRef) => {
         onChange={(event) => {
           setVolume(parseInt(event.target.value));
         }}
-        value={isMuted ? 0 : volume}
+        value={volume}
       />
     </div>
   );

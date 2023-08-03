@@ -1,16 +1,13 @@
 import { FC, createContext, useEffect, useMemo, useRef, useState } from "react";
 
 import { songApi } from "@/service";
-import useTrackStore from "@/stores/useTrackStore";
+import useAudioStore from "@/stores/useAudioStore";
 
 import LeftControl from "./LeftControl";
 import RightControl from "./RightControl";
 import CenterBar from "./CenterBar";
 
 export interface AudioPlayerContextProps {
-  isMuted: boolean;
-  volume: number;
-  setVolume: (value: number) => void;
   isShowVolumeCtr: boolean;
   setIsShowVolumeCtr: (isShowVolumeCtr: boolean) => void;
   isShowPlaylist: boolean;
@@ -22,17 +19,19 @@ export const AudioPlayerContext = createContext(null as unknown as AudioPlayerCo
 
 const AudioPlayer: FC = ({}) => {
   // Store
-  const tracks = useTrackStore((state) => state.tracks);
-  const trackIndex = useTrackStore((state) => state.trackIndex);
-  const prevTrack = useTrackStore((state) => state.prevTrack);
-  const nextTrack = useTrackStore((state) => state.nextTrack);
+  const volume = useAudioStore((state) => state.volume);
+  const setVolume = useAudioStore((state) => state.setVolume);
+  const isPlaying = useAudioStore((state) => state.isPlaying);
+  const setIsPlaying = useAudioStore((state) => state.setIsPlaying);
+  const tracks = useAudioStore((state) => state.tracks);
+  const trackIndex = useAudioStore((state) => state.trackIndex);
+  const prevTrack = useAudioStore((state) => state.prevTrack);
+  const nextTrack = useAudioStore((state) => state.nextTrack);
 
   const { song, artist, album } = tracks[trackIndex];
 
   // State
   const [trackProgress, setTrackProgress] = useState<number>(0);
-  const [isPlaying, setIsPlaying] = useState<boolean>(false);
-  const [volume, setVolume] = useState<number>(80);
   const [isShowVolumeCtr, setIsShowVolumeCtr] = useState<boolean>(false);
   const [isShowPlaylist, setIsShowPlaylist] = useState<boolean>(false);
 
@@ -112,9 +111,6 @@ const AudioPlayer: FC = ({}) => {
       audioRef.current = new Audio(res.data[0].url);
 
       setTrackProgress(audioRef.current.currentTime);
-      if (!isPlaying) {
-        return;
-      }
 
       if (isReady.current) {
         audioRef.current
@@ -132,7 +128,7 @@ const AudioPlayer: FC = ({}) => {
         isReady.current = true;
       }
     });
-  }, [trackIndex]);
+  }, [trackIndex, tracks[trackIndex].song.id]);
 
   // 卸载数据
   useEffect(() => {
@@ -146,9 +142,6 @@ const AudioPlayer: FC = ({}) => {
     <AudioPlayerContext.Provider
       value={
         {
-          isMuted,
-          volume,
-          setVolume,
           isShowVolumeCtr,
           setIsShowVolumeCtr,
           isShowPlaylist,

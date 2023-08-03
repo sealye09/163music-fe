@@ -3,14 +3,14 @@ import { Link } from "react-router-dom";
 import { BsLink45Deg } from "react-icons/bs";
 
 import { AudioPlayerContextProps, AudioPlayerContext } from ".";
-import useTrackStore from "@/stores/useTrackStore";
+import useAudioStore from "@/stores/useAudioStore";
 import styles from "./index.module.css";
 import { twMerge } from "tailwind-merge";
 
 const Playlist = forwardRef<HTMLButtonElement>(({}, playlistBtnRef) => {
-  const tracks = useTrackStore((state) => state.tracks);
-  const resetTracks = useTrackStore((state) => state.resetTracks);
-  const setTrackIndex = useTrackStore((state) => state.setTrackIndex);
+  const tracks = useAudioStore((state) => state.tracks);
+  const resetTracks = useAudioStore((state) => state.resetTracks);
+  const setTrackIndex = useAudioStore((state) => state.setTrackIndex);
 
   const modalRef = useRef<HTMLDivElement>(null);
 

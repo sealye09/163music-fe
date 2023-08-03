@@ -2,7 +2,7 @@ import { FC } from "react";
 import { Link } from "react-router-dom";
 
 import { Track } from "@/types";
-import useTrackStore from "@/stores/useTrackStore";
+import useAudioStore from "@/stores/useAudioStore";
 
 import "./index.css";
 
@@ -12,9 +12,9 @@ interface InfoCardProps extends Track {
 }
 
 const InfoCard: FC<InfoCardProps> = ({ song, artist, album, tags, description }) => {
-  const tracks = useTrackStore((state) => state.tracks);
-  const setTracks = useTrackStore((state) => state.setTracks);
-  const setTrackIndex = useTrackStore((state) => state.setTrackIndex);
+  const tracks = useAudioStore((state) => state.tracks);
+  const setTracks = useAudioStore((state) => state.setTracks);
+  const setTrackIndex = useAudioStore((state) => state.setTrackIndex);
 
   const playTrack = (e: any) => {
     setTracks([{ song: song, artist: artist, album: album }]);
