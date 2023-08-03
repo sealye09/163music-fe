@@ -3,8 +3,7 @@ import { Link } from "react-router-dom";
 
 import Loading from "@/components/Loading";
 import { recommendApi } from "@/service";
-
-import "./index.css";
+import BannerImg from "@/assets/images/banner.png";
 
 interface BannerInfo {
   imageUrl: string;
@@ -16,9 +15,11 @@ interface BannerInfo {
 
 interface Props {}
 
-const Banner: FC<Props> = ({}) => {
+const Banners: FC<Props> = ({}) => {
   const [activeItem, setActiveItem] = useState<number>(0);
   const [banners, setBanners] = useState<BannerInfo[]>();
+  const [leftArrowHover, setLeftArrowHover] = useState<boolean>(false);
+  const [rightArrowHover, setRightArrowHover] = useState<boolean>(false);
 
   useEffect(() => {
     recommendApi.getBanner().then((res) => {
@@ -57,22 +58,36 @@ const Banner: FC<Props> = ({}) => {
         }}
       >
         <button
-          className="left-arrow mr-4"
+          className="w-[38px] h-[64px] mr-4 cursor-pointer"
+          onMouseEnter={() => setLeftArrowHover(true)}
+          onMouseLeave={() => setLeftArrowHover(false)}
+          style={{
+            background: `url('${BannerImg}') repeat`,
+            backgroundPositionX: "0px",
+            backgroundPositionY: leftArrowHover ? "82px" : "152px",
+          }}
           onClick={() => {
             if (activeItem === 0) setActiveItem(banners.length - 1);
             else setActiveItem(activeItem - 1);
           }}
         />
-        <div className="ban-imgs h-full transition-all">
+        <div className="h-full transition-all w-[864px]">
           <Link to={banners[activeItem].targetUrl}>
             <img
-              className="ban-img img-active h-full z-10"
+              className="w-[864px] cursor-pointer img-active h-full z-10"
               src={`${banners[activeItem].imageUrl}`}
             />
           </Link>
         </div>
         <button
-          className="right-arrow ml-4"
+          className="w-[38px] h-[64px] ml-4 cursor-pointer"
+          onMouseEnter={() => setRightArrowHover(true)}
+          onMouseLeave={() => setRightArrowHover(false)}
+          style={{
+            background: `url('${BannerImg}') repeat`,
+            backgroundPositionX: "0px",
+            backgroundPositionY: rightArrowHover ? "230px" : "300px",
+          }}
           onClick={() => {
             if (activeItem === banners.length - 1) setActiveItem(0);
             else setActiveItem(activeItem + 1);
@@ -83,4 +98,4 @@ const Banner: FC<Props> = ({}) => {
   );
 };
 
-export default Banner;
+export default Banners;

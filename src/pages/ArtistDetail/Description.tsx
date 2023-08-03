@@ -1,10 +1,12 @@
 import { FC } from "react";
 
+import { Introduction } from "@/types";
+
 interface Props {
   introduction: Introduction;
 }
 
-const ArtistDescription: FC<Props> = ({ introduction }) => {
+const Description: FC<Props> = ({ introduction }) => {
   return (
     <div>
       <div className="pt-8 px-5">
@@ -26,4 +28,4 @@ const ArtistDescription: FC<Props> = ({ introduction }) => {
   );
 };
 
-export default ArtistDescription;
+export default Description;

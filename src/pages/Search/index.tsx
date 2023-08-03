@@ -2,9 +2,9 @@ import { FC, useEffect, useState } from "react";
 
 import { PlaylistInfo, Track } from "@/types";
 import { searchApi } from "@/service";
-import TrackList from "@/components/TrackList";
+import TrackTable from "@/components/TrackTable";
 import Grid from "@/components/Grid";
-import PageSelector from "@/components/PageSelector";
+import Pagination from "@/components/Pagination";
 
 import "./index.css";
 
@@ -179,7 +179,7 @@ const Search: FC = () => {
         </div>
         {songResult.length !== 0 && type === 1 ? (
           <div>
-            <TrackList
+            <TrackTable
               listItems={["歌曲标题", "歌手", "专辑"]}
               listInfo={songResult}
             />
@@ -204,7 +204,7 @@ const Search: FC = () => {
         )}
 
         <div className="py-10">
-          <PageSelector
+          <Pagination
             currPage={page}
             totalPage={10}
             setPage={setPage}

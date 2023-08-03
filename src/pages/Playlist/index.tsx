@@ -4,7 +4,7 @@ import { PlaylistInfo } from "@/types";
 import { playlistApi } from "@/service";
 import Grid from "@/components/Grid";
 import GridHeader from "@/components/GridHeader";
-import PageSelector from "@/components/PageSelector";
+import Pagination from "@/components/Pagination";
 
 import "./index.css";
 
@@ -57,7 +57,7 @@ const Playlist: FC<Props> = ({}) => {
             playlists={playlistInfo}
           />
         )}
-        <PageSelector
+        <Pagination
           currPage={page}
           totalPage={20}
           setPage={setPage}

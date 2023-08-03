@@ -1,7 +1,7 @@
 import { FC } from "react";
 
 import Grid from "@/components/Grid";
-import PageSelector from "@/components/PageSelector";
+import Pagination from "@/components/Pagination";
 import { PlaylistInfo } from "@/types";
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
   albumSize: number;
 }
 
-const ArtistAlbum: FC<Props> = ({ albums, page, pageSize, setPage, albumSize }) => {
+const Albums: FC<Props> = ({ albums, page, pageSize, setPage, albumSize }) => {
   return (
     <div>
       <Grid
@@ -21,7 +21,7 @@ const ArtistAlbum: FC<Props> = ({ albums, page, pageSize, setPage, albumSize }) 
       />
       <div className="pt-10">
         {albumSize !== 0 && (
-          <PageSelector
+          <Pagination
             currPage={page}
             totalPage={Math.floor(albumSize / pageSize) + 1}
             setPage={setPage}
@@ -32,4 +32,4 @@ const ArtistAlbum: FC<Props> = ({ albums, page, pageSize, setPage, albumSize }) 
   );
 };
 
-export default ArtistAlbum;
+export default Albums;

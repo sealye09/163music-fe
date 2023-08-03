@@ -7,7 +7,7 @@ interface Props {
   setPage: Function;
 }
 
-const PageSelector: FC<Props> = ({ currPage, totalPage, setPage }) => {
+const Pagination: FC<Props> = ({ currPage, totalPage, setPage }) => {
   const btnBorder = "border border-gray-200 hover:border-gray-500";
   const btnActive =
     "bg-red-600 text-white border border-red-600 hover:bg-red-700/70 hover:border-red-600";
@@ -157,4 +157,4 @@ const PageSelector: FC<Props> = ({ currPage, totalPage, setPage }) => {
   );
 };
 
-export default PageSelector;
+export default Pagination;

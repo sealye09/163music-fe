@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { AlbumInfo, Track } from "@/types";
 import useAudioStore from "@/stores/useAudioStore";
 import { albumApi } from "@/service";
-import TrackList from "@/components/TrackList";
+import TrackTable from "@/components/TrackTable";
 
 import "./index.css";
 
@@ -158,9 +158,9 @@ const AlbumDetail: FC<Props> = ({}) => {
               </div>
             </div>
           </div>
-          <TrackList
+          <TrackTable
             listItems={["歌曲标题", "专辑"]}
-            listInfo={songDetail!}
+            listInfo={songDetail}
           />
         </div>
       </div>

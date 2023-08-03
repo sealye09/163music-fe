@@ -6,11 +6,9 @@ import { ArtistInfo, Introduction, PlaylistInfo, RawArtistInfo, RawSongInfo, Tra
 import useAudioStore from "@/stores/useAudioStore";
 import { artistApi } from "@/service";
 
-import ArtistDescription from "./ArtistDescription";
-import ArtistHot50 from "./ArtistHot50";
-import ArtistAlbum from "./ArtistAlbum";
-
-import "./index.css";
+import Description from "./Description";
+import Hot50 from "./Hot50";
+import Albums from "./Albums";
 
 interface Props {}
 
@@ -128,12 +126,12 @@ const ArtistDetail: FC<Props> = ({}) => {
   }, [artistId]);
 
   return (
-    <div className="artist-detail">
-      <div className="content-artist flex flex-col pt-8 bg-white px-8">
+    <div className="bg-[#f5f5f5]">
+      <div className="flex flex-col pt-8 w-[874px] bg-white px-8 mx-auto border-x border-[#d5d5d5]">
         {!!artistInfo && (
           <>
             <div className="artist-name text-3xl py-3 px-1">{artistInfo.name}</div>
-            <div className="artist-img rounded-t-lg w-full h-96">
+            <div className="rounded-t-lg w-full h-96 border border-[#d5d5d5]">
               <img
                 className="object-cover w-full h-full rounded-t-lg"
                 src={artistInfo.picUrl}
@@ -142,7 +140,7 @@ const ArtistDetail: FC<Props> = ({}) => {
           </>
         )}
 
-        <div className="navbars flex items-center w-full h-12 rounded-b-lg ">
+        <div className="flex items-center w-full h-12 rounded-b-lg border border-[#d5d5d5] bg-[#f7f7f7]">
           <Link
             to=""
             className={`min-w-fit h-12 pt-3 px-6 rounded-b-lg hover:bg-white hover:border-t-2 hover:border-red-600 ${
@@ -179,13 +177,13 @@ const ArtistDetail: FC<Props> = ({}) => {
         </div>
         <div className="pb-12">
           {navItem === 0 && hot50.length !== 0 ? (
-            <ArtistHot50
+            <Hot50
               playAllSong={playAllSong}
               addAllSong={addAllSong}
               hot50={hot50!}
             />
           ) : navItem === 1 && albums.length !== 0 ? (
-            <ArtistAlbum
+            <Albums
               albums={albums}
               page={page}
               pageSize={pageSize}
@@ -193,7 +191,7 @@ const ArtistDetail: FC<Props> = ({}) => {
               albumSize={albumSize}
             />
           ) : navItem === 2 && !!introduction ? (
-            <ArtistDescription
+            <Description
               introduction={{
                 desc: introduction.desc,
                 introduction: introduction.introduction,

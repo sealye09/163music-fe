@@ -4,8 +4,6 @@ import { BsArrowRightShort, BsMusicNoteBeamed } from "react-icons/bs";
 
 import { HeadLine, Tag } from "@/types";
 
-import "./index.css";
-
 interface Props {
   headline: HeadLine;
   tags?: Tag[];
@@ -14,7 +12,7 @@ interface Props {
 
 const GridHeader: FC<Props> = ({ headline, tags, hasMoreTag }) => {
   return (
-    <div className="cat-header w-full h-auto flex px-6 min-w-fit">
+    <div className="w-full h-auto flex px-6 min-w-fit border-b-2 border-red-700">
       <div className="flex min-w-fit justify-start items-center">
         <div>
           <BsMusicNoteBeamed
@@ -35,7 +33,7 @@ const GridHeader: FC<Props> = ({ headline, tags, hasMoreTag }) => {
           tags.map((tag) => (
             <div key={tag.target}>
               <Link
-                className="px-2 cat-item"
+                className="px-2 hover:text-red-600"
                 to={`${tag.target}`}
               >
                 {tag.title}
@@ -47,7 +45,7 @@ const GridHeader: FC<Props> = ({ headline, tags, hasMoreTag }) => {
       {hasMoreTag && (
         <span className="cat-more text-xs text-gray-500 flex items-center justify-end w-full">
           <Link
-            className="cat-item px-0.5"
+            className="px-0.5 hover:text-red-600"
             to={`${headline.target}`}
           >
             更多

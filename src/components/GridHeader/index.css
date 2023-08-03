@@ -1,9 +1,0 @@
-.cat-header {
-  border-bottom: 2px solid #c10d0c;
-}
-
-a.cat-item:focus,
-a.cat-item:hover {
-  color: #c10d0c;
-  text-decoration: underline #c10d0c;
-}

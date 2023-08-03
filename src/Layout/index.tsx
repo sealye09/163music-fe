@@ -1,7 +1,7 @@
 import { Outlet } from "react-router";
 
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import Header from "@/Layout/Header";
+import Footer from "@/Layout/Footer";
 import AudioPlayer from "@/components/AudioPlayer";
 
 const Layout = () => {

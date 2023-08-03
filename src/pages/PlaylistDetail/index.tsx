@@ -4,10 +4,8 @@ import { AxiosResponse } from "axios";
 
 import { PlaylistInfoDetail, RawSongInfo, Track } from "@/types";
 import { playlistApi } from "@/service";
-import TrackList from "@/components/TrackList";
+import TrackTable from "@/components/TrackTable";
 import useAudioStore from "@/stores/useAudioStore";
-
-import "./index.css";
 
 const PlaylistDetail: FC = () => {
   const { playlistId } = useParams();
@@ -82,8 +80,8 @@ const PlaylistDetail: FC = () => {
   };
 
   return (
-    <div className="playlist-detail flex felx-row justify-center">
-      <div className="info flex flex-col content-center bg-white pt-8">
+    <div className="flex felx-row justify-center bg-[#f5f5f5]">
+      <div className="flex flex-col w-[874px] content-center bg-white pt-8 mx-auto border-x border-[#d5d5d5]">
         {!!playlistDetail && (
           <div className="info-card flex px-10 pb-4 justify-around">
             <div className="img">
@@ -130,7 +128,12 @@ const PlaylistDetail: FC = () => {
               </div>
               {!!playlistDetail.description && (
                 <div className="des pb-3 w-full">
-                  <p className="ply-description">介绍：{playlistDetail!.description}</p>
+                  <p
+                    className="text-sm text-neutral-800 line-clamp-5 overflow-hidden"
+                    title={playlistDetail.description}
+                  >
+                    介绍：{playlistDetail.description}
+                  </p>
                 </div>
               )}
             </div>
@@ -156,9 +159,9 @@ const PlaylistDetail: FC = () => {
               <p className="text-red-800">{!!playlistDetail ? playlistDetail.playCount : ""}次</p>
             </div>
           </div>
-          <TrackList
+          <TrackTable
             listItems={["歌曲标题", "歌手", "专辑"]}
-            listInfo={allSongs!}
+            listInfo={allSongs}
           />
         </div>
       </div>

@@ -4,8 +4,6 @@ import { Link } from "react-router-dom";
 import { Track } from "@/types";
 import useAudioStore from "@/stores/useAudioStore";
 
-import "./index.css";
-
 interface InfoCardProps extends Track {
   tags?: string[];
   description?: string;
@@ -16,12 +14,12 @@ const InfoCard: FC<InfoCardProps> = ({ song, artist, album, tags, description })
   const setTracks = useAudioStore((state) => state.setTracks);
   const setTrackIndex = useAudioStore((state) => state.setTrackIndex);
 
-  const playTrack = (e: any) => {
+  const playTrack = () => {
     setTracks([{ song: song, artist: artist, album: album }]);
     setTrackIndex(0);
   };
 
-  const addTrack = (e: any) => {
+  const addTrack = () => {
     setTracks([...tracks, { song: song, artist: artist, album: album }]);
   };
 
@@ -41,7 +39,7 @@ const InfoCard: FC<InfoCardProps> = ({ song, artist, album, tags, description })
           <div className="artist-info text-sm pb-4 w-full flex">
             <p>歌手：</p>
             <Link
-              className="artist-link"
+              className="hover:underline hover:text-red-600"
               artist-id={artist.id}
               title={artist.name}
               to={`/artist/${artist.id}`}
@@ -54,7 +52,7 @@ const InfoCard: FC<InfoCardProps> = ({ song, artist, album, tags, description })
           <div className="album-info text-sm pb-4 w-full flex">
             <p>专辑：</p>
             <Link
-              className="artist-link"
+              className="hover:underline hover:text-red-600"
               artist-id={album.id}
               title={album.name}
               to={`/album/${album.id}`}
@@ -84,7 +82,7 @@ const InfoCard: FC<InfoCardProps> = ({ song, artist, album, tags, description })
             +
           </button>
         </div>
-        <div className="tags pb-3 flex w-full">
+        <div className="text-sm pb-2 flex w-full">
           {!!tags && (
             <>
               <p>标签：</p>
@@ -102,7 +100,7 @@ const InfoCard: FC<InfoCardProps> = ({ song, artist, album, tags, description })
         {!!description && (
           <div className="des pb-3 w-full">
             <p
-              className="ply-description"
+              className="text-sm line-clamp-4"
               title={description}
             >
               介绍：{description}

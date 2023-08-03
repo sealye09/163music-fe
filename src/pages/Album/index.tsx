@@ -4,7 +4,7 @@ import { useLocation } from "react-router";
 import { AlbumInfo, Tag } from "@/types";
 import { albumApi } from "@/service";
 import GridHeader from "@/components/GridHeader";
-import PageSelector from "@/components/PageSelector";
+import Pagination from "@/components/Pagination";
 import Grid from "@/components/Grid";
 
 import "./index.css";
@@ -139,7 +139,7 @@ const Album: FC<Props> = ({}) => {
           )}
         </div>
         <div className="pb-10">
-          <PageSelector
+          <Pagination
             currPage={page}
             totalPage={20}
             setPage={setPage}

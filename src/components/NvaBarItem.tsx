@@ -1,8 +1,10 @@
-import { FC, HTMLAttributes } from "react";
+import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 
-type NavBarItemProps = NavBarItemConfig;
+import { NavBarItemConfig } from "@/types";
+
+interface NavBarItemProps extends NavBarItemConfig {}
 
 const NavBarItem: FC<NavBarItemProps> = ({
   itemId,

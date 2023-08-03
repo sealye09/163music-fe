@@ -3,8 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 
 import { NavBarItemConfig } from "@/types";
 import NavBarItem from "@/components/NvaBarItem";
-
-import "./index.css";
+import IconImage from "@/assets/images/topbar.png";
 
 const NavBarItems: NavBarItemConfig[] = [
   {
@@ -103,7 +102,15 @@ const Header: FC = ({}) => {
             to="/discover"
             className="pb-0 pl-0 pr-0 min-w-fit"
           >
-            <div className="icon w-44 h-[72px]"></div>
+            <div
+              className="w-44 h-[72px]"
+              style={{
+                zIndex: 100,
+                backgroundImage: `url(${IconImage})`,
+                backgroundRepeat: "no-repeat",
+                backgroundPosition: "0px 0px",
+              }}
+            ></div>
           </Link>
           {NavBarItems.map((item) => (
             <NavBarItem

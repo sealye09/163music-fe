@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 
 import { PlaylistInfo } from "@/types";
 
-import "./index.css";
-
 interface Props {
   type: string;
   playlists: PlaylistInfo[];
@@ -32,13 +30,12 @@ const Grid: FC<Props> = ({ playlists, type, handleClick }) => {
                 }}
               >
                 <img
-                  className="playlist-cover rounded-lg"
+                  className="rounded-lg"
                   src={`${item.coverImgUrl}`}
                 />
               </Link>
-              <div className="play-bottom relative -top-6 pl-1 rounded-b-md  rounded-t-sm text-white"></div>
             </div>
-            <p className="playlist-dec w-28 pt-2">
+            <p className="w-28 pt-2 text-sm line-clamp-2 hover:text-red-600 hover:underline">
               <Link
                 title={`${item.name}`}
                 to={`/${type}/${item.id}`}

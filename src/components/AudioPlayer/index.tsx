@@ -41,7 +41,6 @@ const AudioPlayer: FC = ({}) => {
   const isReady = useRef(false);
 
   const { duration } = audioRef.current;
-  const isMuted = audioRef.current.volume <= 0;
 
   // 控制声音
   audioRef.current.volume = useMemo(() => volume / 100, [volume]);
@@ -117,7 +116,6 @@ const AudioPlayer: FC = ({}) => {
           .play()
           .then(() => {
             audioRef.current.volume = volume / 100;
-            audioRef.current.muted = isMuted;
             setIsPlaying(true);
             startTimer();
           })

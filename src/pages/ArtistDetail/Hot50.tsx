@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-import TrackList from "@/components/TrackList";
+import TrackTable from "@/components/TrackTable";
 import { Track } from "@/types";
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
   hot50: Track[];
 }
 
-const ArtistHot50: FC<Props> = ({ addAllSong, playAllSong, hot50 }) => {
+const Hot50: FC<Props> = ({ addAllSong, playAllSong, hot50 }) => {
   return (
     <div>
       <div className="tracks-list px-4">
@@ -44,7 +44,7 @@ const ArtistHot50: FC<Props> = ({ addAllSong, playAllSong, hot50 }) => {
           </div>
           <div className="play-btns flex text-sm items-end mx-2"></div>
         </div>
-        <TrackList
+        <TrackTable
           listItems={["歌曲标题", "专辑"]}
           listInfo={hot50}
         />
@@ -52,4 +52,4 @@ const ArtistHot50: FC<Props> = ({ addAllSong, playAllSong, hot50 }) => {
     </div>
   );
 };
-export default ArtistHot50;
+export default Hot50;
