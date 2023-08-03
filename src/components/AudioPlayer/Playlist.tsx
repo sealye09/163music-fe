@@ -1,18 +1,22 @@
-import { FC } from "react";
+import { forwardRef, useContext, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { BsLink45Deg } from "react-icons/bs";
 
-import styles from "./index.module.css";
+import { AudioPlayerContextProps, AudioPlayerContext } from ".";
 import useTrackStore from "@/stores/useTrackStore";
+import styles from "./index.module.css";
+import { twMerge } from "tailwind-merge";
 
-interface PlaylistProps {
-  isShowPlaylist: boolean;
-}
-
-const Playlist: FC<PlaylistProps> = ({ isShowPlaylist }) => {
+const Playlist = forwardRef<HTMLButtonElement>(({}, playlistBtnRef) => {
   const tracks = useTrackStore((state) => state.tracks);
   const resetTracks = useTrackStore((state) => state.resetTracks);
   const setTrackIndex = useTrackStore((state) => state.setTrackIndex);
+
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  // Context
+  const { isShowPlaylist, setIsShowPlaylist } =
+    useContext<AudioPlayerContextProps>(AudioPlayerContext);
 
   const playTrack = (e: any) => {
     const node = e.target.parentNode;
@@ -20,19 +24,39 @@ const Playlist: FC<PlaylistProps> = ({ isShowPlaylist }) => {
     setTrackIndex(idx - 1);
   };
 
+  useEffect(() => {
+    const handleClickOutside: EventListener = (event: Event) => {
+      if (!playlistBtnRef || !modalRef.current) return;
+
+      if ("current" in playlistBtnRef) {
+        if (playlistBtnRef.current && playlistBtnRef.current.contains(event.target as Node)) {
+          return;
+        }
+      }
+
+      if (modalRef.current.contains(event.target as Node)) return;
+
+      if (modalRef.current) {
+        setIsShowPlaylist(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div
-      tabIndex={0}
-      style={{
-        width: "864px",
-        height: "340px",
-        backgroundColor: "rgba(0, 0, 0, 0.9)",
-        display: `${isShowPlaylist ? "" : "none"}`,
-      }}
-      className="absolute bottom-12 rounded-t"
+      ref={modalRef}
+      className={twMerge(
+        "absolute bottom-12 rounded-t w-[864px] h-[340px] bg-black/90 transition-all",
+        isShowPlaylist ? "" : "hidden"
+      )}
     >
       <table className={styles.table}>
-        <thead>
+        <thead className="w-full whitespace-nowrap">
           <tr className="w-full sticky h-8 top-0 bg-black">
             <th
               align="left"
@@ -42,12 +66,10 @@ const Playlist: FC<PlaylistProps> = ({ isShowPlaylist }) => {
             <th align="left"></th>
             <th align="left">
               <a
+                className="cursor-pointer"
                 onClick={() => {
                   resetTracks();
                   setTrackIndex(0);
-                }}
-                style={{
-                  cursor: "pointer",
                 }}
               >
                 清除全部
@@ -111,6 +133,6 @@ const Playlist: FC<PlaylistProps> = ({ isShowPlaylist }) => {
       </table>
     </div>
   );
-};
+});
 
 export default Playlist;

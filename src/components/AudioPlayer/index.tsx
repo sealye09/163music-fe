@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo, useRef, useState } from "react";
+import { FC, createContext, useEffect, useMemo, useRef, useState } from "react";
 
 import { songApi } from "@/service";
 import useTrackStore from "@/stores/useTrackStore";
@@ -6,14 +6,22 @@ import useTrackStore from "@/stores/useTrackStore";
 import LeftControl from "./LeftControl";
 import RightControl from "./RightControl";
 import CenterBar from "./CenterBar";
-import VolumeControl from "./VolumeControl";
-import Playlist from "./Playlist";
 
-import styles from "./index.module.css";
+export interface AudioPlayerContextProps {
+  isMuted: boolean;
+  volume: number;
+  setVolume: (value: number) => void;
+  isShowVolumeCtr: boolean;
+  setIsShowVolumeCtr: (isShowVolumeCtr: boolean) => void;
+  isShowPlaylist: boolean;
+  setIsShowPlaylist: (isShowPlaylist: boolean) => void;
+}
 
-interface Props {}
+// create Context
+export const AudioPlayerContext = createContext(null as unknown as AudioPlayerContextProps);
 
-const AudioPlayer: FC<Props> = ({}) => {
+const AudioPlayer: FC = ({}) => {
+  // Store
   const tracks = useTrackStore((state) => state.tracks);
   const trackIndex = useTrackStore((state) => state.trackIndex);
   const prevTrack = useTrackStore((state) => state.prevTrack);
@@ -80,20 +88,6 @@ const AudioPlayer: FC<Props> = ({}) => {
     setTrackProgress(audioRef.current.currentTime);
   };
 
-  const changeVolume = (e: any) => {
-    setVolume(e.target.value);
-  };
-
-  const handleShowPlaylist = () => {
-    setIsShowVolumeCtr(false);
-    setIsShowPlaylist(!isShowPlaylist);
-  };
-
-  const handleShowVolumeCtr = () => {
-    setIsShowPlaylist(false);
-    setIsShowVolumeCtr(!isShowVolumeCtr);
-  };
-
   // 控制播放/暂停
   useEffect(() => {
     if (isPlaying) {
@@ -149,43 +143,42 @@ const AudioPlayer: FC<Props> = ({}) => {
   }, []);
 
   return (
-    <div className={`${styles.audio_player} fixed bottom-0 flex justify-center items-center`}>
-      <div className={`${styles.m_playbar} flex justify-start gap-6 text-sm py-1`}>
-        <LeftControl
-          handlePrevTrack={toPrevTrack}
-          handleNextTrack={toNextTrack}
-          toggleAudio={toggleAudio}
-          isPlaying={isPlaying}
-        />
+    <AudioPlayerContext.Provider
+      value={
+        {
+          isMuted,
+          volume,
+          setVolume,
+          isShowVolumeCtr,
+          setIsShowVolumeCtr,
+          isShowPlaylist,
+          setIsShowPlaylist,
+        } as AudioPlayerContextProps
+      }
+    >
+      <div className="fixed bottom-0 flex justify-center items-center w-screen text-white bg-black/80">
+        <div className="flex justify-start w-[864px] gap-6 text-sm py-1">
+          <LeftControl
+            handlePrevTrack={toPrevTrack}
+            handleNextTrack={toNextTrack}
+            toggleAudio={toggleAudio}
+            isPlaying={isPlaying}
+          />
 
-        <CenterBar
-          duration={duration}
-          trackProgress={trackProgress}
-          onScrub={onScrub}
-          onScrubEnd={onScrubEnd}
-          song={song}
-          album={album}
-          artist={artist}
-        />
+          <CenterBar
+            duration={duration}
+            trackProgress={trackProgress}
+            onScrub={onScrub}
+            onScrubEnd={onScrubEnd}
+            song={song}
+            album={album}
+            artist={artist}
+          />
 
-        <RightControl
-          isMuted={isMuted}
-          handleShowVolumeCtr={handleShowVolumeCtr}
-          handleShowPlaylist={handleShowPlaylist}
-        />
+          <RightControl />
+        </div>
       </div>
-
-      {/* 音量控制条 */}
-      <VolumeControl
-        isMuted={isMuted}
-        changeVolume={changeVolume}
-        volume={volume}
-        isShowVolumeCtr={isShowVolumeCtr}
-      />
-
-      {/* 播放列表 */}
-      <Playlist isShowPlaylist={isShowPlaylist} />
-    </div>
+    </AudioPlayerContext.Provider>
   );
 };
 
