@@ -5,19 +5,21 @@ import { playlistApi } from "@/service";
 import Grid from "@/components/Grid";
 import GridHeader from "@/components/GridHeader";
 import Pagination from "@/components/Pagination";
+import { useSearchParams } from "react-router-dom";
 
-import "./index.css";
+const Playlist: FC = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
 
-interface Props {}
-
-const Playlist: FC<Props> = ({}) => {
   const [playlistInfo, setPlaylistInfo] = useState<PlaylistInfo[]>([]);
   const [page, setPage] = useState<number>(1);
-  const [cat, setCat] = useState("all");
-  const [order, setorder] = useState<string>("hot");
   const pageSize: number = 35;
 
   useEffect(() => {
+    let isUnmounted = false;
+    if (isUnmounted) return;
+
+    const order = searchParams.get("order") || "hot";
+    const cat = searchParams.get("cat") || "全部";
     playlistApi.getPlaylist(order, cat, pageSize, pageSize * (page - 1)).then((res) => {
       setPlaylistInfo(
         // @ts-ignore
@@ -31,6 +33,10 @@ const Playlist: FC<Props> = ({}) => {
       );
       console.log(playlistInfo);
     });
+
+    return () => {
+      isUnmounted = true;
+    };
   }, [page]);
 
   return (

@@ -14,27 +14,27 @@ interface Props {}
 const TAGS: Tag[] = [
   {
     id: 0,
-    title: "全部",
+    name: "全部",
     target: "?cat=ALL",
   },
   {
     id: 1,
-    title: "中国",
+    name: "中国",
     target: "?cat=ZH",
   },
   {
     id: 2,
-    title: "欧美",
+    name: "欧美",
     target: "?cat=EA",
   },
   {
     id: 3,
-    title: "韩国",
+    name: "韩国",
     target: "?cat=KR",
   },
   {
     id: 4,
-    title: "日本",
+    name: "日本",
     target: "?cat=JP",
   },
 ];
@@ -47,7 +47,7 @@ const Album: FC<Props> = ({}) => {
   const [page, setPage] = useState(1);
   const [area, setArea] = useState<string>(() => {
     if (url.search === "") {
-      return TAGS[0].title;
+      return TAGS[0].name;
     } else {
       return url.search.slice(5);
     }

@@ -104,6 +104,8 @@ const AudioPlayer: FC = ({}) => {
 
   // 切换歌曲
   useEffect(() => {
+    let isUnmounted = false;
+    if (isUnmounted) return;
     audioRef.current.pause();
 
     songApi.getSongUrl(song.id).then((res) => {
@@ -126,6 +128,10 @@ const AudioPlayer: FC = ({}) => {
         isReady.current = true;
       }
     });
+
+    return () => {
+      isUnmounted = true;
+    };
   }, [trackIndex, tracks[trackIndex].song.id]);
 
   // 卸载数据

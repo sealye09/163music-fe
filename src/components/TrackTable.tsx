@@ -18,8 +18,6 @@ const TrackTable: FC<Props> = ({ listItems, listInfo }) => {
   const tableRef = useRef<HTMLTableElement>(null);
 
   const handlePlayTrack = (idx: number) => {
-    const track = listInfo[idx];
-    console.log("🚀 ~ file: index.tsx:23 ~ handlePlayTrack ~ track:", track);
     setIsPlaying(true);
     setTracks(listInfo);
     setTrackIndex(idx);
@@ -37,19 +35,9 @@ const TrackTable: FC<Props> = ({ listItems, listInfo }) => {
               align="left"
               className="idx"
             />
-            <th align="left">歌曲标题</th>
-            {listItems[1] == "歌手" ||
-            listItems[2] == "歌手" ||
-            listItems[1] == "专辑" ||
-            listItems[2] == "专辑" ? (
-              <th align="left">{listItems[1]}</th>
-            ) : null}
-            {listItems[1] == "歌手" ||
-            listItems[2] == "歌手" ||
-            listItems[1] == "专辑" ||
-            listItems[2] == "专辑" ? (
-              <th align="left">{listItems[2]}</th>
-            ) : null}
+            {listItems.includes("歌曲标题") ? <th align="left">歌曲标题</th> : null}
+            {listItems.includes("歌手") ? <th align="left">歌手</th> : null}
+            {listItems.includes("专辑") ? <th align="left">专辑</th> : null}
           </tr>
         </thead>
         <tbody>
@@ -57,15 +45,17 @@ const TrackTable: FC<Props> = ({ listItems, listInfo }) => {
             listInfo.map((item, idx) => (
               <tr
                 key={item.song.id}
-                className="w-full h-10 group hover:bg-gray-300/80 odd:bg-gray-100 transition-all transition-300"
+                className="w-full h-10 group hover:bg-gray-300/80 even:bg-gray-100 transition-all transition-300"
               >
                 <td
                   align="center"
                   className={`idx idx-${idx + 1} h-full cursor-pointer px-4`}
                   onClick={() => handlePlayTrack(idx)}
                 >
-                  <BsFillPlayCircleFill className="text-red-600/80 h-6 w-6 hidden group-hover:block" />
-                  <span className="group-hover:hidden">{idx + 1}</span>
+                  <div className="h-6 w-6">
+                    <BsFillPlayCircleFill className="text-red-600/80 w-full h-full hidden group-hover:block" />
+                    <div className="group-hover:hidden">{idx + 1}</div>
+                  </div>
                 </td>
                 <td align="left">
                   <Link

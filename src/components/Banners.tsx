@@ -64,7 +64,7 @@ const Banners: FC<Props> = ({}) => {
           style={{
             background: `url('${BannerImg}') repeat`,
             backgroundPositionX: "0px",
-            backgroundPositionY: leftArrowHover ? "82px" : "152px",
+            backgroundPositionY: leftArrowHover ? "230px" : "300px",
           }}
           onClick={() => {
             if (activeItem === 0) setActiveItem(banners.length - 1);
@@ -86,7 +86,7 @@ const Banners: FC<Props> = ({}) => {
           style={{
             background: `url('${BannerImg}') repeat`,
             backgroundPositionX: "0px",
-            backgroundPositionY: rightArrowHover ? "230px" : "300px",
+            backgroundPositionY: rightArrowHover ? "82px" : "152px",
           }}
           onClick={() => {
             if (activeItem === banners.length - 1) setActiveItem(0);

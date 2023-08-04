@@ -22,7 +22,7 @@ export function getHotCatlist() {
 
 /**
  * 获取歌单
- * @param order 排序 ’hot‘ ’new‘
+ * @param order 排序 'hot' 'new'
  * @param cat 类别
  * @param limit
  * @param offset 页数

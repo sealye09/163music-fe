@@ -77,8 +77,8 @@ const Header: FC = ({}) => {
   console.log(location);
 
   const activeItem = useMemo(() => {
-    for (let i = 0; i < NavBarItems.length; i++) {
-      if (location.pathname === NavBarItems[i].linkTo) {
+    for (let i = NavBarItems.length - 1; i >= 0; i--) {
+      if (location.pathname.includes(NavBarItems[i].linkTo)) {
         return NavBarItems[i].linkTo;
       }
     }
@@ -86,8 +86,8 @@ const Header: FC = ({}) => {
   }, [location.pathname]);
 
   const discoverActiveItem = useMemo(() => {
-    for (let i = 0; i < DiscoverNavBarItems.length; i++) {
-      if (location.pathname === DiscoverNavBarItems[i].linkTo) {
+    for (let i = DiscoverNavBarItems.length - 1; i >= 0; i--) {
+      if (location.pathname.includes(DiscoverNavBarItems[i].linkTo)) {
         return DiscoverNavBarItems[i].linkTo;
       }
     }

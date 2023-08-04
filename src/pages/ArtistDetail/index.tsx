@@ -1,53 +1,61 @@
 import { FC, useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
+import { twMerge } from "tailwind-merge";
 
-import { ArtistInfo, Introduction, PlaylistInfo, RawArtistInfo, RawSongInfo, Track } from "@/types";
-import useAudioStore from "@/stores/useAudioStore";
+import { ArtistInfo, Track } from "@/types";
 import { artistApi } from "@/service";
 
 import Description from "./Description";
 import Hot50 from "./Hot50";
 import Albums from "./Albums";
 
-interface Props {}
+const TabsConfig = [
+  {
+    id: 0,
+    title: "热门50",
+    query: "hot50",
+    to: "?tab=hot50",
+  },
+  {
+    id: 1,
+    title: "专辑",
+    query: "albums",
+    to: "?tab=albums",
+  },
+  {
+    id: 2,
+    title: "艺人介绍",
+    query: "description",
+    to: "?tab=description",
+  },
+];
 
-const ArtistDetail: FC<Props> = ({}) => {
+const ArtistDetail: FC = () => {
   const { artistId } = useParams();
-  const [navItem, setNavItem] = useState<number>(0);
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const tracks = useAudioStore((state) => state.tracks);
-  const setTracks = useAudioStore((state) => state.setTracks);
-  const setTrackIndex = useAudioStore((state) => state.setTrackIndex);
+  const [activeTabId, setActiveTabId] = useState<number>(0);
 
   const [hot50, setHot50] = useState<Track[]>([]);
   const [artistInfo, setArtistInfo] = useState<ArtistInfo>();
-  const [albums, setAlbums] = useState<PlaylistInfo[]>([]);
-  const [page, setPage] = useState<number>(1);
-  const [introduction, setIntroduction] = useState<Introduction>();
   const [albumSize, setAlbumSize] = useState(0);
 
-  const pageSize = 30;
-
-  const addAllSong = () => {
-    let allNewTracks: Track[] = [];
-    hot50.map((song) => {
-      allNewTracks.push({ ...song });
-    });
-    setTracks([...tracks, ...allNewTracks]);
-  };
-
-  const playAllSong = () => {
-    let allNewTracks: Track[] = [];
-    hot50.map((song) => {
-      allNewTracks.push({ ...song });
-    });
-    setTracks(allNewTracks);
-    setTrackIndex(0);
-  };
+  useEffect(() => {
+    const tab = searchParams.get("tab") || "hot50";
+    for (let i = 0; i < TabsConfig.length; i++) {
+      if (TabsConfig[i].query === tab) {
+        setActiveTabId(TabsConfig[i].id);
+        break;
+      }
+    }
+  }, [searchParams]);
 
   // hot50
   useEffect(() => {
+    let isUnmounted = false;
+    if (isUnmounted) return;
+
     artistApi.getArtist(artistId!).then((res) => {
       console.log("🚀 ~ file: index.tsx:54 ~ artistApi.getArtist ~ res:", res);
 
@@ -85,45 +93,13 @@ const ArtistDetail: FC<Props> = ({}) => {
 
       setHot50([...temp]);
     });
+
+    return () => {
+      isUnmounted = true;
+    };
   }, [artistId]);
 
-  // albums
-  useEffect(() => {
-    artistApi.getArtistAlbums(artistId!, pageSize, (page - 1) * pageSize).then((res) => {
-      // @ts-ignore
-      const data = res.hotAlbums;
-      console.log("albums", data);
-
-      setAlbums(() =>
-        data.map((album: any) => {
-          return {
-            id: album.id,
-            name: album.name,
-            coverImgUrl: album.picUrl,
-          };
-        })
-      );
-    });
-  }, [artistId, page]);
-
-  // description
-  useEffect(() => {
-    artistApi.getArtistDescription(artistId!).then((res) => {
-      setIntroduction(() => {
-        return {
-          // @ts-ignore
-          desc: res.briefDesc,
-          // @ts-ignore
-          introduction: res.introduction.map((item: any) => {
-            return {
-              title: item.ti,
-              content: item.txt,
-            };
-          }),
-        };
-      });
-    });
-  }, [artistId]);
+  if (!artistId) return null;
 
   return (
     <div className="bg-[#f5f5f5]">
@@ -141,63 +117,29 @@ const ArtistDetail: FC<Props> = ({}) => {
         )}
 
         <div className="flex items-center w-full h-12 rounded-b-lg border border-[#d5d5d5] bg-[#f7f7f7]">
-          <Link
-            to=""
-            className={`min-w-fit h-12 pt-3 px-6 rounded-b-lg hover:bg-white hover:border-t-2 hover:border-red-600 ${
-              navItem === 0 ? "border-t-2 border-red-600" : ""
-            }`}
-            onClick={() => {
-              setNavItem(0);
-            }}
-          >
-            热门作品
-          </Link>
-          <Link
-            to=""
-            className={`min-w-fit h-12 pt-3 px-6 rounded-b-lg hover:bg-white hover:border-t-2 hover:border-red-600 ${
-              navItem === 1 ? "border-t-2 border-red-600" : ""
-            }`}
-            onClick={() => {
-              setNavItem(1);
-            }}
-          >
-            所有专辑
-          </Link>
-          <Link
-            to=""
-            className={`min-w-fit h-12 pt-3 px-6 rounded-b-lg hover:bg-white hover:border-t-2 hover:border-red-600 ${
-              navItem === 2 ? "border-t-2 border-red-600" : ""
-            }`}
-            onClick={() => {
-              setNavItem(2);
-            }}
-          >
-            艺人介绍
-          </Link>
+          {TabsConfig.map((tab) => (
+            <Link
+              key={tab.id}
+              to={tab.to}
+              className={twMerge(
+                "min-w-fit h-12 pt-3 px-6 rounded-b-lg hover:bg-white hover:border-t-2 hover:border-red-600",
+                activeTabId === tab.id ? "border-t-2 border-red-600" : ""
+              )}
+            >
+              {tab.title}
+            </Link>
+          ))}
         </div>
+
         <div className="pb-12">
-          {navItem === 0 && hot50.length !== 0 ? (
-            <Hot50
-              playAllSong={playAllSong}
-              addAllSong={addAllSong}
-              hot50={hot50!}
-            />
-          ) : navItem === 1 && albums.length !== 0 ? (
+          {activeTabId === 0 && hot50.length !== 0 ? <Hot50 hot50={hot50!} /> : null}
+          {activeTabId === 1 ? (
             <Albums
-              albums={albums}
-              page={page}
-              pageSize={pageSize}
-              setPage={setPage}
-              albumSize={albumSize}
-            />
-          ) : navItem === 2 && !!introduction ? (
-            <Description
-              introduction={{
-                desc: introduction.desc,
-                introduction: introduction.introduction,
-              }}
+              artistId={artistId}
+              totalAlbums={albumSize}
             />
           ) : null}
+          {activeTabId === 2 ? <Description artistId={artistId} /> : null}
         </div>
       </div>
     </div>

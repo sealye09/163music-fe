@@ -24,9 +24,7 @@ export type HeadLine = {
   target: string;
 };
 
-export type Tag = {
-  id: number;
-  title: string;
+export type Tag = IdAndName & {
   target: string;
 };
 

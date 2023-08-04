@@ -30,15 +30,15 @@ const GridHeader: FC<Props> = ({ headline, tags, hasMoreTag }) => {
 
       <div className="tag-cat px-3 text-xs flex items-center text-gray-500 min-w-fit">
         {!!tags &&
-          tags.map((tag) => (
-            <div key={tag.target}>
+          tags.map((tag, idx) => (
+            <div key={tag.id}>
               <Link
                 className="px-2 hover:text-red-600"
                 to={`${tag.target}`}
               >
-                {tag.title}
+                {tag.name}
               </Link>
-              {tag.id === tags.length - 1 ? null : <span className="line">|</span>}
+              {idx === tags.length - 1 ? null : <span className="line">|</span>}
             </div>
           ))}
       </div>

@@ -2,14 +2,34 @@ import { FC } from "react";
 
 import TrackTable from "@/components/TrackTable";
 import { Track } from "@/types";
+import useAudioStore from "@/stores/useAudioStore";
 
 interface Props {
-  playAllSong: Function;
-  addAllSong: Function;
   hot50: Track[];
 }
 
-const Hot50: FC<Props> = ({ addAllSong, playAllSong, hot50 }) => {
+const Hot50: FC<Props> = ({ hot50 }) => {
+  const tracks = useAudioStore((state) => state.tracks);
+  const setTracks = useAudioStore((state) => state.setTracks);
+  const setTrackIndex = useAudioStore((state) => state.setTrackIndex);
+
+  const addAllSong = () => {
+    let allNewTracks: Track[] = [];
+    hot50.map((song) => {
+      allNewTracks.push({ ...song });
+    });
+    setTracks([...tracks, ...allNewTracks]);
+  };
+
+  const playAllSong = () => {
+    let allNewTracks: Track[] = [];
+    hot50.map((song) => {
+      allNewTracks.push({ ...song });
+    });
+    setTracks(allNewTracks);
+    setTrackIndex(0);
+  };
+
   return (
     <div>
       <div className="tracks-list px-4">

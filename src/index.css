@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+
+}
+
 html {
   overflow-y: scroll;
   overscroll-behavior-y: none;
@@ -22,4 +32,9 @@ html::-webkit-scrollbar-thumb {
   border-radius: 10px;
   box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
   background: #242424;
+}
+
+td {
+  padding: 0;
+  margin: 0;
 }
