@@ -17,6 +17,8 @@ react react-router ts axios tailwindcss zustand
 - 歌手详情（hot 50, 介绍，专辑）
 - 搜索页面（歌手，专辑，歌曲）
 - 播放器（play/pause, prev/next, volume ctrl）
+- 骨架屏
+- 图片懒加载，加载时模糊图片
 
 ### TODO
 
