@@ -5,41 +5,43 @@ import { Tag, PlaylistInfo } from "@/types";
 import GridHeader from "@/components/GridHeader";
 import Banners from "@/components/Banners";
 import Grid from "@/components/Grid";
+import GridSkeleton from "@/components/Skeleton/GridSkeleton";
 
-interface PlaylistInfoWithType extends PlaylistInfo {
+type PlaylistInfoWithType = PlaylistInfo & {
   type: number;
-}
+};
 
-type AlbumInfo = PlaylistInfoWithType;
+type AlbumInfo = PlaylistInfoWithType & {
+  blurPicUrl: string;
+};
 
 // 推荐页包含组件（轮播图、热门推荐、新碟上架、榜单）
 
 const Discover: FC = () => {
-  const [playlistRec, setPlaylistRec] = useState<PlaylistInfoWithType[]>([]);
-  const [newAlbums, setNewAlbums] = useState<AlbumInfo[]>([]);
-  const [tags, setTags] = useState<Tag[]>([]);
+  const [recommend, setRecommend] = useState<PlaylistInfoWithType[]>();
+  const [newAlbums, setNewAlbums] = useState<AlbumInfo[]>();
+  const [tags, setTags] = useState<Tag[]>();
 
   useEffect(() => {
     let isUnmounted = false;
     if (isUnmounted) return;
     // 获取推荐类别
     playlistApi.getHotCatlist().then((res) => {
-      setTags(() => {
-        return [
-          // @ts-ignore
-          ...res.tags.map((item) => {
-            return {
-              id: item.id,
-              name: item.name,
-              target: `/discover/playlist/?cat=${item.name}`,
-            };
-          }),
-        ];
-      });
+      setTags(
+        // @ts-ignore
+        res.tags.map((item) => {
+          return {
+            id: item.id,
+            name: item.name,
+            target: `/discover/playlist/?cat=${item.name}`,
+          };
+        })
+      );
     });
+
     // 获取推荐
     playlistApi.getRecommendPlaylist(10).then((res) => {
-      setPlaylistRec(
+      setRecommend(
         // @ts-ignore
         res.result.map((item) => {
           return {
@@ -50,20 +52,22 @@ const Discover: FC = () => {
         })
       );
     });
+
     // 获取新碟
     albumApi.getNewAlbums().then((res) => {
-      if ("albums" in res) {
-        setNewAlbums(
-          // @ts-ignore
-          res.albums.map((item) => {
-            return {
-              id: item.id,
-              name: item.name,
-              coverImgUrl: item.picUrl,
-            };
-          })
-        );
-      }
+      console.log("🚀 ~ file: index.tsx:42 ~ playlistApi.getRecommendPlaylist ~ res:", res);
+
+      setNewAlbums(
+        // @ts-ignore
+        res.albums.map((item) => {
+          return {
+            id: item.id,
+            name: item.name,
+            coverImgUrl: item.picUrl,
+            blurPicUrl: item.blurPicUrl,
+          };
+        })
+      );
     });
 
     return () => {
@@ -80,7 +84,7 @@ const Discover: FC = () => {
           flex flex-col justify-cente items-center h-auto min-w-fit"
         >
           <div className="h-auto w-full py-6 bg-white">
-            {!!tags && (
+            {tags ? (
               <GridHeader
                 headline={{
                   title: "热门推荐",
@@ -89,11 +93,24 @@ const Discover: FC = () => {
                 tags={tags}
                 hasMoreTag={true}
               />
+            ) : (
+              <GridHeader
+                headline={{
+                  title: "热门推荐",
+                  target: "/discover/playlist/",
+                }}
+                hasMoreTag={true}
+              />
             )}
-            {!!playlistRec && (
+            {recommend ? (
               <Grid
-                playlists={playlistRec}
+                playlists={recommend}
                 type="playlist"
+              />
+            ) : (
+              <GridSkeleton
+                rows={2}
+                columns={5}
               />
             )}
           </div>
@@ -105,10 +122,15 @@ const Discover: FC = () => {
               }}
               hasMoreTag={true}
             />
-            {!!newAlbums && (
+            {newAlbums ? (
               <Grid
                 playlists={newAlbums.slice(0, 10)}
                 type="album"
+              />
+            ) : (
+              <GridSkeleton
+                rows={2}
+                columns={5}
               />
             )}
           </div>

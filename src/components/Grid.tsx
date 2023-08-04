@@ -1,11 +1,18 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
 
-import { PlaylistInfo } from "@/types";
+import LazyImage from "./LazyImage";
+
+type AlbumInfo = {
+  id: number | string;
+  name: string;
+  coverImgUrl: string;
+  blurPicUrl?: string;
+};
 
 interface Props {
   type: string;
-  playlists: PlaylistInfo[];
+  playlists: AlbumInfo[];
   handleClick?: Function;
 }
 
@@ -16,32 +23,34 @@ const Grid: FC<Props> = ({ playlists, type, handleClick }) => {
         {playlists.map((item) => (
           <div
             key={item.id}
-            className="playlist-item grid justify-evenly h-52 content-start"
+            className="transition duration-500 hover:scale-105 playlist-item grid justify-evenly h-52 content-start"
           >
             <div className="h-32 w-32">
               <Link
-                title={`${item.name}`}
+                title={item.name}
                 to={`/${type}/${item.id}`}
-                data-res-id={`${item.id}`}
+                data-res-id={item.id}
                 onClick={() => {
                   if (typeof handleClick === "function") {
                     handleClick();
                   }
                 }}
               >
-                <img
+                <LazyImage
                   className="rounded-lg"
-                  src={`${item.coverImgUrl}`}
+                  src={item.coverImgUrl}
+                  alt={item.name}
+                  blurImage={item.blurPicUrl}
                 />
               </Link>
             </div>
             <p className="w-28 pt-2 text-sm line-clamp-2 hover:text-red-600 hover:underline">
               <Link
-                title={`${item.name}`}
+                title={item.name}
                 to={`/${type}/${item.id}`}
-                data-res-id={`${item.id}`}
+                data-res-id={item.id}
               >
-                {`${item.name}`}
+                {item.name}
               </Link>
             </p>
           </div>

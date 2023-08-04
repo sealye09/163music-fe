@@ -6,6 +6,7 @@ import { albumApi } from "@/service";
 import GridHeader from "@/components/GridHeader";
 import Pagination from "@/components/Pagination";
 import Grid from "@/components/Grid";
+import GridSkeleton from "@/components/Skeleton/GridSkeleton";
 
 const TAGS = [
   {
@@ -43,16 +44,19 @@ const TAGS = [
 const Album: FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const [newAlbums, setNewAlbums] = useState<AlbumInfo[]>([]);
-  const [allAlbums, setAllAlbums] = useState<AlbumInfo[]>([]);
+  const [newAlbums, setNewAlbums] = useState<AlbumInfo[]>();
+  const [allAlbums, setAllAlbums] = useState<AlbumInfo[]>();
   const [totalAlbums, setTotalAlbums] = useState<number>(0);
   const [page, setPage] = useState<number>();
   const [area, setArea] = useState<string>();
+  const [loading, setLoading] = useState<boolean>(false);
 
   const pageSize: number = 35;
 
   // 热门新碟
   useEffect(() => {
+    let isUnmounted = false;
+    if (isUnmounted) return;
     albumApi.getNewAlbums().then((res) => {
       setNewAlbums(
         // @ts-ignore
@@ -61,14 +65,20 @@ const Album: FC = () => {
             id: item.id,
             name: item.name,
             coverImgUrl: item.picUrl,
+            blurPicUrl: item.blurPicUrl,
           };
         })
       );
     });
+
+    return () => {
+      isUnmounted = true;
+    };
   }, []);
 
   useEffect(() => {
     let isUnmounted = false;
+    setLoading(true);
     if (isUnmounted || !page || !area) return;
 
     albumApi.getAllNewAlbum(area, pageSize, (page - 1) * pageSize).then((res) => {
@@ -81,9 +91,11 @@ const Album: FC = () => {
             id: item.id,
             name: item.name,
             coverImgUrl: item.picUrl,
+            blurPicUrl: item.blurPicUrl,
           };
         })
       );
+      setLoading(false);
     });
 
     return () => {
@@ -98,8 +110,6 @@ const Album: FC = () => {
     setPage(parseInt(page));
   }, [searchParams]);
 
-  if (!newAlbums || !allAlbums || !page || !area) return null;
-
   return (
     <div className="w-full flex justify-center bg-gray1">
       <div className="bg-white w-content border-x border-gray1">
@@ -112,13 +122,16 @@ const Album: FC = () => {
               }}
               hasMoreTag={false}
             />
-            {!!newAlbums && (
+            {newAlbums ? (
               <Grid
                 playlists={newAlbums!.slice(0, 10)}
                 type="album"
               />
+            ) : (
+              <GridSkeleton />
             )}
           </div>
+
           <div className="h-auto w-full">
             <GridHeader
               headline={{
@@ -128,14 +141,16 @@ const Album: FC = () => {
               tags={TAGS}
               hasMoreTag={false}
             />
-            {!!allAlbums && (
+            {allAlbums && !loading ? (
               <Grid
                 playlists={allAlbums}
                 type="album"
               />
+            ) : (
+              <GridSkeleton rows={7} />
             )}
           </div>
-          {totalAlbums > pageSize && (
+          {!!page && totalAlbums > pageSize && (
             <Pagination
               currPage={page}
               totalPage={Math.ceil(totalAlbums / pageSize)}
