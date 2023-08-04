@@ -51,7 +51,7 @@ const Playlist = forwardRef<HTMLButtonElement>(({}, playlistBtnRef) => {
     <div
       ref={modalRef}
       className={twMerge(
-        "absolute bottom-12 rounded-t w-[864px] h-[340px] bg-black/90 transition-all",
+        "absolute bottom-12 rounded-t w-content h-[340px] bg-black/90 transition-all",
         isShowPlaylist ? "" : "hidden"
       )}
     >

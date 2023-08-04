@@ -1,4 +1,5 @@
 import { FC, useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 import Grid from "@/components/Grid";
 import Pagination from "@/components/Pagination";
@@ -11,14 +12,16 @@ interface Props {
 }
 
 const Albums: FC<Props> = ({ artistId, totalAlbums }) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const [albums, setAlbums] = useState<PlaylistInfo[]>([]);
-  const [page, setPage] = useState<number>(1);
+  const [page, setPage] = useState<number>();
 
   const pageSize = 30;
   // albums
   useEffect(() => {
     let isUnmounted = false;
-    if (isUnmounted) return;
+    if (isUnmounted || !page) return;
     artistApi.getArtistAlbums(artistId!, pageSize, (page - 1) * pageSize).then((res) => {
       // @ts-ignore
       const data = res.hotAlbums;
@@ -39,6 +42,14 @@ const Albums: FC<Props> = ({ artistId, totalAlbums }) => {
       isUnmounted = true;
     };
   }, [artistId, page]);
+
+  useEffect(() => {
+    const page = searchParams.get("page") || "1";
+    setPage(parseInt(page));
+  }, [searchParams]);
+
+  if (!albums || !page) return null;
+
   return (
     <div>
       <Grid

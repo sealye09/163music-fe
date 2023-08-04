@@ -3,7 +3,7 @@ import "./index.css";
 
 const MyMusic: FC = () => {
   return (
-    <div className="my-music h-auto flex flex-row justify-center">
+    <div className="my-music h-full min-h-[70vh] flex flex-row justify-center">
       <div className="not-login bg-white">
         <div className="my_music inner flex flex-col justify-end h-full">
           <h2 className="h-80 mb-9">登录网易云音乐</h2>

@@ -71,10 +71,10 @@ const Banners: FC<Props> = ({}) => {
             else setActiveItem(activeItem - 1);
           }}
         />
-        <div className="h-full transition-all w-[864px]">
+        <div className="h-full transition-all w-content">
           <Link to={banners[activeItem].targetUrl}>
             <img
-              className="w-[864px] cursor-pointer img-active h-full z-10"
+              className="w-content cursor-pointer img-active h-full z-10"
               src={`${banners[activeItem].imageUrl}`}
             />
           </Link>

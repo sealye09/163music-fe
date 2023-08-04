@@ -80,8 +80,8 @@ const PlaylistDetail: FC = () => {
   };
 
   return (
-    <div className="flex felx-row justify-center bg-[#f5f5f5]">
-      <div className="flex flex-col w-[874px] content-center bg-white pt-8 mx-auto border-x border-[#d5d5d5]">
+    <div className="flex felx-row justify-center bg-gray1">
+      <div className="flex flex-col w-content content-center bg-white pt-8 mx-auto border-x border-gray1">
         {!!playlistDetail && (
           <div className="info-card flex px-10 pb-4 justify-around">
             <div className="img">

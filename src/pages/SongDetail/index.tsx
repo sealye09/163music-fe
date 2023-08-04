@@ -78,8 +78,8 @@ const SongDetail: FC<Props> = ({}) => {
   }, [songId]);
 
   return (
-    <div className="flex felx-row justify-center bg-[#f5f5f5]">
-      <div className="flex flex-col content-center bg-white pt-8 mx-auto w-[874px]">
+    <div className="flex felx-row justify-center bg-gray1">
+      <div className="flex flex-col content-center bg-white pt-8 mx-auto w-content">
         <div>
           {!!songDetail && (
             <InfoCard

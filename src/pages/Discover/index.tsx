@@ -74,9 +74,9 @@ const Discover: FC = () => {
   return (
     <>
       <Banners />
-      <div className="h-auto w-full">
+      <div className="h-auto w-full bg-gray1">
         <div
-          className="mx-auto w-[864px] bg-[#f5f5f5] border border-[#d5d5d5] border-y-0
+          className="mx-auto w-content border border-gray1 border-y-0
           flex flex-col justify-cente items-center h-auto min-w-fit"
         >
           <div className="h-auto w-full py-6 bg-white">

@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { useSearchParams } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 
 interface Props {
@@ -8,11 +9,25 @@ interface Props {
 }
 
 const Pagination: FC<Props> = ({ currPage, totalPage, setPage }) => {
-  const btnBorder = "border border-gray-200 hover:border-gray-500";
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const btnBorder = "border border-gray-300 hover:bg-gray-100/80";
   const btnActive =
-    "bg-red-600 text-white border border-red-600 hover:bg-red-700/70 hover:border-red-600";
-  const btnDisabled =
-    "bg-gray-200 text-gray-500 border border-gray-400 hover:border-gray-400 cursor-not-allowed";
+    "bg-red-600 text-white border border-red-600 hover:bg-red-600/80 hoover:text-white hover:border-red-600/80";
+  const btnDisabled = "bg-gray-200 hover:bg-gray-200 text-gray-500 cursor-not-allowed";
+
+  const handlePageClick = (page: number) => {
+    setPage(page);
+    // 判断page是否存在，存在则替换，不存在则添加
+    // parama参数添加page
+    if (searchParams.has("page")) {
+      searchParams.set("page", page.toString());
+      setSearchParams(searchParams);
+    } else {
+      searchParams.append("page", page.toString());
+      setSearchParams(searchParams);
+    }
+  };
 
   return (
     <div className="flex justify-center h-6 text-sm gap-1">
@@ -25,9 +40,7 @@ const Pagination: FC<Props> = ({ currPage, totalPage, setPage }) => {
           )}
           type="button"
           disabled={currPage === 1}
-          onClick={() => {
-            setPage(currPage - 1);
-          }}
+          onClick={() => handlePageClick(currPage - 1)}
         >
           上一页
         </button>
@@ -35,9 +48,7 @@ const Pagination: FC<Props> = ({ currPage, totalPage, setPage }) => {
       <div>
         <button
           className={twMerge("h-6 w-7 mx-1 border", btnBorder, currPage === 1 ? btnActive : "")}
-          onClick={() => {
-            setPage(1);
-          }}
+          onClick={() => handlePageClick(1)}
         >
           1
         </button>
@@ -53,9 +64,7 @@ const Pagination: FC<Props> = ({ currPage, totalPage, setPage }) => {
                   btnBorder,
                   idx + 2 === currPage ? btnActive : ""
                 )}
-                onClick={() => {
-                  setPage(idx + 2);
-                }}
+                onClick={() => handlePageClick(idx + 2)}
               >
                 {idx + 2}
               </button>
@@ -78,9 +87,7 @@ const Pagination: FC<Props> = ({ currPage, totalPage, setPage }) => {
                       btnBorder,
                       idx + 2 === currPage ? btnActive : ""
                     )}
-                    onClick={() => {
-                      setPage(idx + 2);
-                    }}
+                    onClick={() => handlePageClick(idx + 2)}
                   >
                     {idx + 2}
                   </button>
@@ -95,9 +102,7 @@ const Pagination: FC<Props> = ({ currPage, totalPage, setPage }) => {
                       btnBorder,
                       currPage - 2 + idx === currPage ? btnActive : ""
                     )}
-                    onClick={() => {
-                      setPage(currPage - 2 + idx);
-                    }}
+                    onClick={() => handlePageClick(currPage - 2 + idx)}
                   >
                     {currPage - 2 + idx}
                   </button>
@@ -114,9 +119,7 @@ const Pagination: FC<Props> = ({ currPage, totalPage, setPage }) => {
                       btnBorder,
                       totalPage - 6 + idx === currPage ? btnActive : ""
                     )}
-                    onClick={() => {
-                      setPage(totalPage - 6 + idx);
-                    }}
+                    onClick={() => handlePageClick(totalPage - 6 + idx)}
                   >
                     {totalPage - 6 + idx}
                   </button>
@@ -133,6 +136,7 @@ const Pagination: FC<Props> = ({ currPage, totalPage, setPage }) => {
       <div>
         <button
           className={twMerge("h-6 w-7 mx-1", btnBorder, totalPage === currPage ? btnActive : "")}
+          onClick={() => handlePageClick(totalPage)}
         >
           {totalPage}
         </button>
@@ -146,9 +150,7 @@ const Pagination: FC<Props> = ({ currPage, totalPage, setPage }) => {
           )}
           type="button"
           disabled={currPage === totalPage}
-          onClick={() => {
-            setPage(currPage + 1);
-          }}
+          onClick={() => handlePageClick(currPage + 1)}
         >
           下一页
         </button>

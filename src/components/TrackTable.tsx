@@ -26,11 +26,11 @@ const TrackTable: FC<Props> = ({ listItems, listInfo }) => {
   return (
     <div>
       <table
-        className="w-full border border-[#d5d5d5] transition-all transition-300"
+        className="w-full border border-gray1 transition-all transition-300"
         ref={tableRef}
       >
         <thead>
-          <tr className="w-full h-10 bg-[#f3f3f3]">
+          <tr className="w-full h-10 bg-gray-100">
             <th
               align="left"
               className="idx"

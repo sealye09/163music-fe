@@ -54,11 +54,9 @@ const ArtistDetail: FC = () => {
   // hot50
   useEffect(() => {
     let isUnmounted = false;
-    if (isUnmounted) return;
+    if (isUnmounted || !artistId) return;
 
-    artistApi.getArtist(artistId!).then((res) => {
-      console.log("🚀 ~ file: index.tsx:54 ~ artistApi.getArtist ~ res:", res);
-
+    artistApi.getArtist(artistId).then((res) => {
       // @ts-ignore
       setAlbumSize(res.artist.albumSize);
       // @ts-ignore
@@ -70,28 +68,26 @@ const ArtistDetail: FC = () => {
         id: info.id,
         picUrl: info.img1v1Url,
       });
-      const temp = [];
-      for (let i = 0; i < songs.length; i++) {
-        temp.push({
-          song: {
-            name: songs[i].name,
-            id: songs[i].id,
-          },
-          artist: {
-            id: songs[i].ar[0].id,
-            name: songs[i].ar[0].name,
-          },
-          album: {
-            id: songs[i].al.id,
-            name: songs[i].al.name,
-            picUrl: songs[i].al.picUrl,
-          },
-        });
-      }
 
-      console.log(artistInfo);
-
-      setHot50([...temp]);
+      setHot50(() =>
+        songs.map((song: any) => {
+          return {
+            song: {
+              name: song.name,
+              id: song.id,
+            },
+            artist: {
+              id: song.ar[0].id,
+              name: song.ar[0].name,
+            },
+            album: {
+              id: song.al.id,
+              name: song.al.name,
+              picUrl: song.al.picUrl,
+            },
+          };
+        })
+      );
     });
 
     return () => {
@@ -102,12 +98,12 @@ const ArtistDetail: FC = () => {
   if (!artistId) return null;
 
   return (
-    <div className="bg-[#f5f5f5]">
-      <div className="flex flex-col pt-8 w-[874px] bg-white px-8 mx-auto border-x border-[#d5d5d5]">
+    <div className="bg-gray1">
+      <div className="flex flex-col pt-8 w-content bg-white px-8 mx-auto border-x border-gray1">
         {!!artistInfo && (
           <>
             <div className="artist-name text-3xl py-3 px-1">{artistInfo.name}</div>
-            <div className="rounded-t-lg w-full h-96 border border-[#d5d5d5]">
+            <div className="rounded-t-lg w-full h-96 border border-gray1">
               <img
                 className="object-cover w-full h-full rounded-t-lg"
                 src={artistInfo.picUrl}
@@ -116,7 +112,7 @@ const ArtistDetail: FC = () => {
           </>
         )}
 
-        <div className="flex items-center w-full h-12 rounded-b-lg border border-[#d5d5d5] bg-[#f7f7f7]">
+        <div className="flex items-center w-full h-12 rounded-b-lg border border-gray1 bg-[#f7f7f7]">
           {TabsConfig.map((tab) => (
             <Link
               key={tab.id}
