@@ -1,15 +1,13 @@
-import Router from "./router";
 import { FC } from "react";
 
+import Router from "./router";
 import "./index.css";
 
-type Props = {};
-
-const App: FC<Props> = ({}) => {
+const App: FC = () => {
   return (
-    <>
+    <div className="app w-full h-full">
       <Router />
-    </>
+    </div>
   );
 };
 
