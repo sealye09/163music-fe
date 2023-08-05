@@ -7,14 +7,21 @@ import Grid from "@/components/Grid";
 import Pagination from "@/components/Pagination";
 
 import "./index.css";
+import { useSearchParams } from "react-router-dom";
 
 interface AlbumInfo extends PlaylistInfo {}
 interface ArtistInfo extends PlaylistInfo {}
 
+// 搜索类型 1: 单曲, 10: 专辑, 100: 歌手, 1000: 歌单
+type SearchType = 1 | 10 | 100 | 1000;
+
 const Search: FC = () => {
-  const [keywords, setKeywords] = useState<string>("");
-  const [type, setType] = useState<number>(1);
-  const [page, setPage] = useState(1);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const keywords = searchParams.get("keywords") || "";
+  const type = (Number(searchParams.get("type")) || 1) as SearchType;
+  const page = Number(searchParams.get("page")) || 1;
+
   const [songResult, setsongResult] = useState<Track[]>([]);
   const [albumResult, setAlbumResult] = useState<AlbumInfo[]>([]);
   const [artistResult, setArtistResult] = useState<ArtistInfo[]>([]);
@@ -22,76 +29,80 @@ const Search: FC = () => {
 
   const pageSize: number = 30;
 
-  useEffect(() => {
-    searchAction();
-  }, [type, page]);
-
   const searchAction = () => {
     console.log("search", keywords);
     searchApi.getSearchResult(keywords, 30, (page - 1) * pageSize, type).then((res) => {
-      if (type === 1) {
-        // @ts-ignore
-        const songs = res.result.songs;
-        setsongResult(() =>
-          songs.map((song: any) => {
-            return {
-              song: {
-                id: song.id,
-                name: song.name,
-              },
-              artist: {
-                id: song.ar[0].id,
-                name: song.ar[0].name,
-              },
-              album: {
-                id: song.al.id,
-                name: song.al.name,
-                picUrl: song.al.picUrl,
-              },
-            };
-          })
-        );
-      }
-      if (type === 10) {
-        // @ts-ignore
-        const albums = res.result.albums;
-        setAlbumResult(() =>
-          albums.map((album: any) => {
-            return {
-              id: album.id,
-              name: album.name,
-              coverImgUrl: album.picUrl,
-            };
-          })
-        );
-      }
-      if (type === 100) {
-        // @ts-ignore
-        const artists = res.result.artists;
-        setArtistResult(() =>
-          artists.map((artist: any) => {
-            return {
-              id: artist.id,
-              name: artist.name,
-              coverImgUrl: artist.img1v1Url,
-            };
-          })
-        );
-      }
-      if (type === 1000) {
-        // @ts-ignore
-        const playlists = res.result.playlists;
-        setPlaylistResult(() =>
-          playlists.map((playlist: any) => {
-            return {
-              id: playlist.id,
-              name: playlist.name,
-              coverImgUrl: playlist.coverImgUrl,
-            };
-          })
-        );
+      switch (type) {
+        case 1:
+          // @ts-ignore
+          const songs = res.result.songs;
+          setsongResult(() =>
+            songs.map((song: any) => {
+              return {
+                song: {
+                  id: song.id,
+                  name: song.name,
+                },
+                artist: {
+                  id: song.ar[0].id,
+                  name: song.ar[0].name,
+                },
+                album: {
+                  id: song.al.id,
+                  name: song.al.name,
+                  picUrl: song.al.picUrl,
+                },
+              };
+            })
+          );
+          break;
+
+        case 10:
+          // @ts-ignore
+          const albums = res.result.albums;
+          setAlbumResult(() =>
+            albums.map((album: any) => {
+              return {
+                id: album.id,
+                name: album.name,
+                coverImgUrl: album.picUrl,
+              };
+            })
+          );
+          break;
+
+        case 100:
+          // @ts-ignore
+          const artists = res.result.artists;
+          setArtistResult(() =>
+            artists.map((artist: any) => {
+              return {
+                id: artist.id,
+                name: artist.name,
+                coverImgUrl: artist.img1v1Url,
+              };
+            })
+          );
+          break;
+
+        default:
+          // @ts-ignore
+          const playlists = res.result.playlists;
+          setPlaylistResult(() =>
+            playlists.map((playlist: any) => {
+              return {
+                id: playlist.id,
+                name: playlist.name,
+                coverImgUrl: playlist.coverImgUrl,
+              };
+            })
+          );
       }
     });
+  };
+
+  const handleTypeChange = (type: SearchType) => {
+    setSearchParams({ type: type.toString() });
   };
 
   return (
@@ -113,7 +124,7 @@ const Search: FC = () => {
             placeholder="搜索歌曲/歌手"
             onChange={(e) => {
               console.log(e.target.value);
-              setKeywords(e.target.value);
+              // setKeywords(e.target.value);
             }}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
@@ -140,9 +151,7 @@ const Search: FC = () => {
             className={`btn-search min-w-fit h-12 pt-3 px-6 hover:bg-white hover:border-t-1 ${
               type == 1 ? "btn-active" : ""
             }`}
-            onClick={() => {
-              setType(1);
-            }}
+            onClick={() => handleTypeChange(1)}
           >
             单曲
           </button>
@@ -150,9 +159,7 @@ const Search: FC = () => {
             className={`btn-search min-w-fit h-12 pt-3 px-6 hover:bg-white hover:border-t-1 ${
               type == 10 ? "btn-active" : ""
             }`}
-            onClick={() => {
-              setType(10);
-            }}
+            onClick={() => handleTypeChange(10)}
           >
             专辑
           </button>
@@ -160,9 +167,7 @@ const Search: FC = () => {
             className={`btn-search min-w-fit h-12 pt-3 px-6 hover:bg-white hover:border-t-1 ${
               type == 100 ? "btn-active" : ""
             }`}
-            onClick={() => {
-              setType(100);
-            }}
+            onClick={() => handleTypeChange(100)}
           >
             歌手
           </button>
@@ -170,9 +175,7 @@ const Search: FC = () => {
             className={`btn-search min-w-fit h-12 pt-3 px-6 hover:bg-white hover:border-t-1 ${
               type == 1000 ? "btn-active" : ""
             }`}
-            onClick={() => {
-              setType(1000);
-            }}
+            onClick={() => handleTypeChange(1000)}
           >
             歌单
           </button>
@@ -207,7 +210,8 @@ const Search: FC = () => {
           <Pagination
             currPage={page}
             totalPage={10}
-            setPage={setPage}
+            // setPage={setPage}
+            setPage={() => {}}
           />
         </div>
       </div>
