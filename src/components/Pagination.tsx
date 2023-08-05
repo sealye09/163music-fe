@@ -5,7 +5,7 @@ import { twMerge } from "tailwind-merge";
 interface Props {
   currPage: number;
   totalPage: number;
-  setPage: Function;
+  setPage?: Function;
 }
 
 const Pagination: FC<Props> = ({ currPage, totalPage, setPage }) => {
@@ -17,7 +17,7 @@ const Pagination: FC<Props> = ({ currPage, totalPage, setPage }) => {
   const btnDisabled = "bg-gray-200 hover:bg-gray-200 text-gray-500 cursor-not-allowed";
 
   const handlePageClick = (page: number) => {
-    setPage(page);
+    if (setPage) setPage(page);
     // 判断page是否存在，存在则替换，不存在则添加
     // parama参数添加page
     if (searchParams.has("page")) {

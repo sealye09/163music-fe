@@ -47,16 +47,17 @@ const Album: FC = () => {
   const [newAlbums, setNewAlbums] = useState<AlbumInfo[]>();
   const [allAlbums, setAllAlbums] = useState<AlbumInfo[]>();
   const [totalAlbums, setTotalAlbums] = useState<number>(0);
-  const [page, setPage] = useState<number>();
-  const [area, setArea] = useState<string>();
   const [loading, setLoading] = useState<boolean>(false);
 
+  const page = Number(searchParams.get("page") || "1");
+  const area = searchParams.get("area") || "ALL";
   const pageSize: number = 35;
 
   // 热门新碟
   useEffect(() => {
     let isUnmounted = false;
     if (isUnmounted) return;
+
     albumApi.getNewAlbums().then((res) => {
       setNewAlbums(
         // @ts-ignore
@@ -76,11 +77,12 @@ const Album: FC = () => {
     };
   }, []);
 
+  // 全部新碟
   useEffect(() => {
     let isUnmounted = false;
-    setLoading(true);
-    if (isUnmounted || !page || !area) return;
+    if (isUnmounted) return;
 
+    setLoading(true);
     albumApi.getAllNewAlbum(area, pageSize, (page - 1) * pageSize).then((res) => {
       // @ts-ignore
       setTotalAlbums(res.total);
@@ -101,14 +103,7 @@ const Album: FC = () => {
     return () => {
       isUnmounted = true;
     };
-  }, [area, page]);
-
-  useEffect(() => {
-    const area = searchParams.get("area") || "ALL";
-    const page = searchParams.get("page") || "1";
-    setArea(area);
-    setPage(parseInt(page));
-  }, [searchParams]);
+  }, [area, page, pageSize]);
 
   return (
     <div className="w-full flex justify-center bg-gray1">
@@ -154,7 +149,6 @@ const Album: FC = () => {
             <Pagination
               currPage={page}
               totalPage={Math.ceil(totalAlbums / pageSize)}
-              setPage={setPage}
             />
           )}
         </div>

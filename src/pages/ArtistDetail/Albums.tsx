@@ -15,14 +15,16 @@ const Albums: FC<Props> = ({ artistId, totalAlbums }) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [albums, setAlbums] = useState<PlaylistInfo[]>([]);
-  const [page, setPage] = useState<number>();
 
+  const page = Number(searchParams.get("page") || "1");
   const pageSize = 30;
+
   // albums
   useEffect(() => {
     let isUnmounted = false;
-    if (isUnmounted || !page) return;
-    artistApi.getArtistAlbums(artistId!, pageSize, (page - 1) * pageSize).then((res) => {
+    if (isUnmounted) return;
+
+    artistApi.getArtistAlbums(artistId, pageSize, (page - 1) * pageSize).then((res) => {
       // @ts-ignore
       const data = res.hotAlbums;
       console.log("albums", res);
@@ -41,14 +43,9 @@ const Albums: FC<Props> = ({ artistId, totalAlbums }) => {
     return () => {
       isUnmounted = true;
     };
-  }, [artistId, page]);
+  }, [page, pageSize, artistId]);
 
-  useEffect(() => {
-    const page = searchParams.get("page") || "1";
-    setPage(parseInt(page));
-  }, [searchParams]);
-
-  if (!albums || !page) return null;
+  if (!albums) return null;
 
   return (
     <div>
@@ -60,7 +57,6 @@ const Albums: FC<Props> = ({ artistId, totalAlbums }) => {
         <Pagination
           currPage={page}
           totalPage={Math.floor(totalAlbums / pageSize) + 1}
-          setPage={setPage}
         />
       )}
     </div>

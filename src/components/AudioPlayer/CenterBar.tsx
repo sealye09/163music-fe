@@ -89,7 +89,7 @@ const CenterBar: FC<CenterBarProps> = ({
             value={trackProgress}
             step="1"
             min="0"
-            max={duration}
+            max={duration ? duration : 0}
             onChange={(e) => onScrub(e.target.value)}
             onMouseUp={onScrubEnd}
             onKeyUp={onScrubEnd}
