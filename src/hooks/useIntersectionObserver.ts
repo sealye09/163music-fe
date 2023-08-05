@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, RefObject } from "react";
+import { RefObject, useCallback, useEffect } from "react";
 
 interface IntersectionObserverInit {
   target: RefObject<Element>;
@@ -23,7 +23,7 @@ export const useIntersectionObserver = ({
   }, [rootMargin, threshold, onIntersect]);
 
   useEffect(() => {
-    if (!target || !target.current) {
+    if (!target.current) {
       return;
     }
 

@@ -10,8 +10,8 @@ const LazyLoad: FC<LazyLoadProps> = ({ children, className, ...rest }) => {
 
   useIntersectionObserver({
     target: divRef,
-    onIntersect: ([{ isIntersecting }], observerElement) => {
-      if (isIntersecting && divRef.current) {
+    onIntersect: ([entry], observerElement) => {
+      if (entry.isIntersecting && divRef.current) {
         setIsVisiable(true);
         console.log("进入视图");
         observerElement.unobserve(divRef.current);
