@@ -7,12 +7,9 @@ import useAudioStore from "@/stores/useAudioStore";
 import { albumApi } from "@/service";
 import TrackTable from "@/components/TrackTable";
 
-import "./index.css";
 import SImage from "@/components/Image";
 
-interface Props {}
-
-const AlbumDetail: FC<Props> = ({}) => {
+const AlbumDetail: FC = () => {
   const { albumId } = useParams();
   const tracks = useAudioStore((state) => state.tracks);
   const setTracks = useAudioStore((state) => state.setTracks);
@@ -77,8 +74,8 @@ const AlbumDetail: FC<Props> = ({}) => {
   }, [albumId]);
 
   return (
-    <div className="album-detail">
-      <div className="content w-full bg-white">
+    <div className="w-full h-full bg-gray1">
+      <div className="w-content mx-auto border-x border-gray1 bg-white">
         <div className="py-8 w-full">
           {!!albumInfo && (
             <div className="info-card flex px-10 pb-4 justify-around">
@@ -93,7 +90,7 @@ const AlbumDetail: FC<Props> = ({}) => {
                 <div className="artist-info text-sm pb-4 w-full flex">
                   <p>歌手：</p>
                   <Link
-                    className="artist-link"
+                    className="hover:text-red-700 hover:underline"
                     artist-id={albumInfo.artist.id}
                     title={albumInfo.artist.name}
                     to={`/artist/${albumInfo.artist.id}`}
@@ -104,7 +101,7 @@ const AlbumDetail: FC<Props> = ({}) => {
                 <div className="album-info text-sm pb-4 w-full flex">
                   <p>专辑：</p>
                   <Link
-                    className="artist-link"
+                    className="hover:text-red-700 hover:underline"
                     artist-id={albumInfo.id}
                     title={albumInfo.name}
                     to={`/album/${albumInfo.id}`}
@@ -115,7 +112,7 @@ const AlbumDetail: FC<Props> = ({}) => {
 
                 <div className="des pb-3 w-full">
                   <div
-                    className="ply-description"
+                    className="text-sm text-gray-700 overflow-hidden line-clamp-6"
                     title={albumInfo.description}
                   >
                     介绍：{albumInfo.description}
