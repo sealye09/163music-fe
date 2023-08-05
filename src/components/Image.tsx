@@ -1,4 +1,4 @@
-import { useState, useEffect, FC } from "react";
+import { useState, useEffect, FC, useRef } from "react";
 import { twMerge } from "tailwind-merge";
 import BlurImage from "@/assets/images/blur.jpeg";
 
@@ -6,17 +6,18 @@ interface LazyImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   blurImage?: string;
 }
 
-const LazyImage: FC<LazyImageProps> = ({ src, alt, blurImage, className, ...rest }) => {
+const SImage: FC<LazyImageProps> = ({ src, alt, blurImage, className, ...rest }) => {
+  const imgRef = useRef<HTMLImageElement>(new Image());
   const [imageSrc, setImageSrc] = useState(src);
   const [isLoading, setIsLoading] = useState(true);
 
-  // 图片加载完成后，将图片的 src 替换为真实的图片地址
   useEffect(() => {
-    const image = new Image();
-    image.src = src as string;
-    image.onload = () => {
+    if (!src) return;
+    imgRef.current.src = src;
+    imgRef.current.onload = () => {
+      console.log("图片加载完成");
       setIsLoading(false);
-      setImageSrc(src as string);
+      setImageSrc(src);
     };
   }, [src]);
 
@@ -42,4 +43,4 @@ const LazyImage: FC<LazyImageProps> = ({ src, alt, blurImage, className, ...rest
   );
 };
 
-export default LazyImage;
+export default SImage;

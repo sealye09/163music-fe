@@ -1,7 +1,8 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
 
-import LazyImage from "./LazyImage";
+import SImage from "./Image";
+import LazyLoad from "./LazyLoad";
 
 type AlbumInfo = {
   id: number | string;
@@ -36,12 +37,14 @@ const Grid: FC<Props> = ({ playlists, type, handleClick }) => {
                   }
                 }}
               >
-                <LazyImage
-                  className="rounded-lg"
-                  src={item.coverImgUrl}
-                  alt={item.name}
-                  blurImage={item.blurPicUrl}
-                />
+                <LazyLoad>
+                  <SImage
+                    className="rounded-lg"
+                    src={item.coverImgUrl}
+                    alt={item.name}
+                    blurImage={item.blurPicUrl}
+                  />
+                </LazyLoad>
               </Link>
             </div>
             <p className="w-28 pt-2 text-sm line-clamp-2 hover:text-red-600 hover:underline">
