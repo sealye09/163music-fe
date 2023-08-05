@@ -39,10 +39,11 @@ const Grid: FC<Props> = ({ playlists, type, handleClick }) => {
               >
                 <LazyLoad>
                   <SImage
+                    height="h-32"
+                    width="w-32"
                     className="rounded-lg"
                     src={item.coverImgUrl}
                     alt={item.name}
-                    blurImage={item.blurPicUrl}
                   />
                 </LazyLoad>
               </Link>

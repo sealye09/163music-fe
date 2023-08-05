@@ -8,6 +8,7 @@ import { albumApi } from "@/service";
 import TrackTable from "@/components/TrackTable";
 
 import "./index.css";
+import SImage from "@/components/Image";
 
 interface Props {}
 
@@ -79,12 +80,13 @@ const AlbumDetail: FC<Props> = ({}) => {
         <div className="py-8 w-full">
           {!!albumInfo && (
             <div className="info-card flex px-10 pb-4 justify-around">
-              <div className="img">
-                <img
-                  className="rounded-md w-56 h-56"
-                  src={`${albumInfo.coverImgUrl}`}
-                />
-              </div>
+              <SImage
+                height="h-56"
+                width="w-56"
+                className="rounded-md"
+                src={albumInfo.coverImgUrl}
+                alt="album-cover"
+              />
               <div className="playlist-info w-2/3 flex-col justify-end">
                 <div className="artist-info text-sm pb-4 w-full flex">
                   <p>歌手：</p>

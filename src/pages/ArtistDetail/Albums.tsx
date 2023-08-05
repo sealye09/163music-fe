@@ -56,15 +56,13 @@ const Albums: FC<Props> = ({ artistId, totalAlbums }) => {
         type={"album"}
         playlists={albums}
       />
-      <div className="pt-10">
-        {totalAlbums > pageSize && (
-          <Pagination
-            currPage={page}
-            totalPage={Math.floor(totalAlbums / pageSize) + 1}
-            setPage={setPage}
-          />
-        )}
-      </div>
+      {totalAlbums > pageSize && (
+        <Pagination
+          currPage={page}
+          totalPage={Math.floor(totalAlbums / pageSize) + 1}
+          setPage={setPage}
+        />
+      )}
     </div>
   );
 };

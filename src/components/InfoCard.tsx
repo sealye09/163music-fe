@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import { Track } from "@/types";
 import useAudioStore from "@/stores/useAudioStore";
+import SImage from "@/components/Image";
 
 interface InfoCardProps extends Track {
   tags?: string[];
@@ -25,12 +26,12 @@ const InfoCard: FC<InfoCardProps> = ({ song, artist, album, tags, description })
 
   return (
     <div className="info-card flex px-10 pb-4 justify-around">
-      <div className="img">
-        <img
-          className="rounded-md w-56 h-56"
-          src={`${album.picUrl}`}
-        />
-      </div>
+      <SImage
+        height="h-56"
+        width="w-56"
+        className="rounded-md"
+        src={album.picUrl}
+      />
       <div className="playlist-info w-2/3 flex-col justify-end">
         <div className="title text-xl pb-4 w-full">
           <p>{song.name}</p>

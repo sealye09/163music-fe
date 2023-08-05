@@ -1,4 +1,3 @@
-import { GetAlbumResponse } from "@/types/response";
 import request from "../utils/request";
 
 /**

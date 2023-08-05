@@ -6,6 +6,7 @@ import { PlaylistInfoDetail, RawSongInfo, Track } from "@/types";
 import { playlistApi } from "@/service";
 import TrackTable from "@/components/TrackTable";
 import useAudioStore from "@/stores/useAudioStore";
+import SImage from "@/components/Image";
 
 const PlaylistDetail: FC = () => {
   const { playlistId } = useParams();
@@ -84,12 +85,13 @@ const PlaylistDetail: FC = () => {
       <div className="flex flex-col w-content content-center bg-white pt-8 mx-auto border-x border-gray1">
         {!!playlistDetail && (
           <div className="info-card flex px-10 pb-4 justify-around">
-            <div className="img">
-              <img
-                className="rounded-md w-56 h-56"
-                src={`${playlistDetail.coverImgUrl}`}
-              />
-            </div>
+            <SImage
+              height="h-56"
+              width="w-56"
+              className="rounded-md"
+              src={playlistDetail.coverImgUrl}
+              alt="playlist-cover"
+            />
             <div className="playlist-info w-2/3 flex-col justify-end">
               <div className="title text-xl pb-4 w-full">
                 <p>{playlistDetail!.name}</p>

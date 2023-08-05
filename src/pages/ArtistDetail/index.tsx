@@ -9,6 +9,7 @@ import { artistApi } from "@/service";
 import Description from "./Description";
 import Hot50 from "./Hot50";
 import Albums from "./Albums";
+import SImage from "@/components/Image";
 
 const TabsConfig = [
   {
@@ -104,9 +105,12 @@ const ArtistDetail: FC = () => {
           <>
             <div className="artist-name text-3xl py-3 px-1">{artistInfo.name}</div>
             <div className="rounded-t-lg w-full h-96 border border-gray1">
-              <img
-                className="object-cover w-full h-full rounded-t-lg"
+              <SImage
+                height="h-full"
+                width="w-full"
+                className="object-cover rounded-t-lg"
                 src={artistInfo.picUrl}
+                alt={artistInfo.name}
               />
             </div>
           </>

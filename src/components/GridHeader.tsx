@@ -22,7 +22,7 @@ const GridHeader: FC<Props> = ({ headline, tags, hasMoreTag }) => {
         </div>
         <Link
           className="px-3 text-xl min-w-fit"
-          to={`${headline.target}`}
+          to={headline.target}
         >
           {headline.title}
         </Link>
@@ -34,7 +34,7 @@ const GridHeader: FC<Props> = ({ headline, tags, hasMoreTag }) => {
             <div key={tag.id}>
               <Link
                 className="px-2 hover:text-red-600"
-                to={`${tag.target}`}
+                to={tag.target}
               >
                 {tag.name}
               </Link>
@@ -46,7 +46,7 @@ const GridHeader: FC<Props> = ({ headline, tags, hasMoreTag }) => {
         <span className="cat-more text-xs text-gray-500 flex items-center justify-end w-full">
           <Link
             className="px-0.5 hover:text-red-600"
-            to={`${headline.target}`}
+            to={headline.target}
           >
             更多
           </Link>

@@ -4,6 +4,7 @@ import { BsLink45Deg } from "react-icons/bs";
 
 import { BasisInfo } from "@/types";
 import styles from "./index.module.css";
+import SImage from "../Image";
 
 interface CenterBarProps {
   duration: number;
@@ -48,9 +49,11 @@ const CenterBar: FC<CenterBarProps> = ({
           to={`/song/${song.id}`}
           className="mask"
         >
-          <img
-            className="w-10 h-10"
+          <SImage
+            width="w-10"
+            height="h-10"
             src={album.picUrl}
+            alt="album-pic"
           />
         </Link>
       </div>
@@ -86,7 +89,7 @@ const CenterBar: FC<CenterBarProps> = ({
             value={trackProgress}
             step="1"
             min="0"
-            max={duration ? duration : `${duration}`}
+            max={duration}
             onChange={(e) => onScrub(e.target.value)}
             onMouseUp={onScrubEnd}
             onKeyUp={onScrubEnd}

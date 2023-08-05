@@ -1,12 +1,13 @@
 import { useState, useEffect, FC, useRef } from "react";
 import { twMerge } from "tailwind-merge";
-import BlurImage from "@/assets/images/blur.jpeg";
 
 interface LazyImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
+  height?: string;
+  width?: string;
   blurImage?: string;
 }
 
-const SImage: FC<LazyImageProps> = ({ src, alt, blurImage, className, ...rest }) => {
+const SImage: FC<LazyImageProps> = ({ height, width, src, alt, blurImage, className, ...rest }) => {
   const imgRef = useRef<HTMLImageElement>(new Image());
   const [imageSrc, setImageSrc] = useState(src);
   const [isLoading, setIsLoading] = useState(true);
@@ -22,19 +23,19 @@ const SImage: FC<LazyImageProps> = ({ src, alt, blurImage, className, ...rest })
   }, [src]);
 
   return (
-    <div className={twMerge("relative")}>
+    <div className={twMerge("relative", height, width)}>
       {isLoading && (
         <img
           className={twMerge(
             "absolute inset-0 w-full h-full object-cover filter blur-sm",
             className
           )}
-          src={blurImage || BlurImage}
+          src={blurImage ? blurImage : imageSrc + "?param=10y10"}
           alt={alt}
         />
       )}
       <img
-        className={twMerge(className, isLoading ? "opacity-0" : "opacity-100")}
+        className={twMerge(isLoading ? "opacity-0" : "opacity-100", "h-full w-full", className)}
         src={imageSrc}
         alt={alt}
         {...rest}
