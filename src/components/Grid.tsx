@@ -21,9 +21,9 @@ const Grid: FC<Props> = ({ playlists, type, handleClick }) => {
   return (
     <div className="w-full h-full">
       <div className="grid grid-cols-5 grid-rows-2 pb-6 pt-10">
-        {playlists.map((item) => (
+        {playlists.map((item, idx) => (
           <div
-            key={item.id}
+            key={idx}
             className="transition duration-500 hover:scale-105 playlist-item grid justify-evenly h-52 content-start"
           >
             <div className="h-32 w-32">

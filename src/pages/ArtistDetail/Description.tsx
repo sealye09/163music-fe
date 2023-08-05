@@ -44,9 +44,9 @@ const Description: FC<Props> = ({ artistId }) => {
         <h2 className="text-left text-lg font-bold pb-1">简介</h2>
         <p>{introduction.desc ? introduction.desc : "暂无介绍"}</p>
       </div>
-      {introduction.introduction.map((item) => (
+      {introduction.introduction.map((item, idx) => (
         <div
-          key={item.title}
+          key={idx}
           className="pb-4"
         >
           <h2 className="text-left font-bold pb-1">{item.title}</h2>

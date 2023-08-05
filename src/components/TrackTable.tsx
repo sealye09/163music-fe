@@ -44,7 +44,7 @@ const TrackTable: FC<Props> = ({ listItems, listInfo }) => {
           {!!listInfo &&
             listInfo.map((item, idx) => (
               <tr
-                key={item.song.id}
+                key={idx}
                 className="w-full h-10 group hover:bg-gray-300/80 even:bg-gray-100 transition-all transition-300"
               >
                 <td
