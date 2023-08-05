@@ -17,6 +17,7 @@ const AlbumDetail: FC<Props> = ({}) => {
   const tracks = useAudioStore((state) => state.tracks);
   const setTracks = useAudioStore((state) => state.setTracks);
   const setTrackIndex = useAudioStore((state) => state.setTrackIndex);
+  const setIsPlaying = useAudioStore((state) => state.setIsPlaying);
 
   const [albumInfo, serAlbumInfo] = useState<AlbumInfo>();
   const [songDetail, setSongDetail] = useState<Track[]>([]);
@@ -36,6 +37,7 @@ const AlbumDetail: FC<Props> = ({}) => {
     });
     setTracks(allNewTracks);
     setTrackIndex(0);
+    setIsPlaying(true);
   };
 
   useEffect(() => {

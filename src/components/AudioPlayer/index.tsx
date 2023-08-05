@@ -20,7 +20,6 @@ export const AudioPlayerContext = createContext(null as unknown as AudioPlayerCo
 const AudioPlayer: FC = ({}) => {
   // Store
   const volume = useAudioStore((state) => state.volume);
-  const setVolume = useAudioStore((state) => state.setVolume);
   const isPlaying = useAudioStore((state) => state.isPlaying);
   const setIsPlaying = useAudioStore((state) => state.setIsPlaying);
   const tracks = useAudioStore((state) => state.tracks);
@@ -38,7 +37,6 @@ const AudioPlayer: FC = ({}) => {
   // Refs
   const audioRef = useRef(new Audio());
   const intervalRef = useRef<ReturnType<typeof setInterval> | number>(0);
-  const isReady = useRef(false);
 
   const { duration } = audioRef.current;
 
@@ -73,11 +71,13 @@ const AudioPlayer: FC = ({}) => {
   const toPrevTrack = () => {
     console.log("previous song");
     prevTrack();
+    setIsPlaying(true);
   };
 
   const toNextTrack = () => {
     console.log("next song");
     nextTrack();
+    setIsPlaying(true);
   };
 
   const toggleAudio = () => {
@@ -106,6 +106,7 @@ const AudioPlayer: FC = ({}) => {
   useEffect(() => {
     let isUnmounted = false;
     if (isUnmounted) return;
+
     audioRef.current.pause();
 
     songApi.getSongUrl(song.id).then((res) => {
@@ -113,19 +114,10 @@ const AudioPlayer: FC = ({}) => {
 
       setTrackProgress(audioRef.current.currentTime);
 
-      if (isReady.current) {
-        audioRef.current
-          .play()
-          .then(() => {
-            audioRef.current.volume = volume / 100;
-            setIsPlaying(true);
-            startTimer();
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      } else {
-        isReady.current = true;
+      if (isPlaying) {
+        audioRef.current.play().then(() => {
+          startTimer();
+        });
       }
     });
 
