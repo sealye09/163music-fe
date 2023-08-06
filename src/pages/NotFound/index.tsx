@@ -4,7 +4,7 @@ import NotFoundImg from "../../assets/images/logo.png";
 
 const NotFound: FC = () => {
   return (
-    <div className="w-full h-full bg-gray1">
+    <div className="w-full h-full bg-gray1 border-y border-gray1">
       <div className="w-content bg-white border-x border-gray1 mx-auto min-h-[70vh]">
         <div>
           <div className="notfound inner h-auto">

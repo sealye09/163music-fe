@@ -60,7 +60,7 @@ const Playlist: FC = () => {
   }, [page]);
 
   return (
-    <div className="flex justify-center bg-gray1">
+    <div className="flex justify-center bg-gray1 border-y border-gray1">
       <div className="bg-white min-w-fit w-content border-x border-gray1">
         <div className="py-10">
           <GridHeader

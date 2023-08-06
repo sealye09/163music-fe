@@ -106,7 +106,7 @@ const Album: FC = () => {
   }, [area, page, pageSize]);
 
   return (
-    <div className="w-full flex justify-center bg-gray1">
+    <div className="w-full flex justify-center bg-gray1 border-y border-gray1">
       <div className="bg-white w-content border-x border-gray1">
         <div className="py-10">
           <div className="h-auto w-full">

@@ -81,7 +81,7 @@ const PlaylistDetail: FC = () => {
   };
 
   return (
-    <div className="flex felx-row justify-center bg-gray1">
+    <div className="h-full w-full flex felx-row justify-center bg-gray1 border-y border-gray1">
       <div className="flex flex-col w-content content-center bg-white pt-8 mx-auto border-x border-gray1">
         {!!playlistDetail && (
           <div className="info-card flex px-10 pb-4 justify-around">

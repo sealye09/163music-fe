@@ -74,7 +74,7 @@ const AlbumDetail: FC = () => {
   }, [albumId]);
 
   return (
-    <div className="w-full h-full bg-gray1">
+    <div className="w-full h-full bg-gray1 border-y border-gray1">
       <div className="w-content mx-auto border-x border-gray1 bg-white">
         <div className="py-8 w-full">
           {!!albumInfo && (

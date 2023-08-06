@@ -8,7 +8,7 @@ const MyMusic: FC = () => {
   };
 
   return (
-    <div className="w-full h-full bg-gray1">
+    <div className="w-full h-full bg-gray1 border-y border-gray1">
       <div className="w-content mx-auto border-x min-h-[70vh] border-gray1 bg-white">
         <div
           className=""

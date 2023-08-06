@@ -166,8 +166,8 @@ const Search: FC = () => {
   }, [page, type]);
 
   return (
-    <div className="w-full flex justify-center bg-gray1">
-      <div className="bg-white w-content border border-x-gray1 flex flex-col justify-center px-12">
+    <div className="w-full flex justify-center bg-gray1 border-y border-gray1">
+      <div className="bg-white w-content border-x border-gray1 flex flex-col justify-center px-12">
         <div className="py-10 flex flex-col justify-center items-center gap-10">
           <div className="flex justify-center">
             <input

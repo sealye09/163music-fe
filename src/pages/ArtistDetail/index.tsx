@@ -99,7 +99,7 @@ const ArtistDetail: FC = () => {
   if (!artistId) return null;
 
   return (
-    <div className="bg-gray1">
+    <div className="w-full h-full bg-gray1 border-y border-gray1">
       <div className="flex flex-col pt-8 w-content bg-white px-8 mx-auto border-x border-gray1">
         {!!artistInfo && (
           <>
