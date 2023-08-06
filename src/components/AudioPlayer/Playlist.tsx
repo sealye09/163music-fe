@@ -81,7 +81,7 @@ const Playlist = forwardRef<HTMLButtonElement>(({}, playlistBtnRef) => {
           {!!tracks &&
             tracks.map((item: any, idx: number) => (
               <tr
-                key={item.song.id}
+                key={idx}
                 className={styles.audio_playlist}
                 onDoubleClick={playTrack}
               >

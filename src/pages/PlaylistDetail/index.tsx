@@ -7,6 +7,8 @@ import { playlistApi } from "@/service";
 import TrackTable from "@/components/TrackTable";
 import useAudioStore from "@/stores/useAudioStore";
 import SImage from "@/components/Image";
+import Button from "@/components/Button";
+import Tag from "@/components/Tag";
 
 const PlaylistDetail: FC = () => {
   const { playlistId } = useParams();
@@ -19,10 +21,9 @@ const PlaylistDetail: FC = () => {
   const setIsPlaying = useAudioStore((state) => state.setIsPlaying);
 
   useEffect(() => {
-    playlistApi.getPlaylistDetail(playlistId!).then((res: AxiosResponse) => {
-      const playlistData: PlaylistInfoDetail = (
-        "playlist" in res ? res.playlist : {}
-      ) as PlaylistInfoDetail;
+    playlistApi.getPlaylistDetail(playlistId!).then((res: any) => {
+      console.log(res);
+      const playlistData: PlaylistInfoDetail = res.playlist ?? {};
       setPlaylistDetail({
         id: playlistData.id,
         name: playlistData.name,
@@ -83,8 +84,8 @@ const PlaylistDetail: FC = () => {
   return (
     <div className="h-full w-full flex felx-row justify-center bg-gray1 border-y border-gray1">
       <div className="flex flex-col w-content content-center bg-white pt-8 mx-auto border-x border-gray1">
-        {!!playlistDetail && (
-          <div className="info-card flex px-10 pb-4 justify-around">
+        {playlistDetail ? (
+          <div className="info-card w-full h-64 flex px-10 gap-8">
             <SImage
               height="h-56"
               width="w-56"
@@ -92,46 +93,43 @@ const PlaylistDetail: FC = () => {
               src={playlistDetail.coverImgUrl}
               alt="playlist-cover"
             />
-            <div className="playlist-info w-2/3 flex-col justify-end">
-              <div className="title text-xl pb-4 w-full">
-                <p>{playlistDetail!.name}</p>
+            <div className="playlist-info flex flex-1 flex-col gap-4">
+              <div className="title text-2xl w-full line-clamp-1">
+                <h2>{playlistDetail.name}</h2>
               </div>
-              <div className="btns text-sm pb-4">
-                <button
-                  style={{
-                    backgroundColor: "#2B659E",
-                  }}
-                  className="btn play text-white px-3 py-1 rounded-md"
+              <div className="btns space-x-1">
+                <Button
+                  className="btn play px-3 py-1 text-gray-100"
                   onClick={playAllSong}
                 >
                   播放
-                </button>
-                <button
-                  style={{
-                    backgroundColor: "#2B659E",
-                  }}
-                  className="btn rounded-md py-1 px-2 text-white"
+                </Button>
+                <Button
+                  className="btn rounded-md py-1 px-2 text-gray-100"
                   onClick={addAllSong}
                 >
                   +
-                </button>
+                </Button>
               </div>
-              <div className="tags pb-3 flex w-full">
-                {!!playlistDetail.tags && <p>标签：</p>}
-                {!!playlistDetail.tags &&
-                  playlistDetail.tags.map((tag: any) => (
-                    <div
-                      key={tag}
-                      className="tag-btn rounded-lg bg-gray-300 min-w-fit w-14 mr-3 flex justify-center px-2"
-                    >
-                      {tag}
-                    </div>
-                  ))}
-              </div>
+              {playlistDetail.tags ? (
+                <div className="tags w-full flex items-center">
+                  <p>标签：</p>
+                  <div className="flex gap-2">
+                    {playlistDetail.tags.map((tag: any) => (
+                      <Tag
+                        key={tag}
+                        content={tag}
+                        to={`/discover/playlist?cat=${tag}`}
+                      />
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+
               {!!playlistDetail.description && (
-                <div className="des pb-3 w-full">
+                <div className="des w-full">
                   <p
-                    className="text-sm text-neutral-800 line-clamp-5 overflow-hidden"
+                    className="text-sm text-neutral-800 line-clamp-4"
                     title={playlistDetail.description}
                   >
                     介绍：{playlistDetail.description}
@@ -140,15 +138,10 @@ const PlaylistDetail: FC = () => {
               )}
             </div>
           </div>
-        )}
+        ) : null}
 
         <div className="tracks-list px-10 pb-10">
-          <div
-            className="list-header bg-white flex justify-between h-8 min-h-fit mt-10 items-end pb-2"
-            style={{
-              borderBottom: "2px solid #c20c0c",
-            }}
-          >
+          <div className="list-header bg-white flex justify-between h-8 min-h-fit mt-10 items-end pb-2 border-b-2 border-red-700">
             <div className="flex items-end mx-2">
               <p className="text-xl text-black">歌曲列表</p>
               <p className="track-count text-gray-500 text-sm mx-4">
@@ -157,8 +150,10 @@ const PlaylistDetail: FC = () => {
               </p>
             </div>
             <div className="play-count flex text-sm items-end mx-2">
-              播放：
-              <p className="text-red-800">{!!playlistDetail ? playlistDetail.playCount : ""}次</p>
+              <span>播放：</span>
+              <span className="text-red-800">
+                {!!playlistDetail ? playlistDetail.playCount : null}次
+              </span>
             </div>
           </div>
           <TrackTable

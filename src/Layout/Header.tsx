@@ -54,18 +54,20 @@ interface Props {
 const SubHeaader: FC<Props> = ({ items, activeItem }) => {
   return (
     <>
-      <div className="flex gap-10 justify-center min-h-fit bg-[#c20c0c] text-white text-xs pt-1 pb-2 pr-72">
-        {items.map((item) => (
-          <NavBarItem
-            key={item.linkTo}
-            className="flex py-1 px-2 items-center min-w-fit"
-            activeClass="bg-[#9b0909] text-white inline-block py-1 px-2 rounded-full"
-            linkTo={item.linkTo}
-            itemText={item.itemText}
-            active={item.linkTo === activeItem}
-            itemId={item.itemId}
-          />
-        ))}
+      <div className="bg-red-700 w-full text-xs pt-1 pb-2">
+        <div className="flex gap-10 min-h-fit w-[610px] mx-auto">
+          {items.map((item) => (
+            <NavBarItem
+              key={item.linkTo}
+              className="flex text-gray-100 py-1 px-3 items-center min-w-fit hover:bg-red-900/80 rounded-full"
+              activeClass="bg-red-900/80 text-gray-50"
+              linkTo={item.linkTo}
+              itemText={item.itemText}
+              active={item.linkTo === activeItem}
+              itemId={item.itemId}
+            />
+          ))}
+        </div>
       </div>
     </>
   );
@@ -115,8 +117,8 @@ const Header: FC = ({}) => {
           {NavBarItems.map((item) => (
             <NavBarItem
               key={item.linkTo}
-              className="flex items-center px-5 text-base min-w-fit h-[72px] "
-              activeClass="bg-black text-white"
+              className="flex items-center px-5 text-base min-w-fit h-[72px] hover:bg-stone-900"
+              activeClass="bg-stone-900 text-stone-100"
               linkTo={item.linkTo}
               itemText={item.itemText}
               active={item.linkTo === activeItem}

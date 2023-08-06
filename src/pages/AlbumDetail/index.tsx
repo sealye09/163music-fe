@@ -8,6 +8,7 @@ import { albumApi } from "@/service";
 import TrackTable from "@/components/TrackTable";
 
 import SImage from "@/components/Image";
+import Button from "@/components/Button";
 
 const AlbumDetail: FC = () => {
   const { albumId } = useParams();
@@ -76,59 +77,57 @@ const AlbumDetail: FC = () => {
   return (
     <div className="w-full h-full bg-gray1 border-y border-gray1">
       <div className="w-content mx-auto border-x border-gray1 bg-white">
-        <div className="py-8 w-full">
-          {!!albumInfo && (
-            <div className="info-card flex px-10 pb-4 justify-around">
-              <SImage
-                height="h-56"
-                width="w-56"
-                className="rounded-md"
-                src={albumInfo.coverImgUrl}
-                alt="album-cover"
-              />
-              <div className="playlist-info w-2/3 flex-col justify-end">
-                <div className="artist-info text-sm pb-4 w-full flex">
-                  <p>歌手：</p>
-                  <Link
-                    className="hover:text-red-700 hover:underline"
-                    artist-id={albumInfo.artist.id}
-                    title={albumInfo.artist.name}
-                    to={`/artist/${albumInfo.artist.id}`}
-                  >
-                    {albumInfo.artist.name}
-                  </Link>
-                </div>
-                <div className="album-info text-sm pb-4 w-full flex">
-                  <p>专辑：</p>
-                  <Link
-                    className="hover:text-red-700 hover:underline"
-                    artist-id={albumInfo.id}
-                    title={albumInfo.name}
-                    to={`/album/${albumInfo.id}`}
-                  >
-                    {albumInfo.name}
-                  </Link>
-                </div>
+        <div className="flex flex-col pt-8 mx-auto">
+          {albumInfo ? (
+            <>
+              <div className="info-card w-full h-64 flex px-10 gap-8">
+                <SImage
+                  height="h-56"
+                  width="w-56"
+                  className="rounded-md"
+                  src={albumInfo.coverImgUrl}
+                  alt="album-cover"
+                />
 
-                <div className="des pb-3 w-full">
-                  <div
-                    className="text-sm text-gray-700 overflow-hidden line-clamp-6"
-                    title={albumInfo.description}
-                  >
-                    介绍：{albumInfo.description}
+                <div className="playlist-info flex flex-1 flex-col gap-4 text-gray-700">
+                  <div className="artist-info w-full flex">
+                    <p>歌手：</p>
+                    <Link
+                      className="hover:text-red-700 hover:underline"
+                      artist-id={albumInfo.artist.id}
+                      title={albumInfo.artist.name}
+                      to={`/artist/${albumInfo.artist.id}`}
+                    >
+                      {albumInfo.artist.name}
+                    </Link>
+                  </div>
+                  <div className="album-info w-full flex">
+                    <p>专辑：</p>
+                    <Link
+                      className="hover:text-red-700 hover:underline"
+                      artist-id={albumInfo.id}
+                      title={albumInfo.name}
+                      to={`/album/${albumInfo.id}`}
+                    >
+                      {albumInfo.name}
+                    </Link>
+                  </div>
+
+                  <div className="des w-full">
+                    <div
+                      className="text-sm text-gray-700 overflow-hidden line-clamp-6"
+                      title={albumInfo.description}
+                    >
+                      介绍：{albumInfo.description}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          )}
+            </>
+          ) : null}
         </div>
         <div className="tracks-list px-10 pb-10">
-          <div
-            className="list-header flex justify-between h-24 min-h-fit items-end pb-2"
-            style={{
-              borderBottom: "2px solid #c20c0c",
-            }}
-          >
+          <div className="list-header bg-white flex justify-between h-8 min-h-fit mt-10 items-end pb-2 border-b-2 border-red-700">
             <div className="flex items-end justify-between mx-2 w-full min-h-fit">
               <div className="flex items-end">
                 <p className="text-xl text-black">歌曲列表</p>
@@ -137,25 +136,19 @@ const AlbumDetail: FC = () => {
                   首歌
                 </p>
               </div>
-              <div className="btns text-sm items-end">
-                <button
-                  style={{
-                    backgroundColor: "#2B659E",
-                  }}
-                  className="btn play text-white px-3 py-1 rounded-md"
+              <div className="btns text-sm items-end space-x-2">
+                <Button
+                  className="btn-play text-white px-3 py-1 rounded-md"
                   onClick={playAllSong}
                 >
                   播放
-                </button>
-                <button
-                  style={{
-                    backgroundColor: "#2B659E",
-                  }}
-                  className="btn rounded-md py-1 px-2 text-white"
+                </Button>
+                <Button
+                  className="btn-add rounded-md py-1 px-2 text-white"
                   onClick={addAllSong}
                 >
                   +
-                </button>
+                </Button>
               </div>
             </div>
           </div>

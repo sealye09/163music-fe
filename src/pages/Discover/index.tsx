@@ -79,8 +79,8 @@ const Discover: FC = () => {
     <>
       <Banners />
       <div className="h-auto w-full bg-gray1 border-y border-gray1">
-        <div className="mx-auto w-content border-x border-gray1 flex flex-col justify-cente items-center h-auto min-w-fit">
-          <div className="h-auto w-full py-6 bg-white">
+        <div className="mx-auto w-content pt-10 bg-white border-x border-gray1 flex flex-col justify-cente items-center h-auto min-w-fit">
+          <div className="h-auto w-full">
             {tags ? (
               <GridHeader
                 headline={{
@@ -111,7 +111,7 @@ const Discover: FC = () => {
               />
             )}
           </div>
-          <div className="h-auto w-full py-6 bg-white">
+          <div className="h-auto w-full">
             <GridHeader
               headline={{
                 title: "新碟上架",
