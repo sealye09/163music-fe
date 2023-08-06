@@ -78,11 +78,8 @@ const Discover: FC = () => {
   return (
     <>
       <Banners />
-      <div className="h-auto w-full bg-gray1">
-        <div
-          className="mx-auto w-content border border-gray1 border-y-0
-          flex flex-col justify-cente items-center h-auto min-w-fit"
-        >
+      <div className="h-auto w-full bg-gray1 border-y border-gray1">
+        <div className="mx-auto w-content border-x border-gray1 flex flex-col justify-cente items-center h-auto min-w-fit">
           <div className="h-auto w-full py-6 bg-white">
             {tags ? (
               <GridHeader

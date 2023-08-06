@@ -90,7 +90,16 @@ const SongDetail: FC<Props> = ({}) => {
           )}
         </div>
         <div className="h-auto border-t-4 flex flex-col justify-center items-center py-10">
-          {!!lyric && lyric.length !== 0 && lyric.map((item) => <p className="py-2">{item.lrc}</p>)}
+          {!!lyric &&
+            lyric.length !== 0 &&
+            lyric.map((item) => (
+              <p
+                key={item.time}
+                className="py-2"
+              >
+                {item.lrc}
+              </p>
+            ))}
         </div>
       </div>
     </div>

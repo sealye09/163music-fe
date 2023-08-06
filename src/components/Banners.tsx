@@ -71,12 +71,13 @@ const Banners: FC = () => {
         }}
       />
       <Link to={banners[activeItem].targetUrl}>
-        <SImage
-          height="h-80"
-          width="w-content"
-          className="w-content cursor-pointer img-active z-10"
-          src={banners[activeItem].imageUrl}
-        />
+        <div className="h-80 w-content border-x border-transparent">
+          <img
+            className="w-full h-full cursor-pointer z-10"
+            src={banners[activeItem].imageUrl}
+            alt="banner img"
+          />
+        </div>
       </Link>
       <button
         className="w-[38px] h-[64px] ml-4 cursor-pointer"
