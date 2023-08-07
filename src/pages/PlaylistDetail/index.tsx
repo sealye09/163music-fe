@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { AxiosResponse } from "axios";
 
 import { PlaylistInfoDetail, RawSongInfo, Track } from "@/types";
@@ -12,6 +12,8 @@ import Tag from "@/components/Tag";
 
 const PlaylistDetail: FC = () => {
   const { playlistId } = useParams();
+  const navigate = useNavigate();
+
   const [playlistDetail, setPlaylistDetail] = useState<PlaylistInfoDetail>();
   const [allSongs, setAllSongs] = useState<Track[]>([]);
 
@@ -119,7 +121,7 @@ const PlaylistDetail: FC = () => {
                       <Tag
                         key={tag}
                         content={tag}
-                        to={`/discover/playlist?cat=${tag}`}
+                        onClick={() => navigate(`/discover/playlist?cat=${tag}`)}
                       />
                     ))}
                   </div>

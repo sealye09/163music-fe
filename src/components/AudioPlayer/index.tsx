@@ -145,7 +145,7 @@ const AudioPlayer: FC = ({}) => {
         } as AudioPlayerContextProps
       }
     >
-      <div className="fixed bottom-0 flex justify-center items-center w-screen text-white bg-black/80">
+      <div className="fixed bottom-0 z-50 flex justify-center items-center w-screen text-white bg-black/80">
         <div className="flex justify-start w-content gap-6 text-sm py-1">
           <LeftControl
             handlePrevTrack={toPrevTrack}

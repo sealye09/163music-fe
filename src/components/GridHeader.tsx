@@ -1,36 +1,48 @@
-import { FC } from "react";
-import { Link } from "react-router-dom";
+import { FC, HTMLAttributes } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { BsArrowRightShort, BsMusicNoteBeamed } from "react-icons/bs";
 
 import { HeadLine, Tag } from "@/types";
 
-interface Props {
+interface GridHeaderProps extends HTMLAttributes<HTMLDivElement> {
   headline: HeadLine;
   tags?: Tag[];
   hasMoreTag: boolean;
 }
 
-const GridHeader: FC<Props> = ({ headline, tags, hasMoreTag }) => {
+const GridHeader: FC<GridHeaderProps> = ({
+  headline,
+  tags,
+  hasMoreTag,
+  className,
+  children,
+  ...rest
+}) => {
+  const navigate = useNavigate();
+
   return (
     <div className="w-full h-auto flex px-6 min-w-fit border-b-2 border-red-700">
       <div className="flex min-w-fit justify-start items-center">
-        <div>
+        <div className="icon">
           <BsMusicNoteBeamed
             size={20}
             className="text-red-600"
           />
         </div>
-        <Link
-          className="px-3 text-xl min-w-fit"
-          to={headline.target}
+        <span
+          className="px-3 text-xl min-w-fit cursor-pointer"
+          onClick={() => {
+            if (headline.target === "" || headline.target === "#") return;
+            navigate(headline.target);
+          }}
         >
           {headline.title}
-        </Link>
+        </span>
       </div>
 
-      <div className="tag-cat px-3 text-xs flex items-center text-gray-500 min-w-fit">
-        {!!tags &&
-          tags.map((tag, idx) => (
+      {tags ? (
+        <div className="tag-cat px-3 text-xs flex items-center text-gray-500 min-w-fit">
+          {tags.map((tag, idx) => (
             <div key={idx}>
               <Link
                 className="px-2 hover:text-red-600"
@@ -41,7 +53,9 @@ const GridHeader: FC<Props> = ({ headline, tags, hasMoreTag }) => {
               {idx === tags.length - 1 ? null : <span className="line">|</span>}
             </div>
           ))}
-      </div>
+        </div>
+      ) : null}
+
       {hasMoreTag && (
         <span className="cat-more text-xs text-gray-500 flex items-center justify-end w-full">
           <Link
