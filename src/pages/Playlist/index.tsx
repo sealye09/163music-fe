@@ -1,5 +1,5 @@
 import { FC, useEffect, useRef, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { BsMusicNoteBeamed } from "react-icons/bs";
 import { twMerge } from "tailwind-merge";
 
@@ -23,7 +23,6 @@ export type SubCategory = Category & {
 
 const Playlist: FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const navigate = useNavigate();
 
   const droupDownRef = useRef<HTMLDivElement>(null);
 

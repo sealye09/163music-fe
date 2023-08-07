@@ -5,6 +5,7 @@ import { twMerge } from "tailwind-merge";
 import Tag from "@/components/Tag";
 
 import { Category, SubCategory } from ".";
+import { useSearchParams } from "react-router-dom";
 
 interface DroupDownProps extends HTMLAttributes<HTMLDivElement> {
   setIsShowDroupDown?: (isShowDroupDown: boolean) => void;
@@ -15,6 +16,10 @@ interface DroupDownProps extends HTMLAttributes<HTMLDivElement> {
 const DroupDown: FC<DroupDownProps> = memo(
   ({ categeories, subCategories, className, setIsShowDroupDown, children, ...rest }) => {
     const navigate = useNavigate();
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    const order = searchParams.get("order") || "hot";
+
     // 根据类别对subCategories进行分类
     const filteredSubCategories = categeories.map((category) => {
       return {
@@ -23,9 +28,16 @@ const DroupDown: FC<DroupDownProps> = memo(
       };
     });
 
-    const handleClick = (to: string) => {
+    const handleClick = ({ cat }: { cat?: string }) => {
       if (setIsShowDroupDown) setIsShowDroupDown(false);
-      navigate(to);
+      // 设置query参数
+      if (searchParams.has("cat")) {
+        searchParams.set("cat", cat || "");
+      } else {
+        searchParams.append("cat", cat || "");
+      }
+
+      setSearchParams(searchParams);
     };
 
     return (
@@ -34,7 +46,7 @@ const DroupDown: FC<DroupDownProps> = memo(
           <Tag
             className="w-fit flex-shrink-0 bg-blue-500 text-white hover:bg-blue-700 hover:text-white"
             content={"全部"}
-            onClick={() => handleClick("/discover/playlist/?cat=全部")}
+            onClick={() => handleClick({ cat: "全部" })}
           />
           <div className="line w-full border-b border-gray1"></div>
           {filteredSubCategories.map((category, idx) => {
@@ -54,7 +66,7 @@ const DroupDown: FC<DroupDownProps> = memo(
                         key={subCategory.id}
                         content={subCategory.name}
                         className="text-xs text-center shrink-0"
-                        onClick={() => handleClick(`/discover/playlist/?cat=${subCategory.name}`)}
+                        onClick={() => handleClick({ cat: subCategory.name })}
                       />
                     );
                   })}
