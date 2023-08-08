@@ -19,6 +19,8 @@ export const AudioPlayerContext = createContext(null as unknown as AudioPlayerCo
 
 const AudioPlayer: FC = ({}) => {
   // Store
+  const timer = useAudioStore((state) => state.timer);
+  const setTimer = useAudioStore((state) => state.setTimer);
   const volume = useAudioStore((state) => state.volume);
   const isPlaying = useAudioStore((state) => state.isPlaying);
   const setIsPlaying = useAudioStore((state) => state.setIsPlaying);
@@ -30,13 +32,13 @@ const AudioPlayer: FC = ({}) => {
   const { song, artist, album } = tracks[trackIndex];
 
   // State
-  const [trackProgress, setTrackProgress] = useState<number>(0);
+  // const [trackProgress, setTrackProgress] = useState<number>(0);
   const [isShowVolumeCtr, setIsShowVolumeCtr] = useState<boolean>(false);
   const [isShowPlaylist, setIsShowPlaylist] = useState<boolean>(false);
 
   // Refs
   const audioRef = useRef(new Audio());
-  const intervalRef = useRef<ReturnType<typeof setInterval> | number>(0);
+  const intervalRef = useRef<NodeJS.Timeout | number>(0);
 
   const { duration } = audioRef.current;
 
@@ -50,15 +52,17 @@ const AudioPlayer: FC = ({}) => {
       if (audioRef.current.ended) {
         toNextTrack();
       } else {
-        setTrackProgress(audioRef.current.currentTime);
+        // setTrackProgress(audioRef.current.currentTime);
+        setTimer(audioRef.current.currentTime);
       }
-    }, 1000);
+    }, 500);
   };
 
   const onScrub = (value: any) => {
     clearInterval(intervalRef.current);
     audioRef.current.currentTime = value;
-    setTrackProgress(audioRef.current.currentTime);
+    // setTrackProgress(audioRef.current.currentTime);
+    setTimer(audioRef.current.currentTime);
   };
 
   const onScrubEnd = () => {
@@ -83,7 +87,8 @@ const AudioPlayer: FC = ({}) => {
   const toggleAudio = () => {
     console.log("toggle audio");
     setIsPlaying(!isPlaying);
-    setTrackProgress(audioRef.current.currentTime);
+    // setTrackProgress(audioRef.current.currentTime);
+    setTimer(audioRef.current.currentTime);
   };
 
   // 控制播放/暂停
@@ -112,7 +117,8 @@ const AudioPlayer: FC = ({}) => {
     songApi.getSongUrl(song.id).then((res) => {
       audioRef.current = new Audio(res.data[0].url);
 
-      setTrackProgress(audioRef.current.currentTime);
+      // setTrackProgress(audioRef.current.currentTime);
+      setTimer(audioRef.current.currentTime);
 
       if (isPlaying) {
         audioRef.current.play().then(() => {
@@ -156,7 +162,8 @@ const AudioPlayer: FC = ({}) => {
 
           <CenterBar
             duration={duration}
-            trackProgress={trackProgress}
+            // trackProgress={trackProgress}
+            trackProgress={timer}
             onScrub={onScrub}
             onScrubEnd={onScrubEnd}
             song={song}

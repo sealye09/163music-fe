@@ -19,8 +19,4 @@ react react-router ts axios tailwindcss zustand
 - 播放器（play/pause, prev/next, volume ctrl）
 - 骨架屏
 - 图片懒加载，加载时模糊图片
-
-### TODO
-
-- 滚动歌词
-- 登录
+- 滚动歌词（歌曲详情页面）

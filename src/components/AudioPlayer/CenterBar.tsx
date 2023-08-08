@@ -3,8 +3,10 @@ import { Link } from "react-router-dom";
 import { BsLink45Deg } from "react-icons/bs";
 
 import { BasisInfo } from "@/types";
+import { formatTime } from "@/utils/time";
+import SImage from "@/components/Image";
+
 import styles from "./index.module.css";
-import SImage from "../Image";
 
 interface CenterBarProps {
   duration: number;
@@ -28,19 +30,6 @@ const CenterBar: FC<CenterBarProps> = ({
   const currentPercentage = duration ? `${(trackProgress / duration) * 100}%` : "0%";
 
   const trackStyling = `-webkit-gradient(linear, 0% 0%, 100% 0%, color-stop(${currentPercentage}, #C60C0C), color-stop(${currentPercentage}, rgba(19,19,19,0.85)))`;
-
-  // 转换成 mm:ss 格式
-  const toMinutes = (seconds: any) => {
-    let m: any = 0;
-    while (seconds >= 60) {
-      seconds -= 60;
-      m += 1;
-    }
-    let s = seconds.toFixed(0);
-    m = m >= 10 ? m : "0" + m;
-    s = s >= 10 ? s : "0" + s;
-    return m + ":" + s;
-  };
 
   return (
     <div className="flex min-w-fit w-full gap-6">
@@ -95,7 +84,8 @@ const CenterBar: FC<CenterBarProps> = ({
             onKeyUp={onScrubEnd}
           />
           <div className="text-gray-400 text-xs">
-            {toMinutes(trackProgress)}/<em>{isNaN(duration) ? "00:00" : toMinutes(duration)}</em>
+            {formatTime(trackProgress, "mm:ss")}/
+            <em>{isNaN(duration) ? "00:00" : formatTime(duration, "mm:ss")}</em>
           </div>
         </div>
       </div>

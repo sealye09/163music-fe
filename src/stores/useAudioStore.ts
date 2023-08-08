@@ -27,6 +27,8 @@ interface AudioStore {
   trackIndex: number;
   volume: number;
   isPlaying: boolean;
+  timer: number;
+
   setVolume: (volume: number) => void;
   setIsPlaying: (isPlaying: boolean) => void;
   addTrack: (track: Track) => void;
@@ -36,15 +38,24 @@ interface AudioStore {
   setTrackIndex: (index: number) => void;
   nextTrack: () => void;
   prevTrack: () => void;
+  setTimer: (timer: number) => void;
+  getCurrentTrack: () => Track;
 }
 
 const useAudioStore = create<AudioStore>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       tracks: defaultTrack,
       trackIndex: 0,
       volume: 60,
       isPlaying: false,
+      timer: 0,
+
+      // 获取当前歌曲
+      getCurrentTrack: () => get().tracks[get().trackIndex],
+
+      // 设置定时器
+      setTimer: (timer: number) => set({ timer }),
 
       // 设置音量
       setVolume: (volume: number) => set({ volume }),

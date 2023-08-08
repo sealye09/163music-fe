@@ -1,26 +1,37 @@
 import { FC, useEffect, useState } from "react";
 import { useParams } from "react-router";
 
-import { Track } from "@/types";
+import { RawSongInfo, Track } from "@/types";
 import { songApi } from "@/service";
-import InfoCard from "@/components/InfoCard";
+import useAudioStore from "@/stores/useAudioStore";
+import InfoCard from "@/pages/SongDetail/InfoCard";
 
-interface LyricWithTime {
+import RollingLyric from "./RollingLyric";
+import Lyric from "./Lyric";
+
+interface TLyricWithTime {
   time: string;
   lrc: string;
 }
 
-interface Props {}
+export interface TLyric {
+  time: string;
+  lyric: string;
+  tlyric: string;
+}
 
-const SongDetail: FC<Props> = ({}) => {
+const SongDetail: FC = () => {
   const { songId } = useParams();
+
+  const currentPlayTrack = useAudioStore((state) => state.getCurrentTrack());
+
   const [songDetail, setSongDetail] = useState<Track>();
-  const [lyric, setLyric] = useState<LyricWithTime[]>([]);
+  const [showLyric, setShowLyric] = useState<TLyric[]>();
 
   const initLyric = (rawLyric: string) => {
     const lrcReg = /\n/;
     const timeReg = /\[.*\]/;
-    let res: LyricWithTime[] = [];
+    let res: TLyricWithTime[] = [];
 
     for (let l of rawLyric.split(lrcReg)) {
       let lrc = l.split(timeReg);
@@ -40,14 +51,60 @@ const SongDetail: FC<Props> = ({}) => {
         }
       }
     }
+    return res.filter((item) => item.lrc.length !== 0);
+  };
 
+  const mergeLyric = (lyric: TLyricWithTime[], translatedLyric: TLyricWithTime[]) => {
+    let res: TLyric[] = [];
+    let i = 0;
+    let j = 0;
+    while (i < lyric.length && j < translatedLyric.length) {
+      if (lyric[i].time === translatedLyric[j].time) {
+        res.push({
+          time: lyric[i].time,
+          lyric: lyric[i].lrc,
+          tlyric: translatedLyric[j].lrc,
+        });
+        i++;
+        j++;
+      } else if (lyric[i].time > translatedLyric[j].time) {
+        res.push({
+          time: translatedLyric[j].time,
+          lyric: "",
+          tlyric: translatedLyric[j].lrc,
+        });
+        j++;
+      } else {
+        res.push({
+          time: lyric[i].time,
+          lyric: lyric[i].lrc,
+          tlyric: "",
+        });
+        i++;
+      }
+    }
+    while (i < lyric.length) {
+      res.push({
+        time: lyric[i].time,
+        lyric: lyric[i].lrc,
+        tlyric: "",
+      });
+      i++;
+    }
+    while (j < translatedLyric.length) {
+      res.push({
+        time: translatedLyric[j].time,
+        lyric: "",
+        tlyric: translatedLyric[j].lrc,
+      });
+      j++;
+    }
     return res;
   };
 
   // 获取歌曲信息
   useEffect(() => {
-    songApi.getSongDetail(songId!).then((res) => {
-      // @ts-ignore
+    songApi.getSongDetail(songId!).then((res: any) => {
       const data = ("songs" in res ? res.songs[0] : {}) as RawSongInfo;
       const details: Track = {
         song: {
@@ -64,43 +121,41 @@ const SongDetail: FC<Props> = ({}) => {
           picUrl: data.al.picUrl,
         },
       };
-      console.log(details);
       setSongDetail({ ...details });
     });
   }, [songId]);
 
   // 获取歌词
   useEffect(() => {
-    songApi.getSongLyric(Number(songId!)).then((res) => {
-      // @ts-ignore
-      setLyric(initLyric(res.lrc.lyric));
+    songApi.getSongLyric(Number(songId!)).then((res: any) => {
+      console.log(res);
+      const lyric = initLyric(res.lrc.lyric);
+      const translatedLyric = initLyric(res.tlyric.lyric);
+
+      // 按时间排序两个歌词文本，最后展示时一起展示
+      setShowLyric(mergeLyric(lyric, translatedLyric));
     });
   }, [songId]);
 
+  if (!showLyric || !songDetail) {
+    return null;
+  }
+
   return (
     <div className="flex felx-row justify-center bg-gray1 border-y border-gray1">
-      <div className="flex flex-col content-center bg-white pt-8 mx-auto w-content border-x border-gray1">
+      <div className="h-min flex flex-col content-center bg-white pt-8 mx-auto w-content border-x border-gray1">
         <div>
-          {!!songDetail && (
-            <InfoCard
-              song={songDetail.song}
-              artist={songDetail.artist}
-              album={songDetail.album}
-            />
-          )}
+          <InfoCard
+            song={songDetail.song}
+            artist={songDetail.artist}
+            album={songDetail.album}
+          />
         </div>
-        <div className="h-auto border-t-4 flex flex-col justify-center items-center py-10">
-          {!!lyric &&
-            lyric.length !== 0 &&
-            lyric.map((item) => (
-              <p
-                key={item.time}
-                className="py-2"
-              >
-                {item.lrc}
-              </p>
-            ))}
-        </div>
+        {songId === currentPlayTrack.song.id.toString() ? (
+          <RollingLyric lyric={showLyric} />
+        ) : (
+          <Lyric lyric={showLyric} />
+        )}
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import { FC, useMemo } from "react";
+import { FC, memo, useMemo } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 import { NavBarItemConfig } from "@/types";
@@ -73,7 +73,7 @@ const SubHeaader: FC<Props> = ({ items, activeItem }) => {
   );
 };
 
-const Header: FC = ({}) => {
+const Header: FC = memo(() => {
   const location = useLocation();
   // 头部导航选择的目标
   console.log(location);
@@ -143,6 +143,6 @@ const Header: FC = ({}) => {
       )}
     </div>
   );
-};
+});
 
 export default Header;
