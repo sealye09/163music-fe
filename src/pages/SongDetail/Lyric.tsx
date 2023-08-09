@@ -21,7 +21,7 @@ const Lyric: FC<LyricProps> = ({ lyric }) => {
                 className="w-full py-2 px-16 flex flex-col justify-center items-center text-gray-800 opacity-80 text-center"
               >
                 <span>{item.lyric}</span>
-                {item.tlyric && <span> {item.tlyric}</span>}
+                {item.tlyric === "" ? null : <span> {item.tlyric}</span>}
               </li>
             );
           })}

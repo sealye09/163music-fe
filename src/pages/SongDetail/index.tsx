@@ -9,14 +9,12 @@ import InfoCard from "@/pages/SongDetail/InfoCard";
 import RollingLyric from "./RollingLyric";
 import Lyric from "./Lyric";
 
-interface TLyricWithTime {
-  time: string;
-  lrc: string;
-}
-
-export interface TLyric {
+export interface TLyricWithTime {
   time: string;
   lyric: string;
+}
+
+export interface TLyric extends TLyricWithTime {
   tlyric: string;
 }
 
@@ -45,25 +43,40 @@ const SongDetail: FC = () => {
           if (t.length !== 0) {
             res.push({
               time: t,
-              lrc: lrc[1],
+              lyric: lrc[1],
             });
           }
         }
       }
     }
-    return res.filter((item) => item.lrc.length !== 0);
+    return res.filter((item) => item.lyric.length !== 0);
   };
 
   const mergeLyric = (lyric: TLyricWithTime[], translatedLyric: TLyricWithTime[]) => {
     let res: TLyric[] = [];
     let i = 0;
     let j = 0;
+    if (lyric.length === 0) {
+      return translatedLyric.map((item) => ({
+        time: item.time,
+        lyric: "",
+        tlyric: item.lyric,
+      }));
+    }
+    if (translatedLyric.length === 0) {
+      return lyric.map((item) => ({
+        time: item.time,
+        lyric: item.lyric,
+        tlyric: "",
+      }));
+    }
+
     while (i < lyric.length && j < translatedLyric.length) {
       if (lyric[i].time === translatedLyric[j].time) {
         res.push({
           time: lyric[i].time,
-          lyric: lyric[i].lrc,
-          tlyric: translatedLyric[j].lrc,
+          lyric: lyric[i].lyric,
+          tlyric: translatedLyric[j].lyric,
         });
         i++;
         j++;
@@ -71,13 +84,13 @@ const SongDetail: FC = () => {
         res.push({
           time: translatedLyric[j].time,
           lyric: "",
-          tlyric: translatedLyric[j].lrc,
+          tlyric: translatedLyric[j].lyric,
         });
         j++;
       } else {
         res.push({
           time: lyric[i].time,
-          lyric: lyric[i].lrc,
+          lyric: lyric[i].lyric,
           tlyric: "",
         });
         i++;
@@ -86,7 +99,7 @@ const SongDetail: FC = () => {
     while (i < lyric.length) {
       res.push({
         time: lyric[i].time,
-        lyric: lyric[i].lrc,
+        lyric: lyric[i].lyric,
         tlyric: "",
       });
       i++;
@@ -95,7 +108,7 @@ const SongDetail: FC = () => {
       res.push({
         time: translatedLyric[j].time,
         lyric: "",
-        tlyric: translatedLyric[j].lrc,
+        tlyric: translatedLyric[j].lyric,
       });
       j++;
     }
@@ -129,6 +142,10 @@ const SongDetail: FC = () => {
   useEffect(() => {
     songApi.getSongLyric(Number(songId!)).then((res: any) => {
       console.log(res);
+      if (!res.tlyric) {
+        setShowLyric(mergeLyric(initLyric(res.lrc.lyric), []));
+        return;
+      }
       const lyric = initLyric(res.lrc.lyric);
       const translatedLyric = initLyric(res.tlyric.lyric);
 

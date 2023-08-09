@@ -14,30 +14,40 @@ const RollingLyric: FC<RollingLyricProps> = ({ lyric }) => {
   const ulRef = useRef<HTMLUListElement>(null);
 
   // 当前展示的歌词
-  const currentLyric = useMemo(() => {
+  const currentLyricIdx = useMemo(() => {
     for (let i = 0; i < lyric.length; i++) {
       const current = lyric[i];
       const seconds = Number(current.time.split(":")[0]) * 60 + Number(current.time.split(":")[1]);
-      if (seconds > timer) {
-        return {
-          ...current,
-          idx: i,
-        };
+      const nextSeconds =
+        Number(lyric[i + 1]?.time.split(":")[0]) * 60 + Number(lyric[i + 1]?.time.split(":")[1]);
+
+      // 中间歌词
+      if (timer >= seconds && timer < nextSeconds) {
+        return i;
+      }
+
+      // 最后一句歌词
+      if (i === lyric.length - 1 && timer >= seconds) {
+        return i;
+      }
+
+      // 第一句歌词
+      if (i === 0 && timer < seconds) {
+        return 0;
       }
     }
 
-    return {
-      ...lyric[lyric.length - 1],
-      idx: lyric.length - 1,
-    };
+    // 歌词为空
+    return lyric.length - 1;
   }, [lyric, timer]);
 
   // 滚动到当前歌词
   useEffect(() => {
-    if (!currentLyric || !ulRef.current) return;
+    if (!currentLyricIdx || !ulRef.current) return;
     const scrollELe = ulRef.current.parentElement;
-    const currentLi = ulRef.current.children[currentLyric.idx + 1] as HTMLLIElement;
+    const currentLi = ulRef.current.children[currentLyricIdx] as HTMLLIElement;
     if (!currentLi || !scrollELe) return;
+    console.log(currentLi.textContent);
 
     const offsetTop = currentLi.offsetTop;
     const scrollHeight = scrollELe.getBoundingClientRect().height;
@@ -46,7 +56,7 @@ const RollingLyric: FC<RollingLyricProps> = ({ lyric }) => {
       behavior: "smooth",
       top: offsetTop - scrollHeight,
     });
-  }, [currentLyric.idx]);
+  }, [currentLyricIdx]);
 
   return (
     <div className="min-h-[500px] overflow-y-auto border-t-4 flex flex-col justify-center items-center py-10">
@@ -67,17 +77,17 @@ const RollingLyric: FC<RollingLyricProps> = ({ lyric }) => {
                 flex flex-col justify-center items-center
                 text-gray-800 opacity-80 text-center
                 transition-all duration-500`,
-                  currentLyric.idx === idx
+                  currentLyricIdx === idx
                     ? "text-2xl py-4 text-red-700 bg-gray-300/50 font-bold"
-                    : currentLyric.idx === idx - 2 ||
-                      currentLyric.idx === idx - 1 ||
-                      currentLyric.idx === idx + 1
+                    : currentLyricIdx === idx - 2 ||
+                      currentLyricIdx === idx - 1 ||
+                      currentLyricIdx === idx + 1
                     ? "text-lg py-3 font-bold opacity-90 bg-gray-300/10"
                     : "text-gray-400 blur-[1px]"
                 )}
               >
                 <span>{item.lyric}</span>
-                {item.tlyric && <span> {item.tlyric}</span>}
+                {item.tlyric === "" ? null : <span> {item.tlyric}</span>}
               </li>
             );
           })}
