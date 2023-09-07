@@ -40,7 +40,9 @@ const SImage: FC<LazyImageProps> = ({ height, width, src, alt, blurImage, classN
 
   return (
     <div className={twMerge("relative", height, width)}>
-      {isBlurImageLoading && <PicSkeleton className="absolute inset-0 w-full h-full rounded-md" />}
+      {isBlurImageLoading && (
+        <PicSkeleton className="absolute z-10 inset-0 w-full h-full rounded-md" />
+      )}
 
       {isLoading && (
         <img
