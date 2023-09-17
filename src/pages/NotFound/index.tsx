@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-import NotFoundImg from "../../assets/images/logo.png";
+import NotFoundImg from "@/assets/images/logo.png";
 
 const NotFound: FC = () => {
   return (
