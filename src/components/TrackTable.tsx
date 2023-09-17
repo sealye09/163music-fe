@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { BsFillPlayCircleFill } from "react-icons/bs";
 
 import { Track } from "@/types";
-import useAudioStore from "@/stores/useAudioStore";
+import { setIsPlaying, setTrackIndex, setTracks } from "@/stores/useAudioStore";
 
 interface Props {
   listItems: string[];
@@ -11,10 +11,6 @@ interface Props {
 }
 
 const TrackTable: FC<Props> = ({ listItems, listInfo }) => {
-  const setTracks = useAudioStore((state) => state.setTracks);
-  const setTrackIndex = useAudioStore((state) => state.setTrackIndex);
-  const setIsPlaying = useAudioStore((state) => state.setIsPlaying);
-
   const tableRef = useRef<HTMLTableElement>(null);
 
   const handlePlayTrack = (idx: number) => {

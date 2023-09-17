@@ -5,7 +5,7 @@ import { AxiosResponse } from "axios";
 import { PlaylistInfoDetail, RawSongInfo, Track } from "@/types";
 import { playlistApi } from "@/service";
 import TrackTable from "@/components/TrackTable";
-import useAudioStore from "@/stores/useAudioStore";
+import { setIsPlaying, setTrackIndex, setTracks, useAudioStore } from "@/stores/useAudioStore";
 import SImage from "@/components/Image";
 import Button from "@/components/Button";
 import Tag from "@/components/Tag";
@@ -18,9 +18,6 @@ const PlaylistDetail: FC = () => {
   const [allSongs, setAllSongs] = useState<Track[]>([]);
 
   const tracks = useAudioStore((state) => state.tracks);
-  const setTracks = useAudioStore((state) => state.setTracks);
-  const setTrackIndex = useAudioStore((state) => state.setTrackIndex);
-  const setIsPlaying = useAudioStore((state) => state.setIsPlaying);
 
   useEffect(() => {
     playlistApi.getPlaylistDetail(playlistId!).then((res: any) => {

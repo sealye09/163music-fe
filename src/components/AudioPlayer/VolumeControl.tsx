@@ -1,13 +1,12 @@
 import { forwardRef, useContext, useEffect, useRef } from "react";
 import { twMerge } from "tailwind-merge";
 
-import useAudioStore from "@/stores/useAudioStore";
+import { setVolume, useAudioStore } from "@/stores/useAudioStore";
 import { AudioPlayerContextProps, AudioPlayerContext } from ".";
 import styles from "./index.module.css";
 
 const VolumeControl = forwardRef<HTMLButtonElement>(({}, volumeBtnRef) => {
   const volume = useAudioStore((state) => state.volume);
-  const setVolume = useAudioStore((state) => state.setVolume);
 
   // Context
   const { isShowVolumeCtr, setIsShowVolumeCtr } =

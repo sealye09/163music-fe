@@ -1,7 +1,7 @@
 import { FC, useContext, useRef } from "react";
 import { BsList, BsVolumeDown, BsVolumeMute } from "react-icons/bs";
 
-import useAudioStore from "@/stores/useAudioStore";
+import { useAudioStore } from "@/stores/useAudioStore";
 import { AudioPlayerContext, AudioPlayerContextProps } from ".";
 import VolumeControl from "./VolumeControl";
 import Playlist from "./Playlist";

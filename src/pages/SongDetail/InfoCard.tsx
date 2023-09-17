@@ -2,7 +2,7 @@ import { FC, memo } from "react";
 import { Link } from "react-router-dom";
 
 import { Track } from "@/types";
-import useAudioStore from "@/stores/useAudioStore";
+import { setTrackIndex, setTracks, useAudioStore } from "@/stores/useAudioStore";
 import SImage from "@/components/Image";
 import Button from "@/components/Button";
 
@@ -11,8 +11,6 @@ interface InfoCardProps extends Track {}
 const InfoCard: FC<InfoCardProps> = memo(
   ({ song, artist, album }) => {
     const tracks = useAudioStore((state) => state.tracks);
-    const setTracks = useAudioStore((state) => state.setTracks);
-    const setTrackIndex = useAudioStore((state) => state.setTrackIndex);
 
     const playTrack = () => {
       setTracks([{ song: song, artist: artist, album: album }]);

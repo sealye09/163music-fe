@@ -3,7 +3,7 @@ import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 
 import { AlbumInfo, Track } from "@/types";
-import useAudioStore from "@/stores/useAudioStore";
+import { setIsPlaying, setTrackIndex, setTracks, useAudioStore } from "@/stores/useAudioStore";
 import { albumApi } from "@/service";
 import TrackTable from "@/components/TrackTable";
 
@@ -13,9 +13,6 @@ import Button from "@/components/Button";
 const AlbumDetail: FC = () => {
   const { albumId } = useParams();
   const tracks = useAudioStore((state) => state.tracks);
-  const setTracks = useAudioStore((state) => state.setTracks);
-  const setTrackIndex = useAudioStore((state) => state.setTrackIndex);
-  const setIsPlaying = useAudioStore((state) => state.setIsPlaying);
 
   const [albumInfo, serAlbumInfo] = useState<AlbumInfo>();
   const [songDetail, setSongDetail] = useState<Track[]>([]);

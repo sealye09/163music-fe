@@ -1,16 +1,15 @@
 import { forwardRef, useContext, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+import { twMerge } from "tailwind-merge";
 import { BsLink45Deg } from "react-icons/bs";
 
+import { resetTracks, setTrackIndex, useAudioStore } from "@/stores/useAudioStore";
+
 import { AudioPlayerContextProps, AudioPlayerContext } from ".";
-import useAudioStore from "@/stores/useAudioStore";
 import styles from "./index.module.css";
-import { twMerge } from "tailwind-merge";
 
 const Playlist = forwardRef<HTMLButtonElement>(({}, playlistBtnRef) => {
   const tracks = useAudioStore((state) => state.tracks);
-  const resetTracks = useAudioStore((state) => state.resetTracks);
-  const setTrackIndex = useAudioStore((state) => state.setTrackIndex);
 
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -67,10 +66,7 @@ const Playlist = forwardRef<HTMLButtonElement>(({}, playlistBtnRef) => {
             <th align="left">
               <a
                 className="cursor-pointer"
-                onClick={() => {
-                  resetTracks();
-                  setTrackIndex(0);
-                }}
+                onClick={() => resetTracks()}
               >
                 清除全部
               </a>

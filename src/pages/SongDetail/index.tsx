@@ -3,7 +3,7 @@ import { useParams } from "react-router";
 
 import { RawSongInfo, Track } from "@/types";
 import { songApi } from "@/service";
-import useAudioStore from "@/stores/useAudioStore";
+import { getCurrentTrack } from "@/stores/useAudioStore";
 import InfoCard from "@/pages/SongDetail/InfoCard";
 
 import RollingLyric from "./RollingLyric";
@@ -21,7 +21,7 @@ export interface TLyric extends TLyricWithTime {
 const SongDetail: FC = () => {
   const { songId } = useParams();
 
-  const currentPlayTrack = useAudioStore((state) => state.getCurrentTrack());
+  const currentPlayTrack = getCurrentTrack();
 
   const [songDetail, setSongDetail] = useState<Track>();
   const [showLyric, setShowLyric] = useState<TLyric[]>();

@@ -1,7 +1,7 @@
 import { FC, useEffect, useMemo, useRef } from "react";
 import { twMerge } from "tailwind-merge";
 
-import useAudioStore from "@/stores/useAudioStore";
+import { useAudioStore } from "@/stores/useAudioStore";
 
 import { TLyric } from ".";
 
