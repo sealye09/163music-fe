@@ -1,21 +1,14 @@
-import { forwardRef, useContext, useEffect, useRef } from "react";
+import { forwardRef } from "react";
 import { Link } from "react-router-dom";
-import { twMerge } from "tailwind-merge";
 import { BsLink45Deg } from "react-icons/bs";
+import { twMerge } from "tailwind-merge";
 
 import { resetTracks, setTrackIndex, useAudioStore } from "@/stores/useAudioStore";
 
-import { AudioPlayerContextProps, AudioPlayerContext } from ".";
 import styles from "./index.module.css";
 
-const Playlist = forwardRef<HTMLButtonElement>(({}, playlistBtnRef) => {
+const Playlist = forwardRef<HTMLDivElement, { className?: string }>(({ className }, ref) => {
   const tracks = useAudioStore((state) => state.tracks);
-
-  const modalRef = useRef<HTMLDivElement>(null);
-
-  // Context
-  const { isShowPlaylist, setIsShowPlaylist } =
-    useContext<AudioPlayerContextProps>(AudioPlayerContext);
 
   const playTrack = (e: any) => {
     const node = e.target.parentNode;
@@ -23,35 +16,12 @@ const Playlist = forwardRef<HTMLButtonElement>(({}, playlistBtnRef) => {
     setTrackIndex(idx - 1);
   };
 
-  useEffect(() => {
-    const handleClickOutside: EventListener = (event: Event) => {
-      if (!playlistBtnRef || !modalRef.current) return;
-
-      if ("current" in playlistBtnRef) {
-        if (playlistBtnRef.current && playlistBtnRef.current.contains(event.target as Node)) {
-          return;
-        }
-      }
-
-      if (modalRef.current.contains(event.target as Node)) return;
-
-      if (modalRef.current) {
-        setIsShowPlaylist(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
   return (
     <div
-      ref={modalRef}
+      ref={ref}
       className={twMerge(
         "absolute bottom-12 rounded-t w-content h-[340px] bg-black/90 transition-all",
-        isShowPlaylist ? "" : "hidden"
+        className
       )}
     >
       <table className={styles.table}>

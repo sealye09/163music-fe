@@ -1,4 +1,4 @@
-import { FC, createContext, useEffect, useMemo, useRef, useState } from "react";
+import { FC, useEffect, useMemo, useRef } from "react";
 
 import {
   nextTrack,
@@ -13,16 +13,6 @@ import LeftControl from "./LeftControl";
 import RightControl from "./RightControl";
 import CenterBar from "./CenterBar";
 
-export interface AudioPlayerContextProps {
-  isShowVolumeCtr: boolean;
-  setIsShowVolumeCtr: (isShowVolumeCtr: boolean) => void;
-  isShowPlaylist: boolean;
-  setIsShowPlaylist: (isShowPlaylist: boolean) => void;
-}
-
-// create Context
-export const AudioPlayerContext = createContext(null as unknown as AudioPlayerContextProps);
-
 const AudioPlayer: FC = ({}) => {
   // Store
   const timer = useAudioStore((state) => state.timer);
@@ -32,10 +22,6 @@ const AudioPlayer: FC = ({}) => {
   const trackIndex = useAudioStore((state) => state.trackIndex);
 
   const { song, artist, album } = tracks[trackIndex];
-
-  // State
-  const [isShowVolumeCtr, setIsShowVolumeCtr] = useState<boolean>(false);
-  const [isShowPlaylist, setIsShowPlaylist] = useState<boolean>(false);
 
   // Refs
   const audioRef = useRef(new Audio());
@@ -138,39 +124,28 @@ const AudioPlayer: FC = ({}) => {
   }, []);
 
   return (
-    <AudioPlayerContext.Provider
-      value={
-        {
-          isShowVolumeCtr,
-          setIsShowVolumeCtr,
-          isShowPlaylist,
-          setIsShowPlaylist,
-        } as AudioPlayerContextProps
-      }
-    >
-      <div className="fixed bottom-0 z-50 flex justify-center items-center w-screen text-white bg-black/80">
-        <div className="flex justify-start w-content gap-6 text-sm py-1">
-          <LeftControl
-            handlePrevTrack={toPrevTrack}
-            handleNextTrack={toNextTrack}
-            toggleAudio={toggleAudio}
-            isPlaying={isPlaying}
-          />
+    <div className="fixed bottom-0 z-50 flex justify-center items-center w-screen text-white bg-black/80">
+      <div className="flex justify-start w-content gap-6 text-sm py-1">
+        <LeftControl
+          handlePrevTrack={toPrevTrack}
+          handleNextTrack={toNextTrack}
+          toggleAudio={toggleAudio}
+          isPlaying={isPlaying}
+        />
 
-          <CenterBar
-            duration={duration}
-            trackProgress={timer}
-            onScrub={onScrub}
-            onScrubEnd={onScrubEnd}
-            song={song}
-            album={album}
-            artist={artist}
-          />
+        <CenterBar
+          duration={duration}
+          trackProgress={timer}
+          onScrub={onScrub}
+          onScrubEnd={onScrubEnd}
+          song={song}
+          album={album}
+          artist={artist}
+        />
 
-          <RightControl />
-        </div>
+        <RightControl />
       </div>
-    </AudioPlayerContext.Provider>
+    </div>
   );
 };
 

@@ -1,46 +1,64 @@
-import { FC, useContext, useRef } from "react";
+import { FC, useRef, useState } from "react";
 import { BsList, BsVolumeDown, BsVolumeMute } from "react-icons/bs";
 
 import { useAudioStore } from "@/stores/useAudioStore";
-import { AudioPlayerContext, AudioPlayerContextProps } from ".";
+import { useClickOutside } from "@/hooks/useClickOutside";
+
 import VolumeControl from "./VolumeControl";
 import Playlist from "./Playlist";
 
 const RightControl: FC = () => {
   const volume = useAudioStore((state) => state.volume);
 
-  // Context
-  const { isShowVolumeCtr, setIsShowVolumeCtr, isShowPlaylist, setIsShowPlaylist } =
-    useContext<AudioPlayerContextProps>(AudioPlayerContext);
+  const volumeCtrRef = useRef<HTMLDivElement>(null);
+  const playlistRef = useRef<HTMLDivElement>(null);
 
-  const volumeBtnRef = useRef<HTMLButtonElement>(null);
-  const playlistBtnRef = useRef<HTMLButtonElement>(null);
+  const [isShowVolumeCtr, setIsShowVolumeCtr] = useState(false);
+  const [isShowPlaylist, setIsShowPlaylist] = useState(false);
+
+  const toggleVolumeCtr = () => {
+    console.log("click btn volume", isShowVolumeCtr);
+    setIsShowVolumeCtr(!isShowVolumeCtr);
+  };
+
+  const togglePlaylist = () => {
+    console.log("click btn playlist", isShowPlaylist);
+    setIsShowPlaylist(!isShowPlaylist);
+  };
+
+  useClickOutside(volumeCtrRef, () => setIsShowVolumeCtr(false));
+
+  useClickOutside(playlistRef, () => setIsShowPlaylist(false));
 
   return (
     <>
       <div className="flex gap-1 min-w-fit">
         <button
           title="音量控制"
-          ref={volumeBtnRef}
-          onClick={() => setIsShowVolumeCtr(!isShowVolumeCtr)}
+          onClick={toggleVolumeCtr}
         >
           {volume <= 0 ? <BsVolumeMute size={28} /> : <BsVolumeDown size={28} />}
         </button>
 
         <button
           title="播放列表"
-          ref={playlistBtnRef}
-          onClick={() => setIsShowPlaylist(!isShowPlaylist)}
+          onClick={togglePlaylist}
         >
           <BsList size={28} />
         </button>
       </div>
 
       {/* 音量控制条 */}
-      <VolumeControl ref={volumeBtnRef} />
+      <VolumeControl
+        className={`${isShowVolumeCtr ? "block" : "hidden"}`}
+        ref={volumeCtrRef}
+      />
 
       {/* 播放列表 */}
-      <Playlist ref={playlistBtnRef} />
+      <Playlist
+        className={`${isShowPlaylist ? "block" : "hidden"}`}
+        ref={playlistRef}
+      />
     </>
   );
 };
